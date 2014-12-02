@@ -4,12 +4,14 @@ var router = express.Router();
 router.post('/send', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	
-	db.collection('data').insert({sender : req.body.sender, receiver : req.body.receiver, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
+	db.collection('data').insert({sender : ip, receiver : req.body.receiver, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
         res.send((err === null) ? { msg: '' } : { msg: err });
     });
 });
 
+//register/write a user into the database
 router.post('/register', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
@@ -19,27 +21,31 @@ router.post('/register', function(req, res) {
     });
 });
 
-router.post('/get', function(req, res) {
+//gives back all user
+router.post('/getAllUser', function(req, res) {
 	var db = req.db;
-	var requesttyp = req.body.reqtyp;
 	
-	//Gives back user
-	if(requesttyp === '0'){
-		db.collection('userlist').find().toArray(function (err, result) {
-			res.send(result);
-		});
-	}
+	db.collection('userlist').find().toArray(function (err, result) {
+		res.send(result);
+	});
+});
+
+//Gives back all data/messages
+router.post('/getAllMessages', function(req, res) {
+	var db = req.db;
 	
-	//Gives back data
-	if(requesttyp === '1'){
-		db.collection('data').find().toArray(function (err, result) {
+	db.collection('data').find().toArray(function (err, result) {
+		res.send(result);
+	});
+});
+
+//get data to receive
+router.post('/getMessages', function(req, res) {
+	var db = req.db;
+	//finds data sended to this user
+	db.collection('data').find({ receiver : req.body.number, read : '0' }).toArray(function (err, result) {
 			res.send(result);
-		});
-	}
-	
-	if(requesttyp === '2'){
-		db.collection('data').find({ receiver : req.body.number, read : '0' }).toArray(function (err, result) {
-			res.send(result);
+			//updates this data 
 			var searchData;
 			var ObjectID = require('mongodb').ObjectID;
 			for(var i=0; i<result.length; i++){
@@ -48,46 +54,26 @@ router.post('/get', function(req, res) {
 			});
 			}
 		});
-	}
-	
-	if(requesttyp === '3'){
-		db.collection('data').find({ sender : req.body.number, read : '1'  }).toArray(function (err, result) {
-			res.send(result);
-			var delData;
-			var ObjectID = require('mongodb').ObjectID;
-			for(var i=0; i<result.length; i++){
+});
+
+//get data user send to check if it was read
+router.post('/getReadMessages', function(req, res) {
+	var db = req.db;
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	db.collection('data').find({ sender : ip, read : '1'  }).toArray(function (err, result) {
+		res.send(result);
+		var delData;
+		var ObjectID = require('mongodb').ObjectID;
+		for(var i=0; i<result.length; i++){
 			delData = ObjectID.createFromHexString(String(result[i]._id));
 			db.collection('data').remove({_id : delData}, function(err, result) {
 			});
-			}
-		});
-	}
-});
-/*
-router.post('/confirm', function(req, res) {
-	var db = req.db;
-	var ObjectId = require('mongodb').ObjectID;
-	db.collection('data').find({ _id : ObjectID(req.body.id) }).toArray(function (err, result) {
-		if(result === ''){
-			res.send('ERROR');
-		}
-		else{
-			var ObjectId = require('mongodb').ObjectID;
-			var thisTimestamp = Date.now();
-			db.collection('data').update({_id : ObjectId(result[0]._id)}, {sender : result[0].sender, receiver : result[0].receiver, data : result[0].data, timestamp : thisTimestamp, read : '1' }, function(err, result){
-			});
 		}
 	});
 });
 
-router.post('/isConfirmed', function(req, res) {
-	var db = req.db;
-	db.collection('data').find({ sender : req.body.sender, read : '1' }).toArray(function (err, result) {
-		res.send(result);
-	});
-});*/
 
-router.post('/delete', function(req, res) {
+router.post('/deleteMessage', function(req, res) {
 	//VARIABLES
     var db = req.db;
 	var ObjectId = require('mongodb').ObjectID;

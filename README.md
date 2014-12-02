@@ -1,7 +1,7 @@
 MarssengerServer
 ================
 A. What's this?
-It's the Server and Database for the Marssenger Project().
+It's the Server and Database for the Marssenger Project(https://github.com/nicolas-d-torres/Marssenger).
 I used NodeJS/ExpressJS and MongoDb to realize the backend.
 It has a simple usage: 
 	1. Save the sended Data and all user

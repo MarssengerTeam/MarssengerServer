@@ -30,16 +30,11 @@ function populateTable() {
 	// Empty content string
     var tableContent = '';
     
-	// Send reqtyp = '0' to get all user data
-    var reqBody = {
-      'reqtyp': '0'
-    }
      
      // Use AJAX for POST
      $.ajax({
       type: 'POST',
-      data: reqBody,
-      url: '/functions/get'
+      url: '/functions/getAllUser'
      }).done(function( response ) {
             
 			// If no data was found show a alert
@@ -63,17 +58,12 @@ function populateTable() {
            }
 	});
 		   
-    // Send reqtyp = '0' to get all user data
-	var reqBody = {
-      'reqtyp': '1'
-    }
     var tableContentt = '';
 		
      // Use AJAX for POST
      $.ajax({
       type: 'POST',
-      data: reqBody,
-      url: '/functions/get'
+      url: '/functions//getAllMessages'
      }).done(function( response ) {
             
 			// If no data was found show a alert
@@ -108,7 +98,6 @@ function send(event) {
 
         // Requestbody with macAdress and beacons#range
         var reqBody = {
-            'sender': $('#sendData fieldset input#inputSender').val(),
             'receiver' : $('#sendData fieldset input#inputreceiver').val(),
 			'data' : $('#sendData fieldset input#inputData').val()
         }
@@ -158,7 +147,7 @@ function deleteData(event) {
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions/delete'
+            url: '/functions//deleteMessage'
         }).done(function( response ) {
 			// Check for successful (blank) response
             if (response.msg === '') {
@@ -255,7 +244,6 @@ function get(event){
 	
 	 // Requestbody with macAdress and beacons#range
         var reqBody = {
-			'reqtyp': '2',
             'number': $('#getData fieldset input#inputNumber').val()
         }
 		
@@ -263,7 +251,7 @@ function get(event){
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions/get'
+            url: '/functions//getMessages'
         }).done(function( response ) {
 		
             // Check for successful (blank) response
@@ -286,7 +274,6 @@ function getSended(event){
 	
 	 // Requestbody with macAdress and beacons#range
         var reqBody = {
-			'reqtyp': '3',
             'number': $('#getDataSended fieldset input#inputNumber').val()
         }
 		
@@ -294,7 +281,7 @@ function getSended(event){
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions/get'
+            url: '/functions/getReadMessages'
         }).done(function( response ) {
 		
             // Check for successful (blank) response
