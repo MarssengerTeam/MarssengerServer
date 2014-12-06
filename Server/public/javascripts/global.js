@@ -47,8 +47,9 @@ function populateTable() {
             $.each(response, function(){
 				tableContent += '<tr>';
 				tableContent += '<td>' + this._id + '</td>';
-				tableContent += '<td>' + this.number + '</td>';
-				tableContent += '<td>' + this.timestamp + '</td>';
+				tableContent += '<td>' + this.phoneNumber + '</td>';
+				tableContent += '<td>' + this.lastTimeActive + '</td>';
+				tableContent += '<td>' + this.status + '</td>';
 				tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
 				tableContent += '</tr>';
             });
@@ -212,7 +213,8 @@ function register(event){
 	
 	 // Requestbody with macAdress and beacons#range
         var reqBody = {
-            'number': $('#registerUser fieldset input#inputNumber').val()
+            'phoneNumber': $('#registerUser fieldset input#inputNumber').val(),
+			'eMail' : ""
         }
 		
         // Use AJAX to post the object to our add service
