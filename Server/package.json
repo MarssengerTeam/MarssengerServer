@@ -6,14 +6,15 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "express": "~4.0.0",
-    "body-parser": "~1.0.0",
-    "jade": "*",
-    "mongodb": "*",
-	"node-gcm": "*",
-	"mongoskin": "*",
-	"morgan": "~1.0.0",
-	"debug": "~0.7.4",
-	"serve-favicon": "*"
+    "express": "latest",
+    "body-parser": "latest",
+    "jade": "latest",
+    "mongodb": "latest",
+	"node-gcm": "latest",
+	"mongoskin": "latest",
+	"morgan": "latest",
+	"debug": "latest",
+	"serve-favicon": "latest",
+	"twilio" : "latest"
   }
 }

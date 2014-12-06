@@ -162,6 +162,7 @@ MongoClient.connect = function(url, options, callback) {
 
   // Parse the string
   var object = parse(url, options);
+
   // Merge in any options for db in options object
   if(dbOptions) {
     for(var name in dbOptions) object.db_options[name] = dbOptions[name];
@@ -203,6 +204,19 @@ MongoClient.connect = function(url, options, callback) {
     object.server_options.auto_reconnect = true;
   }
 
+  // Establish the correct socketTimeout
+  var connectTimeoutMS = 30000;
+
+  // We have a server connection timeout setting
+  if(object.server_options && object.server_options.socketOptions && object.server_options.socketOptions.connectTimeoutMS) {
+    connectTimeoutMS = object.server_options.socketOptions.connectTimeoutMS;
+  }
+
+  // We have a rs options set for connection timeout, override any server ones
+  if(object.rs_options && object.rs_options.socketOptions && object.rs_options.socketOptions.connectTimeoutMS) {
+    connectTimeoutMS = object.rs_options.socketOptions.connectTimeoutMS;
+  }
+
   // If we have more than a server, it could be replicaset or mongos list
   // need to verify that it's one or the other and fail if it's a mix
   // Connect to all servers and run ismaster
@@ -211,7 +225,7 @@ MongoClient.connect = function(url, options, callback) {
     var _server_options = {
         poolSize:1
       , socketOptions: {
-          connectTimeoutMS:30000 
+          connectTimeoutMS: connectTimeoutMS 
         , socketTimeoutMS: 30000
       }
       , auto_reconnect:false};

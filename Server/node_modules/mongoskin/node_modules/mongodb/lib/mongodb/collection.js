@@ -51,10 +51,16 @@ function Collection (db, collectionName, pkFactory, options) {
   this.serializeFunctions = options == null || options.serializeFunctions == null ? db.serializeFunctions : options.serializeFunctions;
   this.raw = options == null || options.raw == null ? db.raw : options.raw;
 
-  this.readPreference = options == null || options.readPreference == null ? db.serverConfig.options.readPreference : options.readPreference;
-  this.readPreference = this.readPreference == null ? 'primary' : this.readPreference;
+  // Assign the right collection level readPreference
+  if(options && options.readPreference) {
+    this.readPreference = options.readPreference;
+  } else if(this.db.options.readPreference) {
+    this.readPreference = this.db.options.readPreference;
+  } else if(this.db.serverConfig.options.readPreference) {
+    this.readPreference = this.db.serverConfig.options.readPreference;
+  }
 
-
+  // Set custom primary key factory if provided
   this.pkFactory = pkFactory == null
     ? ObjectID
     : pkFactory;
@@ -79,7 +85,7 @@ function Collection (db, collectionName, pkFactory, options) {
  * @param {Array|Object} docs
  * @param {Object} [options] optional options for insert command
  * @param {Function} [callback] optional callback for the function, must be provided when using a writeconcern
- * @return {null}
+ * @return {Collection}
  * @api public
  */
 Collection.prototype.insert = function() { return core.insert; }();
@@ -522,6 +528,7 @@ Collection.prototype.indexExists = function() { return index.indexExists; }();
  *
  * Options
  *  - **num** {Number}, max number of results to return.
+ *  - **minDistance** {Number}, include results starting at minDistance from a point (2.6 or higher)
  *  - **maxDistance** {Number}, include results up to maxDistance from the point.
  *  - **distanceMultiplier** {Number}, include a value to multiply the distances with allowing for range conversions.
  *  - **query** {Object}, filter the results by a query.

@@ -577,7 +577,7 @@ var backWardsCompatibiltyResults = function(result, op) {
 
 var handleWriteResults = function handleWriteResults(callback) {
   return function(err, error) {
-    documents = error && error.documents;
+    var documents = error && error.documents;
     if(!callback) return;
     // We have an error
     if(err) return callback(err, null);
@@ -701,10 +701,14 @@ var findAndModify = function findAndModify (query, sort, doc, options, callback)
   var self = this;
 
   var queryObject = {
-      'findandmodify': this.collectionName
-    , 'query': query
-    , 'sort': utils.formattedOrderClause(sort)
+     'findandmodify': this.collectionName
+   , 'query': query
   };
+
+  sort = utils.formattedOrderClause(sort);
+  if (sort) {
+    queryObject.sort = sort;
+  }
 
   queryObject.new = options.new ? 1 : 0;
   queryObject.remove = options.remove ? 1 : 0;
@@ -730,7 +734,7 @@ var findAndModify = function findAndModify (query, sort, doc, options, callback)
   }
 
   // No check on the documents
-  options.checkKeys = false
+  options.checkKeys = false;
 
   // Execute the command
   this.db.command(queryObject

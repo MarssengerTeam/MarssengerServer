@@ -22,7 +22,7 @@
 11 error There is likely additional logging output above.
 12 error System Windows_NT 6.2.9200
 13 error command "C:\\NodeJs\\\\node.exe" "C:\\NodeJs\\node_modules\\npm\\bin\\npm-cli.js" "start"
-14 error cwd C:\Users\Nils\Desktop\Marssenger\MarssengerServer\Server
+14 error cwd C:\Users\Nils\Desktop\Marssenger\MarssengerServer\MarssengerServer\Server
 15 error node -v v0.10.29
 16 error npm -v 1.4.14
 17 error code ELIFECYCLE

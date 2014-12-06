@@ -24,8 +24,12 @@ var formatSortValue = exports.formatSortValue = function(sortDirection) {
 
 var formattedOrderClause = exports.formattedOrderClause = function(sortValue) {
   var orderBy = {};
-
+  if(sortValue == null) return null;
   if (Array.isArray(sortValue)) {
+    if(sortValue.length === 0) {
+      return null;
+    }
+
     for(var i = 0; i < sortValue.length; i++) {
       if(sortValue[i].constructor == String) {
         orderBy[sortValue[i]] = 1;
@@ -33,9 +37,9 @@ var formattedOrderClause = exports.formattedOrderClause = function(sortValue) {
         orderBy[sortValue[i][0]] = formatSortValue(sortValue[i][1]);
       }      
     }
-  } else if(Object.prototype.toString.call(sortValue) === '[object Object]') {
+  } else if(sortValue != null && typeof sortValue == 'object') {
     orderBy = sortValue;
-  } else if (sortValue.constructor == String) {
+  } else if (typeof sortValue == 'string') {
     orderBy[sortValue] = 1;
   } else {
     throw new Error("Illegal sort clause, must be of the form " +
@@ -264,3 +268,18 @@ exports.parseIndexOptions = function(fieldOrSpec) {
     name: indexes.join("_"), keys: keys, fieldHash: fieldHash
   }
 }
+
+exports.decorateCommand = function(command, options, exclude) {
+  for(var name in options) {
+    if(exclude[name] == null) command[name] = options[name];
+  }
+
+  return command;
+}
+
+exports.shallowObjectCopy = function(object) {
+  var c = {};
+  for(var n in object) c[n] = object[n];
+  return c;
+}
+

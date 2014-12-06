@@ -29,7 +29,7 @@ var REFERENCE_BY_FILENAME = 0,
  * Modes
  *  - **"r"** - read only. This is the default mode.
  *  - **"w"** - write in truncate mode. Existing data will be overwriten.
- *  - **w+"** - write in edit mode.
+ *  - **w+"** - write in edit mode (append is not guaranteed for concurrent operations)
  *
  * Options
  *  - **root** {String}, root collection to use. Defaults to **{GridStore.DEFAULT_ROOT_COLLECTION}**.
@@ -92,7 +92,7 @@ var GridStore = function GridStore(db, id, filename, mode, options) {
   // Set up the rest
   this.mode = mode == null ? "r" : mode;
   this.options = options || {};
-  
+
   // Set the root if overridden
   this.root = this.options['root'] == null ? exports.GridStore.DEFAULT_ROOT_COLLECTION : this.options['root'];
   this.position = 0;
@@ -100,8 +100,6 @@ var GridStore = function GridStore(db, id, filename, mode, options) {
   this.writeConcern = _getWriteConcern(db, this.options);
   // Set default chunk size
   this.internalChunkSize = this.options['chunkSize'] == null ? Chunk.DEFAULT_CHUNK_SIZE : this.options['chunkSize'];
-  // Save a write connection to ensure same write connection
-  this.connection = db.serverConfig.checkoutWriter();
 }
 
 /**
@@ -138,7 +136,6 @@ GridStore.prototype.open = function(callback) {
 
   // Get the write concern
   var writeConcern = _getWriteConcern(this.db, this.options);
-  writeConcern.connection = self.connection;
 
   // If we are writing we need to ensure we have the right indexes for md5's
   if((self.mode == "w" || self.mode == "w+")) {
@@ -171,7 +168,7 @@ var _open = function(self, options, callback) {
   var collection = self.collection();
   // Create the query
   var query = self.referenceBy == REFERENCE_BY_ID ? {_id:self.fileId} : {filename:self.filename};
-  query = null == self.fileId && this.filename == null ? null : query;
+  query = null == self.fileId && self.filename == null ? null : query;
   options.readPreference = self.readPreference;
 
   // Fetch the chunks
@@ -186,7 +183,8 @@ var _open = function(self, options, callback) {
         // Check if the collection for the files exists otherwise prepare the new one
         if(doc != null) {
           self.fileId = doc._id;
-          self.filename = doc.filename;
+          // Prefer a new filename over the existing one if this is a write
+          self.filename = ((self.mode == 'r') || (self.filename == undefined)) ? doc.filename : self.filename;
           self.contentType = doc.contentType;
           self.internalChunkSize = doc.chunkSize;
           self.uploadDate = doc.uploadDate;
@@ -321,7 +319,7 @@ GridStore.prototype.writeFile = function (file, callback) {
           chunk.write(data, function(err, chunk) {
             if(err) return callback(err, self);
 
-            chunk.save({connection: self.connection}, function(err, result) {
+            chunk.save({}, function(err, result) {
               if(err) return callback(err, self);
 
               self.position = self.position + data.length;
@@ -404,7 +402,7 @@ var writeBuffer = function(self, buffer, close, callback) {
       var numberOfChunksToWrite = chunksToWrite.length;
 
       for(var i = 0; i < chunksToWrite.length; i++) {
-        chunksToWrite[i].save({connection:self.connection}, function(err, result) {
+        chunksToWrite[i].save({}, function(err, result) {
           if(err) return callback(err);
 
           numberOfChunksToWrite = numberOfChunksToWrite - 1;
@@ -499,10 +497,9 @@ GridStore.prototype.close = function(callback) {
   if(self.mode[0] == "w") {
     // Set up options
     var options = self.writeConcern;
-    options.connection = self.connection;
 
     if(self.currentChunk != null && self.currentChunk.position > 0) {
-      self.currentChunk.save({connection: self.connection}, function(err, chunk) {
+      self.currentChunk.save({}, function(err, chunk) {
         if(err && typeof callback == 'function') return callback(err);
 
         self.collection(function(err, files) {
@@ -883,7 +880,7 @@ GridStore.prototype.seek = function(position, seekLocation, callback) {
     };
 
     if(self.mode[0] == 'w') {
-      self.currentChunk.save({connection:self.connection}, function(err) {
+      self.currentChunk.save({}, function(err) {
         if(err) return callback(err);
         seekChunk();
       });
@@ -1552,6 +1549,7 @@ var _getWriteConcern = function(self, options) {
   // Final options
   var finalOptions = {w:1};
   options = options || {};
+
   // Local options verification
   if(options.w != null || typeof options.j == 'boolean' || typeof options.journal == 'boolean' || typeof options.fsync == 'boolean') {
     finalOptions = _setWriteConcernHash(options);
