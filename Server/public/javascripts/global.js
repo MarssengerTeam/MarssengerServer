@@ -20,7 +20,8 @@ $(document).ready(function() {
 	
     // Link delete get clicked -> delete User
     $('#listInfo table tbody').on('click', 'td a.linkdeletedata', deleteData);
-    
+	
+    $('#list table tbody').on('click', 'td a.linkgetStatistics', populateStatistics);
 });
 
 // FUNCTIONS
@@ -46,10 +47,11 @@ function populateTable() {
             else{  
             $.each(response, function(){
 				tableContent += '<tr>';
-				tableContent += '<td>' + this._id + '</td>';
+				tableContent += '<td><a href="#" class="linkgetStatistics" rel="' + this._id + '">' + this._id + '</a></td>';
 				tableContent += '<td>' + this.phoneNumber + '</td>';
 				tableContent += '<td>' + this.lastTimeActive + '</td>';
 				tableContent += '<td>' + this.status + '</td>';
+				tableContent += '<td>' + this.verificationCode + '</td>';
 				tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
 				tableContent += '</tr>';
             });
@@ -90,6 +92,46 @@ function populateTable() {
             $('#listInfo table tbody').html(tableContentt);
            }
      });
+};
+
+function populateStatistics(event) {
+	// Prevents default HTML functions
+    event.preventDefault();
+		// Empty content string
+    var tableContent = '';
+    		
+	var reqBody = {
+         '_id': $(this).attr('rel')
+    }
+     
+     // Use AJAX for POST
+     $.ajax({
+      type: 'POST',
+	  data: reqBody,
+      url: '/functions/getUserStatistics'
+     }).done(function( response ) {
+            
+			// If no data was found show a alert
+			if (response === '') {
+              alert('Es konnten keine Daten gefunden werden!');
+            }
+			
+			// If data was found, place it in the table
+            else{  
+            $.each(response, function(){
+				tableContent += '<tr>';
+				tableContent += '<td>' + this.idOwner + '</td>';
+				tableContent += '<td>' + this._id + '</td>';
+				tableContent += '<td>' + this.accountCreated + '</td>';
+				tableContent += '<td>' + this.messagesSend + '</td>';
+				tableContent += '<td>' + this.messagesRecieved + '</td>';
+				tableContent += '</tr>';
+            });
+			
+            // Inject content string into HTML table
+            $('#listStatistics table tbody').html(tableContent);
+           }
+	});
 };
 
 // Update Data
@@ -225,13 +267,15 @@ function register(event){
         }).done(function( response ) {
 		
             // Check for successful (blank) response
-            if (response.msg === '') {
+            if (response.msg != '') {
 			
 				// Clear the form inputs
                 $('#registerUser fieldset input#inputNumber').val('');
 				
                 // Update the table
                 populateTable();
+				
+				
             }
             else {
                 // If something goes wrong, alert the error message that the service returned
