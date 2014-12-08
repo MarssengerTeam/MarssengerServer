@@ -1,33 +1,27 @@
 var express = require('express');
 var router = express.Router();
 var gcm = require('node-gcm');
+var request = require('request');
 
-router.post('/send', function(req, res) {
-	var db = req.db;
-	var thisTimestamp = Date.now();
-	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	
-	db.collection('').insert({sender : ip, receiver : req.body.receiver, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
-        res.send((err === null) ? { msg: '' } : { msg: err });
-    });
-	
+router.post('/sendMessage', function(req, res) {
+
 	// or with object values
 	var message = new gcm.Message({
 		collapseKey: 'demo',
 		delayWhileIdle: true,
 		timeToLive: 3,
 		data: {
-			key1: 'message1',
-			key2: 'message2'
+			message : req.body.data
 		}
 	});
 
 	var sender = new gcm.Sender('AIzaSyCQau4uiNPEC909ExmGL8gwIj9XHgPPq4g');
+	//var sender = new gcm.Sender(req.body.sender);
 	var registrationIds = [];
 
 	// At least one required
 	registrationIds.push("APA91bF40HFSoQ2HX95EkNgGez9_N40Wvdc6OzMgPa9MArS6uSip6cgE_dCKPstRhKfrQsXP0oZmHkK58tWjDFQHtRuEr-YQDoGDv-W2ZJ9PDgGyWqBBNevQMqKqbbsVEag73RUDJxVgcktxa0eowx705Qu_iTVvdw");
-
+	//registrationIds.push("req.body.receiver");
 	/**
 	* Params: message-literal, registrationIds-array, No. of retries, callback-function
 	**/
@@ -35,6 +29,30 @@ router.post('/send', function(req, res) {
 		console.log(result);
 	});
 });
+
+router.post('/addMessage', function(req, res) {
+	var db = req.db;
+	var thisTimestamp = Date.now();
+	
+	db.collection('messages').insert({sender : req.body.sender, receiver : req.body.receiver, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
+        res.send((err === null) ? { msg: '' } : { msg: err });
+    
+		var body = {sender: result[0].sender,
+					receiver : result[0].receiver,
+					data : result[0].data
+		}
+		
+		request.post(
+			'http://127.0.0.1:3000/functions/sendMessage',
+			 {form : body} ,
+				function (response) {
+			}
+		);
+	});
+});
+
+
+
 
 //register/write a user into the database
 router.post('/register', function(req, res) {
@@ -44,15 +62,12 @@ router.post('/register', function(req, res) {
 	var thisTimestamp = Date.now();
 	var myPhoneNumber = req.body.phoneNumber;
 	var myEMail = req.body.eMail;
-	var myVerificationCode = "123";
+	var myVerificationCode = req.body.verificationCode;
 	
-	db.collection('user').insert({phoneNumber : myPhoneNumber, eMail : myEMail, lastTimeActive : thisTimestamp, status : "not verified", verificationCode : myVerificationCode}, {upsert: true }, function(err, result){
-	db.collection('user').find({phoneNumber : myPhoneNumber}).toArray(function (err, resultArray) {	
-	console.log(resultArray)
-	db.collection('userStatistics').insert({ idOwner : resultArray[0]._id, accountCreated : thisTimestamp, messagesRecieved : '0', messagesSend : '0'}, {upsert: true }, function(err, results){
+	db.collection('user').insert({phoneNumber : myPhoneNumber, eMail : myEMail, lastTimeActive : thisTimestamp, status : "1", verificationCode : myVerificationCode}, {upsert: true }, function(err, resultArray){
+	db.collection('userStatistics').insert({ idOwner : resultArray[0]._id, accountCreated : thisTimestamp, messagesRecieved : '0', messagesSend : '0'}, {upsert: true }, function(err, result){
     });
 	res.send(resultArray);
-	});
 	});
 	
 	
@@ -78,6 +93,7 @@ router.post('/register', function(req, res) {
 	});	*/
 });
 
+/*
 router.post('/verify', function(req, res) {
  var db = req.db;
 	var myID = req.body.id;
@@ -90,9 +106,9 @@ router.post('/verify', function(req, res) {
 			res.send((err === null) ? { msg: '' } : { msg: err });
 		});
 	});
-});
+});*/
 
-//gives back all user
+//gives back user statistics
 router.post('/getUserStatistics', function(req, res) {
 	var db = req.db;
 	var ObjectID = require('mongodb').ObjectID;
@@ -142,8 +158,7 @@ router.post('/getMessages', function(req, res) {
 //get data user send to check if it was read
 router.post('/getReadMessages', function(req, res) {
 	var db = req.db;
-	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	db.collection('messages').find({ sender : ip, read : '1'  }).toArray(function (err, result) {
+	db.collection('messages').find({ sender : req.body.sender, read : '1'  }).toArray(function (err, result) {
 		res.send(result);
 		var delData;
 		var ObjectID = require('mongodb').ObjectID;

@@ -141,6 +141,7 @@ function send(event) {
 
         // Requestbody with macAdress and beacons#range
         var reqBody = {
+			'sender' : $('#sendData fieldset input#inputSender').val(),
             'receiver' : $('#sendData fieldset input#inputreceiver').val(),
 			'data' : $('#sendData fieldset input#inputData').val()
         }
@@ -149,7 +150,7 @@ function send(event) {
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions/send'
+            url: '/functions/addMessage'
         }).done(function( response ) {
 		
             // Check for successful (blank) response
@@ -320,7 +321,7 @@ function getSended(event){
 	
 	 // Requestbody with macAdress and beacons#range
         var reqBody = {
-            'number': $('#getDataSended fieldset input#inputNumber').val()
+            'sender': $('#getDataSended fieldset input#inputNumber').val()
         }
 		
         // Use AJAX to post the object to our add service

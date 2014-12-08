@@ -15,6 +15,7 @@
 	"morgan": "latest",
 	"debug": "latest",
 	"serve-favicon": "latest",
-	"twilio" : "latest"
+	"twilio" : "latest",
+	"request" : "latest"
   }
 }
