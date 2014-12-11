@@ -9,7 +9,9 @@ var mongo = require('mongoskin');
 var db = mongo.db("mongodb://localhost:27017/chatservice", {native_parser:true});
 
 var routes = require('./routes/index');
-var functions = require('./routes/functions');
+var messages = require('./routes/messages');
+var groups = require('./routes/groups');
+var user = require('./routes/user');
 
 var app = express();
 
@@ -31,7 +33,9 @@ app.use(function(req,res,next){
 });
 
 app.use('/', routes);
-app.use('/functions', functions);
+app.use('/messages', messages);
+app.use('/groups', groups);
+app.use('/user', user);
 
 
 /// catch 404 and forwarding to error handler

@@ -11,9 +11,10 @@ block content
                 thead
                     th _id
                     th phoneNumber
+                    th GCMCode
+                    th DigitCode
                     th lastTimeActive
                     th status
-                    th verificationCode
                     th delete?
                 tbody
         // /LIST
@@ -62,6 +63,8 @@ block content
         #registerUser
             fieldset
                 input#inputNumber(type='text', placeholder='Handynummer')
+                input#inputGCM(type='text', placeholder='GCMCode')
+                input#inputDigit(type='text', placeholder='DigitCode')
                 br
                 btnblue#btnRegisterUser Register User
         // /REGISTER USER

@@ -35,7 +35,7 @@ function populateTable() {
      // Use AJAX for POST
      $.ajax({
       type: 'POST',
-      url: '/functions/getAllUser'
+      url: '/user/getAllUser'
      }).done(function( response ) {
             
 			// If no data was found show a alert
@@ -49,9 +49,10 @@ function populateTable() {
 				tableContent += '<tr>';
 				tableContent += '<td><a href="#" class="linkgetStatistics" rel="' + this._id + '">' + this._id + '</a></td>';
 				tableContent += '<td>' + this.phoneNumber + '</td>';
+				tableContent += '<td>' + this.GCMCode + '</td>';
+				tableContent += '<td>' + this.DigitCode + '</td>';
 				tableContent += '<td>' + this.lastTimeActive + '</td>';
 				tableContent += '<td>' + this.status + '</td>';
-				tableContent += '<td>' + this.verificationCode + '</td>';
 				tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
 				tableContent += '</tr>';
             });
@@ -66,7 +67,7 @@ function populateTable() {
      // Use AJAX for POST
      $.ajax({
       type: 'POST',
-      url: '/functions//getAllMessages'
+      url: '/messages/getAllMessages'
      }).done(function( response ) {
             
 			// If no data was found show a alert
@@ -108,7 +109,7 @@ function populateStatistics(event) {
      $.ajax({
       type: 'POST',
 	  data: reqBody,
-      url: '/functions/getUserStatistics'
+      url: '/user/getUserStatistics'
      }).done(function( response ) {
             
 			// If no data was found show a alert
@@ -150,7 +151,7 @@ function send(event) {
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions/addMessage'
+            url: '/messages/addMessage'
         }).done(function( response ) {
 		
             // Check for successful (blank) response
@@ -191,7 +192,7 @@ function deleteData(event) {
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions//deleteMessage'
+            url: '/messages/deleteMessage'
         }).done(function( response ) {
 			// Check for successful (blank) response
             if (response.msg === '') {
@@ -230,7 +231,7 @@ function deleteUser(event) {
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions/deleteUser'
+            url: '/user/deleteUser'
         }).done(function( response ) {
 			// Check for successful (blank) response
             if (response.msg === '') {
@@ -257,6 +258,8 @@ function register(event){
 	 // Requestbody with macAdress and beacons#range
         var reqBody = {
             'phoneNumber': $('#registerUser fieldset input#inputNumber').val(),
+			'GCMCode': $('#registerUser fieldset input#inputGCM').val(),
+			'digitCode': $('#registerUser fieldset input#inputDigit').val(),
 			'eMail' : ""
         }
 		
@@ -264,7 +267,7 @@ function register(event){
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions/register'
+            url: '/user/register'
         }).done(function( response ) {
 		
             // Check for successful (blank) response
@@ -272,6 +275,8 @@ function register(event){
 			
 				// Clear the form inputs
                 $('#registerUser fieldset input#inputNumber').val('');
+				$('#registerUser fieldset input#inputGCM').val('');
+				$('#registerUser fieldset input#inputDigit').val('');
 				
                 // Update the table
                 populateTable();
@@ -284,6 +289,25 @@ function register(event){
             }
         });
 };
+
+function createGroup(event){
+	// Prevents default HTML functions
+    event.preventDefault();
+	
+	var reqBody = {
+		'groupName' : 'HomoGroup',
+		'member' : '1&2'
+	}
+	
+	        // Use AJAX to post the object to our add service
+        $.ajax({
+            type: 'POST',
+            data: reqBody,
+            url: '/groups/createGroup'
+        }).done(function( response ) {
+		
+		});
+}
 
 function get(event){
 		// Prevents default HTML functions
@@ -298,7 +322,7 @@ function get(event){
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions//getMessages'
+            url: '/messages/getMessages'
         }).done(function( response ) {
 		
             // Check for successful (blank) response
@@ -328,7 +352,7 @@ function getSended(event){
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/functions/getReadMessages'
+            url: '/messages/getReadMessages'
         }).done(function( response ) {
 		
             // Check for successful (blank) response
@@ -344,6 +368,3 @@ function getSended(event){
             }
         });
 }
-
-
-
