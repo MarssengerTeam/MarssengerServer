@@ -4,18 +4,18 @@ var gcm = require('node-gcm');
 var request = require('request');
 
 router.post('/sendMessage', function(req, res) {
-	// or with object values
+	var ObjectId = require('mongodb').ObjectID;
+	
 	var message = new gcm.Message({
 		collapseKey: 'message',
 		delayWhileIdle: false,
 		timeToLive: 5000,
 		data: {
-			MessageID : req.body.MessageID,
+			MessageID : ObjectId(req.body.messageID),
 			sender: req.body.sender,
 			message : req.body.data
 		}
 	});
-
 	var sender = new gcm.Sender('AIzaSyCQau4uiNPEC909ExmGL8gwIj9XHgPPq4g');
 	var registrationIds = [];
 
@@ -42,12 +42,12 @@ router.post('/addMessage', function(req, res) {
 					res.send((err === null) ? { msg: '' } : { msg: err });
     
 					var body = 	{
-								MessageID :  result[0]._id,
+								messageID :  result[0]._id,
 								sender: result[0].sender,
 								receiverGCM : result[0].receiverGCM,
 								data : result[0].data
 					}
-					console.log(body)
+					console.log(body);
 		
 					request.post(
 						'http://127.0.0.1:3000/messages/sendMessage',
