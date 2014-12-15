@@ -3,10 +3,12 @@ var router = express.Router();
 
 router.post('/execute', function(req, res) {
 console.log("Start Script! #Version2");
-var sys = require('sys');
 var exec = require('child_process').exec;
  
-function puts(error, stdout, stderr) { sys.puts(stdout) }
+function puts(error, stdout, stderr) {
+console.log(stderr);
+console.log(error);
+}
 exec("/home/serverDev/update.sh", puts);
 res.send("");
 });
