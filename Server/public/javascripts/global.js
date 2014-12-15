@@ -16,7 +16,7 @@ $(document).ready(function() {
     $('#btnGetDataSended').on('click', getSended);
 	
 	 // Link delete get clicked -> delete User
-    $('#list table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+    $('#list table tbody').on('click', 'td a.linkdeleteuser', createGroup);
 	
     // Link delete get clicked -> delete User
     $('#listInfo table tbody').on('click', 'td a.linkdeletedata', deleteData);

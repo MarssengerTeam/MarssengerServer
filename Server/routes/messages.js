@@ -33,22 +33,27 @@ router.post('/addMessage', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
 	
-	db.collection('messages').insert({sender : req.body.sender, receiver : req.body.receiver, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
-        res.send((err === null) ? { msg: '' } : { msg: err });
+	db.collection('user').find({ phoneNumber : req.body.sender }).toArray(function (err, resultSender) {
+		db.collection('user').find({ phoneNumber : req.body.receiver }).toArray(function (err, resultReceiver) {
+			db.collection('messages').insert({sender : resultSender[0].phoneNumber, receiver : resultReceiver, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
+				res.send((err === null) ? { msg: '' } : { msg: err });
     
-		var body = {sender: result[0].sender,
-					receiver : result[0].receiver,
-					data : result[0].data
-		}
+				var body = 	{sender: result[0].sender,
+							receiver : result[0].receiver,
+							data : result[0].data
+				}
 		
-		request.post(
-			'http://127.0.0.1:3000/functions/sendMessage',
-			 {form : body} ,
-				function (response) {
-			}
-		);
+				request.post(
+					'http://127.0.0.1:3000/functions/sendMessage',
+					{form : body} ,
+						function (response) {
+					}
+				);
+			});
+		});
 	});
 });
+
 //Gives back all data/messages
 router.post('/getAllMessages', function(req, res) {
 	var db = req.db;

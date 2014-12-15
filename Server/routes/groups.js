@@ -6,21 +6,13 @@ router.post('/createGroup', function(req, res) {
 	var db = req.db;
 
 	var myGroupName = req.body.groupName;
-	var member = [];
-	member = req.body.member;
+	var memberArray = [];
+	var member = req.body.member;
 	memberArray = member.split('&');
-	var myMember = "{";
-	for(var i=0; i < memberArray.length; i++){
-		myMember += memberArray[i] + "}";
-		if(i != memberArray[i]){
-		myMember += ", {";
-		
-		}
-	}
 	
-	
-	db.collection('groups').insert({groupName : myGroupName, member : myMember}, {upsert: true }, function(err, result){
+	db.collection('groups').insert({groupName : myGroupName, member : }, {upsert: true }, function(err, result){
 	});
+	res.send("");
 });
 
 //sends all the groupdata

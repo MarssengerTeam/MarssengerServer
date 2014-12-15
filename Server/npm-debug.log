@@ -1,10 +1,10 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'C:\\NodeJs\\\\node.exe',
-1 verbose cli   'C:\\NodeJs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
 1 verbose cli   'start' ]
-2 info using npm@1.4.14
-3 info using node@v0.10.29
-4 verbose node symlink C:\NodeJs\\node.exe
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
 5 verbose run-script [ 'prestart', 'start', 'poststart' ]
 6 info prestart Marssenger@0.0.1
 7 info start Marssenger@0.0.1
@@ -21,9 +21,9 @@
 11 error     npm owner ls Marssenger
 11 error There is likely additional logging output above.
 12 error System Windows_NT 6.2.9200
-13 error command "C:\\NodeJs\\\\node.exe" "C:\\NodeJs\\node_modules\\npm\\bin\\npm-cli.js" "start"
+13 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
 14 error cwd C:\Users\Nils\Desktop\Marssenger\MarssengerServer\MarssengerServer\Server
-15 error node -v v0.10.29
-16 error npm -v 1.4.14
+15 error node -v v0.10.33
+16 error npm -v 1.4.28
 17 error code ELIFECYCLE
 18 verbose exit [ 1, true ]
