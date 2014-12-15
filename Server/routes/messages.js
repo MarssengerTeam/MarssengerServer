@@ -14,13 +14,11 @@ router.post('/sendMessage', function(req, res) {
 		}
 	});
 
-	var sender = new gcm.Sender('AIzaSyCQau4uiNPEC909ExmGL8gwIj9XHgPPq4g');
-	//var sender = new gcm.Sender(req.body.sender);
+	var sender = new gcm.Sender(req.body.sender);
 	var registrationIds = [];
 
 	// At least one required
-	registrationIds.push("APA91bF40HFSoQ2HX95EkNgGez9_N40Wvdc6OzMgPa9MArS6uSip6cgE_dCKPstRhKfrQsXP0oZmHkK58tWjDFQHtRuEr-YQDoGDv-W2ZJ9PDgGyWqBBNevQMqKqbbsVEag73RUDJxVgcktxa0eowx705Qu_iTVvdw");
-	//registrationIds.push("req.body.receiver");
+	registrationIds.push(req.body.receiver);
 	/**
 	* Params: message-literal, registrationIds-array, No. of retries, callback-function
 	**/
@@ -35,21 +33,26 @@ router.post('/addMessage', function(req, res) {
 	
 	db.collection('user').find({ phoneNumber : req.body.sender }).toArray(function (err, resultSender) {
 		db.collection('user').find({ phoneNumber : req.body.receiver }).toArray(function (err, resultReceiver) {
-			db.collection('messages').insert({sender : resultSender[0].GCMCode, receiver : resultReceiver[0].GCMCode, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
-				res.send((err === null) ? { msg: '' } : { msg: err });
+			if(resultSender.toString() != "" || resultReceiver.toString() != ""){
+				db.collection('messages').insert({sender : resultSender[0].GCMCode, receiver : resultReceiver[0].GCMCode, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
+					res.send((err === null) ? { msg: '' } : { msg: err });
     
-				var body = 	{sender: result[0].sender,
-							receiver : result[0].receiver,
-							data : result[0].data
-				}
-		
-				request.post(
-					'http://127.0.0.1:3000/functions/sendMessage',
-					{form : body} ,
-						function (response) {
+					var body = 	{sender: result[0].sender,
+								receiver : result[0].receiver,
+								data : result[0].data
 					}
-				);
-			});
+		
+					request.post(
+						'http://127.0.0.1:3000/messages/sendMessage',
+						{form : body} ,
+						function (response) {
+						}
+					);
+				});
+			}
+			else{
+				res.send("Could't find one of these phoneNumbers");
+			}
 		});
 	});
 });
