@@ -35,7 +35,7 @@ router.post('/addMessage', function(req, res) {
 	
 	db.collection('user').find({ phoneNumber : req.body.sender }).toArray(function (err, resultSender) {
 		db.collection('user').find({ phoneNumber : req.body.receiver }).toArray(function (err, resultReceiver) {
-			db.collection('messages').insert({sender : resultSender[0].phoneNumber, receiver : resultReceiver, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
+			db.collection('messages').insert({sender : resultSender[0].GCMCode, receiver : resultReceiver[0].GCMCode, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
 				res.send((err === null) ? { msg: '' } : { msg: err });
     
 				var body = 	{sender: result[0].sender,
