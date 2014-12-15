@@ -82,6 +82,7 @@ function populateTable() {
 				tableContentt += '<td>' + this._id + '</td>';
 				tableContentt += '<td>' + this.sender + '</td>';
 				tableContentt += '<td>' + this.receiver + '</td>';
+				tableContentt += '<td>' + this.receiverGCM + '</td>';
 				tableContentt += '<td>' + this.data + '</td>';
 				tableContentt += '<td>' + this.timestamp + '</td>';
 				tableContentt += '<td>' + this.read + '</td>';
