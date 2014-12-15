@@ -14,7 +14,7 @@ router.post('/sendMessage', function(req, res) {
 		}
 	});
 
-	var sender = new gcm.Sender(req.body.sender);
+	var sender = new gcm.Sender('AIzaSyCQau4uiNPEC909ExmGL8gwIj9XHgPPq4g');
 	var registrationIds = [];
 
 	// At least one required
@@ -23,6 +23,7 @@ router.post('/sendMessage', function(req, res) {
 	* Params: message-literal, registrationIds-array, No. of retries, callback-function
 	**/
 	sender.send(message, registrationIds, 4, function (err, result) {
+		console.log(err);
 		console.log(result);
 	});
 });
