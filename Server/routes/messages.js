@@ -3,58 +3,40 @@ var router = express.Router();
 var gcm = require('node-gcm');
 var request = require('request');
 
-router.post('/sendMessage', function(req, res) {
-	var ObjectId = require('mongodb').ObjectID;
-	
-	var message = new gcm.Message({
-		collapseKey: 'message',
-		delayWhileIdle: false,
-		timeToLive: 5000,
-		data: {
-			MessageID : ObjectId(req.body.messageID),
-			sender: req.body.sender,
-			message : req.body.data
-		}
-	});
-	var sender = new gcm.Sender('AIzaSyCQau4uiNPEC909ExmGL8gwIj9XHgPPq4g');
-	var registrationIds = [];
-
-	// At least one required
-	registrationIds.push(req.body.receiverGCM);
-	/**
-	* Params: message-literal, registrationIds-array, No. of retries, callback-function
-	**/
-	sender.send(message, registrationIds, 4, function (err, result) {
-		console.log(err);
-		console.log(result);
-	});
-	res.send("");
-});
-
 router.post('/addMessage', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
+	var ObjectId = require('mongodb').ObjectID;
 
 	db.collection('user').find({ phoneNumber : req.body.sender }).toArray(function (err, resultSender) {
 		db.collection('user').find({ phoneNumber : req.body.receiver }).toArray(function (err, resultReceiver) {
 			if(resultSender.toString() != "" || resultReceiver.toString() != ""){
 				db.collection('messages').insert({sender : resultSender[0].phoneNumber, receiver  : resultReceiver[0].phoneNumber, receiverGCM : resultReceiver[0].GCMCode, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
 					res.send((err === null) ? { msg: '' } : { msg: err });
-    
-					var body = 	{
-								messageID :  result[0]._id,
-								sender: result[0].sender,
-								receiverGCM : result[0].receiverGCM,
-								data : result[0].data
-					}
-					console.log(body);
+					
+				
 		
-					request.post(
-						'http://127.0.0.1:3000/messages/sendMessage',
-						{form : body} ,
-						function (response) {
+					var message = new gcm.Message({
+						collapseKey: 'message',
+						delayWhileIdle: false,
+						timeToLive: 5000,
+						data: {
+							MessageID : result[0]._id,
+							sender: result[0].sender,
+							message : result[0].data
 						}
-					);
+					});
+					console.log(message);
+					var sender = new gcm.Sender('AIzaSyCQau4uiNPEC909ExmGL8gwIj9XHgPPq4g');
+					var registrationIds = [];
+
+					// At least one required
+					registrationIds.push(result[0].receiverGCM);
+
+					sender.send(message, registrationIds, 4, function (err, result) {
+						console.log(err);
+						console.log(result);
+					});
 				});
 			}
 			else{

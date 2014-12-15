@@ -15,6 +15,8 @@ $(document).ready(function() {
 	// Button Update Data get clicked -> Update Data
     $('#btnGetDataSended').on('click', getSended);
 	
+	$('#btnUpdateServer').on('click', updateServer);
+	
 	 // Link delete get clicked -> delete User
     $('#list table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
 	
@@ -25,6 +27,16 @@ $(document).ready(function() {
 });
 
 // FUNCTIONS
+
+function updateServer(){
+// Use AJAX for POST
+     $.ajax({
+      type: 'POST',
+      url: '/serverUpdate/execute'
+     }).done(function( response ) {
+	 
+	 });
+}
 
 // Fill table with data
 function populateTable() {
