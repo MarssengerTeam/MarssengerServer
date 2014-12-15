@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/execute', function(req, res) {
-console.log("Start Script!");
+console.log("Start Script! #Version2");
 var sys = require('sys');
 var exec = require('child_process').exec;
  
