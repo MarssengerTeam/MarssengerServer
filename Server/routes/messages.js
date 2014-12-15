@@ -6,12 +6,10 @@ var request = require('request');
 router.post('/sendMessage', function(req, res) {
 	// or with object values
 	var message = new gcm.Message({
-		collapseKey: 'message',
-		delayWhileIdle: false,
-		timeToLive: 5000,
+		collapseKey: 'demo',
+		delayWhileIdle: true,
+		timeToLive: 3,
 		data: {
-			id : req.body.id,
-			sender: req.body.sender,
 			message : req.body.data
 		}
 	});
@@ -20,7 +18,7 @@ router.post('/sendMessage', function(req, res) {
 	var registrationIds = [];
 
 	// At least one required
-	registrationIds.push(req.body.receiverGCM);
+	registrationIds.push(req.body.receiver);
 	/**
 	* Params: message-literal, registrationIds-array, No. of retries, callback-function
 	**/
@@ -28,7 +26,6 @@ router.post('/sendMessage', function(req, res) {
 		console.log(err);
 		console.log(result);
 	});
-	res.send("");
 });
 
 router.post('/addMessage', function(req, res) {
@@ -38,12 +35,10 @@ router.post('/addMessage', function(req, res) {
 	db.collection('user').find({ phoneNumber : req.body.sender }).toArray(function (err, resultSender) {
 		db.collection('user').find({ phoneNumber : req.body.receiver }).toArray(function (err, resultReceiver) {
 			if(resultSender.toString() != "" || resultReceiver.toString() != ""){
-				db.collection('messages').insert({sender : resultSender[0].phoneNumber, receiver  : resultReceiver[0].phoneNumber, receiverGCM : resultReceiver[0].GCMCode, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
+				db.collection('messages').insert({sender : resultSender[0].GCMCode, receiver : resultReceiver[0].GCMCode, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
 					res.send((err === null) ? { msg: '' } : { msg: err });
     
-					var body = 	{
-								id : result[0]._id,
-								sender: result[0].sender,
+					var body = 	{sender: result[0].sender,
 								receiver : result[0].receiver,
 								data : result[0].data
 					}
@@ -57,16 +52,10 @@ router.post('/addMessage', function(req, res) {
 				});
 			}
 			else{
-				res.send("Could't find phoneNumber of Receiver");
+				res.send("Could't find one of these phoneNumbers");
 			}
 		});
 	});
-});
-
-//Gives back all data/messages
-router.post('/messageRead', function(req, res) {
-	var db = req.db;
-	
 });
 
 //Gives back all data/messages
