@@ -6,8 +6,7 @@ console.log("Start Script! #Version2");
 var exec = require('child_process').exec;
  
 function puts(error, stdout, stderr) {
-console.log(stdout)
-console.log(stderr);
+console.log(stdout);
 }
 exec("/home/serverDev/update.sh", puts);
 res.send("");
