@@ -16,7 +16,6 @@
 	"debug": "latest",
 	"serve-favicon": "latest",
 	"twilio" : "latest",
-	"request" : "latest",
-	"sys" : "latest"
+	"request" : "latest"
   }
 }
