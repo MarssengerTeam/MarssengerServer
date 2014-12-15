@@ -10,7 +10,7 @@ router.post('/sendMessage', function(req, res) {
 		delayWhileIdle: false,
 		timeToLive: 5000,
 		data: {
-			MessageID : req.body.id,
+			MessageID : req.body.MessageID,
 			sender: req.body.sender,
 			message : req.body.data
 		}
@@ -34,8 +34,7 @@ router.post('/sendMessage', function(req, res) {
 router.post('/addMessage', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
-	var ObjectId = require('mongodb').ObjectID;
-	
+
 	db.collection('user').find({ phoneNumber : req.body.sender }).toArray(function (err, resultSender) {
 		db.collection('user').find({ phoneNumber : req.body.receiver }).toArray(function (err, resultReceiver) {
 			if(resultSender.toString() != "" || resultReceiver.toString() != ""){
@@ -43,11 +42,12 @@ router.post('/addMessage', function(req, res) {
 					res.send((err === null) ? { msg: '' } : { msg: err });
     
 					var body = 	{
-								id :  ObjectId(result[0]._id),
+								MessageID :  result[0]._id,
 								sender: result[0].sender,
 								receiverGCM : result[0].receiverGCM,
 								data : result[0].data
 					}
+					console.log(body)
 		
 					request.post(
 						'http://127.0.0.1:3000/messages/sendMessage',
