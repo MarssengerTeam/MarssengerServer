@@ -10,7 +10,7 @@ router.post('/createGroup', function(req, res) {
 	var member = req.body.member;
 	memberArray = member.split('&');
 	
-	db.collection('groups').insert({groupName : myGroupName, member : }, {upsert: true }, function(err, result){
+	db.collection('groups').insert({groupName : myGroupName, member : "TODO"}, {upsert: true }, function(err, result){
 	});
 	res.send("");
 });
