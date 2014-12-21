@@ -38,6 +38,7 @@ block content
             table
                 thead
                     th ID
+                    th MessageID
                     th Sender
                     th Empfänger
                     th ReceiverGCM
@@ -52,6 +53,7 @@ block content
         header Send Data
         #sendData
             fieldset
+                input#inputMessageID(type='text', placeholder='MessageID')
                 input#inputSender(type='text', placeholder='Handynummer Sender')
                 input#inputreceiver(type='text', placeholder='Handynummer Empfänger')
                 input#inputData(type='text', placeholder='Text')

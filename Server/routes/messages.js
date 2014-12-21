@@ -7,11 +7,17 @@ router.post('/addMessage', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
 	var ObjectId = require('mongodb').ObjectID;
+	
+	//SEND DATA
+	var myMessageID = req.body.messageID;
+	var mySender = req.body.sender;
+	var myReceiver = req.body.receiver;
+	var myData = req.body.data;
 
-	db.collection('user').find({ phoneNumber : req.body.sender }).toArray(function (err, resultSender) {
-		db.collection('user').find({ phoneNumber : req.body.receiver }).toArray(function (err, resultReceiver) {
+	db.collection('user').find({ phoneNumber : mySender }).toArray(function (err, resultSender) {
+		db.collection('user').find({ phoneNumber : myReceiver }).toArray(function (err, resultReceiver) {
 			if(resultSender.toString() != "" || resultReceiver.toString() != ""){
-				db.collection('messages').insert({sender : resultSender[0].phoneNumber, receiver  : resultReceiver[0].phoneNumber, receiverGCM : resultReceiver[0].GCMCode, data : req.body.data, timestamp : thisTimestamp, read : '0' }, function(err, result){
+				db.collection('messages').insert({messageID : myMessageID, sender : resultSender[0].phoneNumber, receiver  : resultReceiver[0].phoneNumber, receiverGCM : resultReceiver[0].GCMCode, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
 					res.send((err === null) ? { msg: '' } : { msg: err });
 					
 				
@@ -73,7 +79,7 @@ router.post('/getMessages', function(req, res) {
 			var ObjectID = require('mongodb').ObjectID;
 			for(var i=0; i<result.length; i++){
 			searchData = ObjectID.createFromHexString(String(result[i]._id));
-			db.collection('messages').update({ _id : searchData }, {sender : result[i].sender, receiver : result[i].receiver, data : result[i].data, timestamp : result[i].timestamp, read : '1' }, function (err, result) {
+			db.collection('messages').update({ _id : searchData }, {$set: { read : '1' } }, function (err, result) {
 			});
 			}
 		});

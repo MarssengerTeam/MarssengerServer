@@ -92,6 +92,7 @@ function populateTable() {
             $.each(response, function(){
 				tableContentt += '<tr>';
 				tableContentt += '<td>' + this._id + '</td>';
+				tableContentt += '<td>' + this.messageID + '</td>';
 				tableContentt += '<td>' + this.sender + '</td>';
 				tableContentt += '<td>' + this.receiver + '</td>';
 				tableContentt += '<td>' + this.receiverGCM + '</td>';
@@ -155,6 +156,7 @@ function send(event) {
 
         // Requestbody with macAdress and beacons#range
         var reqBody = {
+			'messageID' : $('#sendData fieldset input#inputMessageID').val(),
 			'sender' : $('#sendData fieldset input#inputSender').val(),
             'receiver' : $('#sendData fieldset input#inputreceiver').val(),
 			'data' : $('#sendData fieldset input#inputData').val()
@@ -171,6 +173,7 @@ function send(event) {
             if (response.msg === '') {
 			
 				// Clear the form inputs
+				$('#sendData fieldset input#inputMessageID').val('');
                 $('#sendData fieldset input#inputSender').val('');
 				$('#sendData fieldset input#inputreceiver').val('');
 				$('#sendData fieldset input#inputData').val('');
@@ -180,7 +183,7 @@ function send(event) {
             }
             else {
                 // If something goes wrong, alert the error message that the service returned
-                alert('Error: ' + response.msg);
+                alert('Error: ' + response);
             }
         });
 };
@@ -343,6 +346,7 @@ function get(event){
 			
 				// Clear the form inputs
                 $('#getData fieldset input#inputNumber').val('');
+				populateTable();
 				
             }
             else {
@@ -373,6 +377,7 @@ function getSended(event){
 			
 				// Clear the form inputs
                 $('#getDataSended fieldset input#inputNumber').val('');
+				populateTable();
 				
             }
             else {
