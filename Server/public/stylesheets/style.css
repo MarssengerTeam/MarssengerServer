@@ -152,6 +152,33 @@ a {
 				text-align:center;
 			}
 			
+#listGroups {
+	  margin-left: auto;
+    margin-right: auto;
+}
+	#listGroups table {
+		border-collapse:separate;
+		border-spacing:1px;
+		background:#a9c3e3;
+		box-shadow: 10px 10px 20px #e6e6e6;
+	}
+		#listGroups table th {
+			background:#83a8d6;
+			font-weight:600;
+			padding:10px 20px;
+			text-align:center;
+			color: #FDFDFD;
+		}
+		#listGroups table tbody {
+			padding:0; margin:0;
+			border-collapse:collapse;
+			border-spacing:0px;
+		}
+			#listGroups table td {
+				background:#F7F7F7;
+				padding:5px 10px;
+				text-align:center;
+			}			
 
 
 

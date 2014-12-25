@@ -2,9 +2,10 @@
 $(document).ready(function() {
     // Populate the user table on initial page load
     populateTable();
+	populateGroups();
 	
 	// Button Update Data get clicked -> Update Data
-    $('#btnSendData').on('click', send);
+    $('#btnSendData').on('click', createGroup);
 	
 	// Button Update Data get clicked -> Update Data
     $('#btnRegisterUser').on('click', register);
@@ -15,7 +16,11 @@ $(document).ready(function() {
 	// Button Update Data get clicked -> Update Data
     $('#btnGetDataSended').on('click', getSended);
 	
-	$('#btnUpdateServer').on('click', updateServer);
+	//Button Change UserData
+	$('#btnChangeUserData').on('click', changeUserData);
+	
+	$('#btnCreateGroup').on('click', createGroup);
+	
 	
 	 // Link delete get clicked -> delete User
     $('#list table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
@@ -27,16 +32,6 @@ $(document).ready(function() {
 });
 
 // FUNCTIONS
-
-function updateServer(){
-// Use AJAX for POST
-     $.ajax({
-      type: 'POST',
-      url: '/serverUpdate/execute'
-     }).done(function( response ) {
-	 
-	 });
-}
 
 // Fill table with data
 function populateTable() {
@@ -149,6 +144,115 @@ function populateStatistics(event) {
 	});
 };
 
+function populateGroups() {
+		// Empty content string
+    var tableContent = '';
+     
+     // Use AJAX for POST
+     $.ajax({
+      type: 'POST',
+      url: '/groups/getAllGroups'
+     }).done(function( response ) {
+            
+			// If no data was found show a alert
+			if (response === '') {
+              alert('Es konnten keine Daten gefunden werden!');
+            }
+			
+			// If data was found, place it in the table
+            else{  
+            $.each(response, function(){
+				if(this.member != null){
+					var members = "";
+					for(var i=0; i< this.member.length; i++){
+						members += this.member[i].phoneNumber;
+						if(i<this.member.length-1){
+						members += ",";
+						}
+					}
+				}
+				tableContent += '<tr>';
+				tableContent += '<td>' + this._id + '</td>';
+				tableContent += '<td>' + this.groupName + '</td>';
+				tableContent += '<td>' + members + '</td>';
+				tableContent += '<td>' + this.a + '</td>';
+				tableContent += '<td>' + this.b + '</td>';
+				tableContent += '<td>' + this.c + '</td>';
+				tableContent += '<td>' + this.d + '</td>';
+				tableContent += '<td><a href="#" class="linkdeletedata" rel="' + this._id + '">delete</a></td>';
+				tableContent += '</tr>';
+            });
+			
+            // Inject content string into HTML table
+            $('#listGroups table tbody').html(tableContent);
+           }
+	});
+};
+
+function register(event){
+	// Prevents default HTML functions
+    event.preventDefault();
+		var myMember = [
+			{"phoneNumber":"John", "GCMCode":"Doe"}, 
+			{"phoneNumber":"Anna", "GCMCode":"Smith"}, 
+			{"phoneNumber":"Peter", "GCMCode": "Jones"}
+		];
+	
+	 // Requestbody with macAdress and beacons#range
+        var reqBody = {
+            'groupName': 'asd',
+			'member': myMember
+        }
+		
+        // Use AJAX to post the object to our add service
+        $.ajax({
+            type: 'POST',
+            data: reqBody,
+            url: '/groups/createGroup'
+        }).done(function( response ) {
+			
+				// Clear the form inputs
+                $('#createGroup fieldset input#inputName').val('');
+				
+                // Update the table
+                populateGroups();
+
+        });
+};
+
+// Update Data
+function changeUserData(event) {
+	// Prevents default HTML functions
+    event.preventDefault();
+
+        // Requestbody with macAdress and beacons#range
+        var reqBody = {
+			'_id' : $('#changeUserData fieldset input#inputID').val(),
+			'phoneNumber' : $('#changeUserData fieldset input#inputPhoneNumber').val(),
+            'GCMCode' : $('#changeUserData fieldset input#inputGCMCode').val(),
+			'digitCode' : $('#changeUserData fieldset input#inputDigitCode').val(),
+			'eMail' : $('#changeUserData fieldset input#inputEMail').val()
+        }
+
+        // Use AJAX to post the object to our add service
+        $.ajax({
+            type: 'POST',
+            data: reqBody,
+            url: '/user/changeUserData'
+        }).done(function( response ) {
+		
+				// Clear the form inputs
+				$('#changeUserData fieldset input#inputID').val('');
+				$('#changeUserData fieldset input#inputPhoneNumber').val('');
+				$('#changeUserData fieldset input#inputGCMCode').val('');
+				$('#changeUserDatafieldset input#inputDigitCode').val('');
+				$('#changeUserData fieldset input#eMail').val('');
+				
+                // Update the table
+                populateTable();
+        });
+};
+
 // Update Data
 function send(event) {
 	// Prevents default HTML functions
@@ -159,7 +263,8 @@ function send(event) {
 			'messageID' : $('#sendData fieldset input#inputMessageID').val(),
 			'sender' : $('#sendData fieldset input#inputSender').val(),
             'receiver' : $('#sendData fieldset input#inputreceiver').val(),
-			'data' : $('#sendData fieldset input#inputData').val()
+			'data' : $('#sendData fieldset input#inputData').val(),
+			'eMail' : $('#sendData fieldset input#eMail').val()
         }
 
         // Use AJAX to post the object to our add service

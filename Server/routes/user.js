@@ -64,12 +64,33 @@ router.post('/verify', function(req, res) {
 });*/
 
 //gives back user statistics
+router.post('/changeUserData', function(req, res) {
+	var db = req.db;
+	var ObjectID = require('mongodb').ObjectID;
+	console.log(req.body);
+	
+	var myID = ObjectID.createFromHexString(String(req.body._id));
+		db.collection('user').find({ idOwner : myID}).toArray(function (err, resultArray) {
+		console.log(resultArray);
+			//VARIABLES
+			var myPhoneNumber = req.body.phoneNumber || resultArray[0].phoneNumber;
+			var myGCMCode = req.body.GCMCode || resultArray[0].GCMCode;
+			var myDigitCode = req.body.digitCode || resultArray[0].DigitCode;
+			var myEMail = req.body.eMail || resultArray[0].eMail;
+			
+			db.collection('user').update({ _id : myID }, {$set: { phoneNumber : myPhoneNumber, GCMCode : myGCMCode, digitCode : myDigitCode, eMail : myEMail  }}, function (err, result) {
+				res.send(result);
+			});
+		});
+});
+
+//gives back user statistics
 router.post('/getUserStatistics', function(req, res) {
 	var db = req.db;
 	var ObjectID = require('mongodb').ObjectID;
 	
-	searchData = ObjectID.createFromHexString(String(req.body._id));
-	db.collection('userStatistics').find({  idOwner : searchData}).toArray(function (err, result) {
+	var myID = ObjectID.createFromHexString(String(req.body._id));
+	db.collection('userStatistics').find({ idOwner : myID}).toArray(function (err, result) {
 		res.send(result);
 	});
 });
@@ -77,9 +98,9 @@ router.post('/getUserStatistics', function(req, res) {
 //gives back user
 router.post('/getUser', function(req, res) {
 	var db = req.db;
-	var phoneNumber = req.body.phoneNumber;
+	var myPhoneNumber = req.body.phoneNumber;
 	
-	db.collection('user').find({  phoneNumber : phoneNumber }).toArray(function (err, result) {
+	db.collection('user').find({  phoneNumber : myPhoneNumber }).toArray(function (err, result) {
 		res.send(result);
 	});
 });
@@ -99,7 +120,7 @@ router.post('/deleteUser', function(req, res) {
     var db = req.db;
 	var ObjectId = require('mongodb').ObjectID;
 	
-	//removes the user(by macAdress)
+	//removes the user(
     db.collection('user').remove({_id : ObjectId(req.body._id)}, function(err, result) {
     });
 	db.collection('userStatistics').remove({_id : ObjectId(req.body._id)}, function(err, result) {

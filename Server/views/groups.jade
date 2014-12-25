@@ -1,0 +1,36 @@
+extends layout
+block content
+
+    // Wrapper
+    #wrapper
+    
+        // LIST
+        header Gruppen
+        #listGroups
+            table
+                thead
+                    th _id
+                    th name
+                    th members
+                    th a
+                    th b
+                    th c
+                    th d
+                    th delete?
+                tbody
+        // /LIST
+
+        // REGISTER USER
+        header Create Group
+        #createGroup
+            fieldset
+                input#inputMemberOne(type='text', placeholder='Handynummer')
+                input#inputName(type='text', placeholder='Name')
+                br
+                input#inputMemberTwo(type='text', placeholder='Handynummer')
+                br
+                input#inputMemberThree(type='text', placeholder='Handynummer')
+                br
+                btnblue#btnCreateGroup Create Group
+        // /REGISTER USER
+    // /Wrapper
