@@ -63,7 +63,7 @@ router.post('/verify', function(req, res) {
 	});
 });*/
 
-//gives back user statistics
+//gives back user statistics || BETTER SPLIT UP IN DIFFERENT FUNCTIONS FOR DIFFERENT USERDATA
 router.post('/changeUserData', function(req, res) {
 	var db = req.db;
 	var ObjectID = require('mongodb').ObjectID;
@@ -82,6 +82,52 @@ router.post('/changeUserData', function(req, res) {
 				res.send(result);
 			});
 		});
+});
+
+router.post('/changePhoneNumber', function(req, res) {
+	var db = req.db;
+	
+	var myID = ObjectID.createFromHexString(String(req.body._id));
+	var myPhoneNumber = req.body.phoneNumber;
+	
+	db.collection('user').update({ _id : myID }, {$set: { phoneNumber : myPhoneNumber }}, function (err, result) {
+				res.send(result);
+	});
+});
+
+router.post('/changeGCMCode', function(req, res) {
+	var db = req.db;
+	
+	var myID = ObjectID.createFromHexString(String(req.body._id));
+	var myGCMCode = req.body.GCMCode;
+	
+	db.collection('user').update({ _id : myID }, {$set: { GCMCode : myGCMCode }}, function (err, result) {
+				res.send(result);
+	});
+});
+
+router.post('/changeDigitCode', function(req, res) {
+	var db = req.db;
+	var ObjectID = require('mongodb').ObjectID;
+	
+	var myID = ObjectID.createFromHexString(String(req.body._id));
+	var myDigitCode = req.body.digitCode;
+	
+	db.collection('user').update({ _id : myID }, {$set: { digitCode : myDigitCode }}, function (err, result) {
+				res.send(result);
+	});
+});
+
+router.post('/changeEMail', function(req, res) {
+	var db = req.db;
+	var ObjectID = require('mongodb').ObjectID;
+	
+	var myID = ObjectID.createFromHexString(String(req.body._id));
+	var myEMail = req.body.eMail;
+	
+	db.collection('user').update({ _id : myID }, {$set: { eMail : myEMail  }}, function (err, result) {
+				res.send(result);
+	});
 });
 
 //gives back user statistics

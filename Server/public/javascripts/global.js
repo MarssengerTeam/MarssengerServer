@@ -2,10 +2,11 @@
 $(document).ready(function() {
     // Populate the user table on initial page load
     populateTable();
+	//FIGURE OUT, HOW TO LOAD ONLY ONE TABLE WHEN ON SPECIFIC WEBSITE
 	populateGroups();
 	
 	// Button Update Data get clicked -> Update Data
-    $('#btnSendData').on('click', createGroup);
+    $('#btnSendData').on('click', send);
 	
 	// Button Update Data get clicked -> Update Data
     $('#btnRegisterUser').on('click', register);
@@ -189,18 +190,20 @@ function populateGroups() {
 	});
 };
 
-function register(event){
+function createGroup(event){
 	// Prevents default HTML functions
     event.preventDefault();
-		var myMember = [
+	
+		var myMember = [];
+		myMember = [
 			{"phoneNumber":"John", "GCMCode":"Doe"}, 
 			{"phoneNumber":"Anna", "GCMCode":"Smith"}, 
 			{"phoneNumber":"Peter", "GCMCode": "Jones"}
 		];
-	
+		console.log(myMember);
 	 // Requestbody with macAdress and beacons#range
         var reqBody = {
-            'groupName': 'asd',
+            'groupName': $('#createGroup fieldset input#inputName').val(),
 			'member': myMember
         }
 		
@@ -381,7 +384,7 @@ function register(event){
             'phoneNumber': $('#registerUser fieldset input#inputNumber').val(),
 			'GCMCode': $('#registerUser fieldset input#inputGCM').val(),
 			'digitCode': $('#registerUser fieldset input#inputDigit').val(),
-			'eMail' : ""
+			'eMail' :  $('#registerUser fieldset input#inputEMail').val()
         }
 		
         // Use AJAX to post the object to our add service
@@ -398,6 +401,7 @@ function register(event){
                 $('#registerUser fieldset input#inputNumber').val('');
 				$('#registerUser fieldset input#inputGCM').val('');
 				$('#registerUser fieldset input#inputDigit').val('');
+				 $('#registerUser fieldset input#inputEMail').val('');
 				
                 // Update the table
                 populateTable();
@@ -411,24 +415,7 @@ function register(event){
         });
 };
 
-function createGroup(event){
-	// Prevents default HTML functions
-    event.preventDefault();
-	
-	var reqBody = {
-		'groupName' : 'HomoGroup',
-		'member' : '1&2'
-	}
-	
-	        // Use AJAX to post the object to our add service
-        $.ajax({
-            type: 'POST',
-            data: reqBody,
-            url: '/groups/createGroup'
-        }).done(function( response ) {
-		
-		});
-}
+
 
 function get(event){
 		// Prevents default HTML functions
