@@ -10,9 +10,8 @@ var db = mongo.db("mongodb://localhost:27017/chatservice", {native_parser:true})
 
 var routes = require('./routes/index');
 var messages = require('./routes/messages');
-var groups = require('./routes/groups');
+var groups = require('./routes/groups')
 var user = require('./routes/user');
-var serverUpdate = require('./routes/serverUpdate');
 
 var app = express();
 
@@ -37,7 +36,6 @@ app.use('/', routes);
 app.use('/messages', messages);
 app.use('/groups', groups);
 app.use('/user', user);
-app.use('/serverUpdate', serverUpdate);
 
 
 /// catch 404 and forwarding to error handler

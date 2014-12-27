@@ -78,4 +78,15 @@ router.post('/setPicture', function(req, res) {
 	var db = req.db;
 });
 
+router.post('/deleteGroup', function(req, res) {
+	//VARIABLES
+    var db = req.db;
+	var ObjectId = require('mongodb').ObjectID;
+	
+	//removes the user(by macAdress)
+    db.collection('groups').remove({_id : ObjectId(req.body._id)}, function(err, result) {
+		res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
+    });
+});
+
 module.exports = router;

@@ -1,0 +1,52 @@
+extends layoutMessage
+block content
+
+    // Wrapper
+    #wrapper
+    
+        // INFO
+        header Nachrichten
+        #listInfo
+            table
+                thead
+                    th ID
+                    th MessageID
+                    th Sender
+                    th Empfänger
+                    th ReceiverGCM
+                    th Text
+                    th Timestamp
+                    th gelesen
+                    th delete?
+                tbody
+        // /INFO
+
+        // UPDATE DATA
+        header Send Data
+        #sendData
+            fieldset
+                input#inputMessageID(type='text', placeholder='MessageID')
+                input#inputSender(type='text', placeholder='Handynummer Sender')
+                input#inputreceiver(type='text', placeholder='Handynummer Empfänger')
+                input#inputData(type='text', placeholder='Text')
+                br
+                btnblue#btnSendData Send Data
+        // /UPDATE DATA 
+
+        // GET DATA
+        header Get Data
+        #getData
+            fieldset
+                input#inputNumber(type='text', placeholder='Handynummer')
+                br
+                btnblue#btnGetData Get Data
+        // /GET DATA
+        // GET DATA SENDED		
+        header Get Data Sended
+        #getDataSended
+            fieldset
+                input#inputNumber(type='text', placeholder='Handynummer')
+                br
+                btnblue#btnGetDataSended Get Data
+        // /GET DATA
+    // /WRAPPER
