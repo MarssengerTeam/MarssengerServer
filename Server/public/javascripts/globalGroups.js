@@ -68,6 +68,8 @@ function createGroup(event){
 			{"phoneNumber":"Anna", "GCMCode":"Smith"}, 
 			{"phoneNumber":"Peter", "GCMCode": "Jones"}
 		];
+		
+		myMember = JSON.stringify(myMember);
 		console.log(myMember);
 	 // Requestbody with macAdress and beacons#range
         var reqBody = {
@@ -86,7 +88,7 @@ function createGroup(event){
                 $('#createGroup fieldset input#inputName').val('');
 				
                 // Update the table
-                populateGroups();
+                populateTable();
 
         });
 };

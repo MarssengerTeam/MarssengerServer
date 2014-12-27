@@ -8,13 +8,13 @@ router.post('/createGroup', function(req, res) {
 
 	var myGroupName = req.body.groupName;
 	//example getting some errors, because not found?!
-	var myMember = [
+	/*var myMember = [
     {"phoneNumber":req.body.member[0].phoneNumber, "GCMCode": req.body.member[0].GCMCode}, 
     {"phoneNumber":req.body.member[1].phoneNumber, "GCMCode":  req.body.member[1].GCMCode}, 
     {"phoneNumber":req.body.member[2].phoneNumber,  "GCMCode": req.body.member[2].GCMCode}
-	];
-
-	
+	];*/
+	console.log(req.body);
+	var myMember = JSON.parse(req.body.member);
 	
 	
 	db.collection('groups').insert({groupName : myGroupName, member : myMember}, {upsert: true }, function(err, result){

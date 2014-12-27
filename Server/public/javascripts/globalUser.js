@@ -8,7 +8,10 @@ $(document).ready(function() {
 	
 	
 	//Button Change UserData
-	$('#btnChangeUserData').on('click', changeUserData);
+	$('#btnChangePhoneNumber').on('click', changePhoneNumber);
+	$('#btnChangeGCMCode').on('click', changeGCMCode);
+	$('#btnChangeDigitCode').on('click', changeDigitCode);
+	$('#btnChangeEMail').on('click', changeEMail);
 	
 	 // Link delete get clicked -> delete User
     $('#list table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
@@ -17,6 +20,96 @@ $(document).ready(function() {
 });
 
 // FUNCTIONS
+function changePhoneNumber(event) {
+	// Prevents default HTML functions
+    event.preventDefault();
+		
+	var reqBody = {
+		'_id' : $('#changeUserData fieldset input#inputID').val(),
+         'phoneNumber': $('#changeUserData fieldset input#inputPhoneNumber').val()
+    }
+	
+	
+	 // Use AJAX for POST
+     $.ajax({
+      type: 'POST',
+	  data: reqBody,
+      url: '/user/changePhoneNumber'
+     }).done(function( response ) {
+	 });
+	 	populateTable();
+		$('#changeUserData fieldset input#inputID').val('');
+		$('#changeUserData fieldset input#inputPhoneNumber').val('');
+};
+
+function changeGCMCode(event) {
+	// Prevents default HTML functions
+    event.preventDefault();
+		
+	var reqBody = {
+		'_id' : $('#changeUserData fieldset input#inputID').val(),
+         'GCMCode': $('#changeUserData fieldset input#inputGCMCode').val()
+    }
+	
+	
+	 // Use AJAX for POST
+     $.ajax({
+      type: 'POST',
+	  data: reqBody,
+      url: '/user/changeGCMCode'
+     }).done(function( response ) {
+	 });
+	 	populateTable();
+		$('#changeUserData fieldset input#inputID').val('');
+		$('#changeUserData fieldset input#inputGCMCode').val('');
+};
+
+function changeDigitCode(event) {
+	// Prevents default HTML functions
+    event.preventDefault();
+		
+	var reqBody = {
+		'_id' : $('#changeUserData fieldset input#inputID').val(),
+         'digitCode': $('#changeUserData fieldset input#inputDigitCode').val()
+    }
+	
+	
+	 // Use AJAX for POST
+     $.ajax({
+      type: 'POST',
+	  data: reqBody,
+      url: '/user/changeDigitCode'
+     }).done(function( response ) {
+	 });
+	 	populateTable();
+		$('#changeUserData fieldset input#inputID').val('');
+		$('#changeUserData fieldset input#inputDigitCode').val('');
+};
+
+
+function changeEMail(event) {
+	// Prevents default HTML functions
+    event.preventDefault();
+		
+	var reqBody = {
+		'_id' : $('#changeUserData fieldset input#inputID').val(),
+         'eMail': $('#changeUserData fieldset input#inputEMail').val()
+    }
+	
+	
+	 // Use AJAX for POST
+     $.ajax({
+      type: 'POST',
+	  data: reqBody,
+      url: '/user/changeEMail'
+     }).done(function( response ) {
+	 });
+		populateTable();
+		$('#changeUserData fieldset input#inputID').val('');
+		$('#changeUserData fieldset input#inputEMail').val('');
+};
+
+
 
 // Fill table with data
 function populateTable() {

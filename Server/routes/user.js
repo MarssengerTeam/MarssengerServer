@@ -63,46 +63,28 @@ router.post('/verify', function(req, res) {
 	});
 });*/
 
-//gives back user statistics || BETTER SPLIT UP IN DIFFERENT FUNCTIONS FOR DIFFERENT USERDATA
-router.post('/changeUserData', function(req, res) {
-	var db = req.db;
-	var ObjectID = require('mongodb').ObjectID;
-	console.log(req.body);
-	
-	var myID = ObjectID.createFromHexString(String(req.body._id));
-		db.collection('user').find({ idOwner : myID}).toArray(function (err, resultArray) {
-		console.log(resultArray);
-			//VARIABLES
-			var myPhoneNumber = req.body.phoneNumber || resultArray[0].phoneNumber;
-			var myGCMCode = req.body.GCMCode || resultArray[0].GCMCode;
-			var myDigitCode = req.body.digitCode || resultArray[0].DigitCode;
-			var myEMail = req.body.eMail || resultArray[0].eMail;
-			
-			db.collection('user').update({ _id : myID }, {$set: { phoneNumber : myPhoneNumber, GCMCode : myGCMCode, digitCode : myDigitCode, eMail : myEMail  }}, function (err, result) {
-				res.send(result);
-			});
-		});
-});
 
 router.post('/changePhoneNumber', function(req, res) {
 	var db = req.db;
+	var ObjectID = require('mongodb').ObjectID;
 	
 	var myID = ObjectID.createFromHexString(String(req.body._id));
 	var myPhoneNumber = req.body.phoneNumber;
 	
 	db.collection('user').update({ _id : myID }, {$set: { phoneNumber : myPhoneNumber }}, function (err, result) {
-				res.send(result);
+				res.sendStatus(result);
 	});
 });
 
 router.post('/changeGCMCode', function(req, res) {
 	var db = req.db;
+	var ObjectID = require('mongodb').ObjectID;
 	
 	var myID = ObjectID.createFromHexString(String(req.body._id));
 	var myGCMCode = req.body.GCMCode;
 	
 	db.collection('user').update({ _id : myID }, {$set: { GCMCode : myGCMCode }}, function (err, result) {
-				res.send(result);
+				res.sendStatus(result);
 	});
 });
 
@@ -113,8 +95,8 @@ router.post('/changeDigitCode', function(req, res) {
 	var myID = ObjectID.createFromHexString(String(req.body._id));
 	var myDigitCode = req.body.digitCode;
 	
-	db.collection('user').update({ _id : myID }, {$set: { digitCode : myDigitCode }}, function (err, result) {
-				res.send(result);
+	db.collection('user').update({ _id : myID }, {$set: { DigitCode : myDigitCode }}, function (err, result) {
+				res.sendStatus(result);
 	});
 });
 
@@ -126,7 +108,7 @@ router.post('/changeEMail', function(req, res) {
 	var myEMail = req.body.eMail;
 	
 	db.collection('user').update({ _id : myID }, {$set: { eMail : myEMail  }}, function (err, result) {
-				res.send(result);
+				res.sendStatus(result);
 	});
 });
 
