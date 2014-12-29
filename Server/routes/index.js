@@ -21,4 +21,9 @@ router.get('/message', function(req, res) {
 	res.render('message', { title: 'Chatservice : Message' });
 });
 
+/* GET LOGIN page */
+router.get('/login',function(req,res){
+	res.render('login',{title:'Login'});
+});
+
 module.exports = router;

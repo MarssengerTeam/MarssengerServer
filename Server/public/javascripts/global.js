@@ -9,14 +9,20 @@ $(document).ready(function() {
 
 
 function getUser(event) {
+	//prevent default
+	event.preventDefault();
 
 };
 
 function getMessage(event) {
+	//prevent default
+	event.preventDefault();
 
 };
 
 function getGroups(event) {
+	//prevent default
+	event.preventDefault();
 
 };
 // FUNCTIONS
