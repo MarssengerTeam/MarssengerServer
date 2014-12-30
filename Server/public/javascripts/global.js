@@ -6,24 +6,25 @@ $(document).ready(function() {
 	
 	$('#btnGroups').on('click', getGroups);
 });
-
+//Functions
 
 function getUser(event) {
 	//prevent default
 	event.preventDefault();
+	window.location = '/user';
 
 };
 
 function getMessage(event) {
 	//prevent default
 	event.preventDefault();
-
+	window.location = '/message';
 };
 
 function getGroups(event) {
 	//prevent default
 	event.preventDefault();
-
+	window.location = '/groups';
 };
-// FUNCTIONS
+
 
