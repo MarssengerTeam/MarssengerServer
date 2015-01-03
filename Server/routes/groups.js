@@ -13,8 +13,15 @@ router.post('/createGroup', function(req, res) {
     {"phoneNumber":req.body.member[1].phoneNumber, "GCMCode":  req.body.member[1].GCMCode}, 
     {"phoneNumber":req.body.member[2].phoneNumber,  "GCMCode": req.body.member[2].GCMCode}
 	];*/
-	console.log(req.body);
 	var myMember = JSON.parse(req.body.member);
+	console.log("BEFORE: " + JSON.stringify(myMember));
+	db.collection('user').find({ phoneNumber : { $or : myMember }}).toArray(function (err, resultFind) {
+			console.log(resultFind);
+			for(var i=0; i< myMember.length-1; i++){
+				myMember[i].GCMCode = resultFind[i].GCMCode;
+			}
+			console.log("FINSIH: " + JSON.stringify(myMember));
+		});
 	
 	
 	db.collection('groups').insert({groupName : myGroupName, member : myMember}, {upsert: true }, function(err, result){

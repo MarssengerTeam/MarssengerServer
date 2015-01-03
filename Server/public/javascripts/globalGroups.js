@@ -64,9 +64,9 @@ function createGroup(event){
 	
 		var myMember = [];
 		myMember = [
-			{"phoneNumber":"John", "GCMCode":"Doe"}, 
-			{"phoneNumber":"Anna", "GCMCode":"Smith"}, 
-			{"phoneNumber":"Peter", "GCMCode": "Jones"}
+			{"phoneNumber": $('#createGroup fieldset input#inputMemberOne').val()}, 
+			{"phoneNumber": $('#createGroup fieldset input#inputMemberTwo').val()}, 
+			{"phoneNumber": $('#createGroup fieldset input#inputMemberThree').val()}
 		];
 		
 		myMember = JSON.stringify(myMember);
@@ -86,6 +86,9 @@ function createGroup(event){
 			
 				// Clear the form inputs
                 $('#createGroup fieldset input#inputName').val('');
+				$('#createGroup fieldset input#inputMemberOne').val('');
+				$('#createGroup fieldset input#inputMemberTwo').val('');
+				$('#createGroup fieldset input#inputMemberThree').val('');
 				
                 // Update the table
                 populateTable();
