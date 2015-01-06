@@ -18,7 +18,7 @@ router.post('/addMessage', function(req, res) {
 		db.collection('user').find({ phoneNumber : myReceiver }).toArray(function (err, resultReceiver) {
 			if(resultSender.toString() != "" || resultReceiver.toString() != ""){
 				db.collection('messages').insert({messageID : myMessageID, sender : resultSender[0].phoneNumber, receiver  : resultReceiver[0].phoneNumber, receiverGCM : resultReceiver[0].GCMCode, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
-					res.send((err === null) ? { msg: '' } : { msg: err });
+					res.send((err === null) ? { result } : { error: err });
 					
 				
 		
@@ -27,9 +27,8 @@ router.post('/addMessage', function(req, res) {
 						delayWhileIdle: false,
 						timeToLive: 5000,
 						data: {
-							MessageID : result[0]._id,
-							sender: result[0].sender,
-							message : result[0].data
+							messageTyp : "1",
+							MessageID : result[0].messageID
 						}
 					});
 					console.log(message);
@@ -80,6 +79,28 @@ router.post('/getMessages', function(req, res) {
 			for(var i=0; i<result.length; i++){
 			searchData = ObjectID.createFromHexString(String(result[i]._id));
 			db.collection('messages').update({ _id : searchData }, {$set: { read : '1' } }, function (err, result) {
+			
+					var message = new gcm.Message({
+						collapseKey: 'message',
+						delayWhileIdle: false,
+						timeToLive: 5000,
+						data: {
+							messageTyp : "2",
+							MessageID : result[0].messageID
+						}
+					});
+					console.log(message);
+					var sender = new gcm.Sender('AIzaSyCQau4uiNPEC909ExmGL8gwIj9XHgPPq4g');
+					var registrationIds = [];
+
+					// At least one required
+					registrationIds.push(result[0].senderGCM);
+
+					sender.send(message, registrationIds, 4, function (err, result) {
+						console.log(err);
+						console.log(result);
+					});
+			
 			});
 			}
 		});

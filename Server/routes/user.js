@@ -21,7 +21,7 @@ router.post('/register', function(req, res) {
 		});
 		}
 		else{
-			res.send("This phoneNumber is already in use!")
+			res.send({ error: + "1" });
 		}
 	});
 	
@@ -63,6 +63,21 @@ router.post('/verify', function(req, res) {
 	});
 });*/
 
+router.post('/isVerified', function(req, res) {
+	var db = req.db;
+	var myPhoneNumber = req.body.phoneNumber;
+	var myGCMCode = req.body.GCMCode;
+	console.log(req.body);
+	
+	db.collection('user').find({ phoneNumber : myPhoneNumber, GCMCode : myGCMCode }).toArray(function (err, resultFind) {
+		if(resultFind.toString() == ""){
+			res.send({ error : + "2" });
+		}else{
+			res.send(resultFind);
+		}
+	});
+	
+});
 
 router.post('/changePhoneNumber', function(req, res) {
 	var db = req.db;
