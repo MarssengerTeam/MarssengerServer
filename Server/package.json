@@ -17,6 +17,7 @@
 	"serve-favicon": "latest",
 	"twilio" : "latest",
 	"request" : "latest",
-    "stylus":"latest"
+    "stylus":"latest",
+    "nib": "latest"
   }
 }

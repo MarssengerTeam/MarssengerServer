@@ -3,6 +3,8 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
+var stylus = require('stylus');
+var nib = require('nib');
 
 // Database
 var mongo = require('mongoskin');
@@ -16,10 +18,18 @@ var login = require('./routes/login');
 
 var app = express();
 
+function compile(str,path){
+  return stylus(str).set('filename', path).use(nib());
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(stylus.middleware(
+  { src: __dirname + '/public'
+  , compile: compile
+  }
+))
 app.use(logger('dev'));
 app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));

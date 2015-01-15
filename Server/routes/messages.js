@@ -18,7 +18,7 @@ router.post('/addMessage', function(req, res) {
 		db.collection('user').find({ phoneNumber : myReceiver }).toArray(function (err, resultReceiver) {
 			if(resultSender.toString() != "" || resultReceiver.toString() != ""){
 				db.collection('messages').insert({messageID : myMessageID, sender : resultSender[0].phoneNumber, receiver  : resultReceiver[0].phoneNumber, receiverGCM : resultReceiver[0].GCMCode, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
-					res.send((err === null) ? { result } : { error: err });
+					res.send((err === null) ?  result  : { error: err });
 					
 				
 		
