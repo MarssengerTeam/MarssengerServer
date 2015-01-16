@@ -5,6 +5,8 @@ $(document).ready(function() {
 	$('#btnMessage').on('click', getMessage);
 	
 	$('#btnGroups').on('click', getGroups);
+  
+    $('#btnLogin').on('click', getLogin);
 });
 //Functions
 
@@ -25,6 +27,11 @@ function getGroups(event) {
 	//prevent default
 	event.preventDefault();
 	window.location = '/groups';
+};
+
+function getLogin(event){
+  event.preventDefault();
+  window.location='/login';
 };
 
 
