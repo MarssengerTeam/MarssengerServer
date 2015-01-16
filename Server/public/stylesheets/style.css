@@ -99,42 +99,82 @@ a {
 }
 header {
   font-family: Quicksand;
-  font-size: 50px;
+  font-size: 100px;
   padding: 10px;
 }
 #btnUser {
-  font-size: 25px;
-  padding: 10px;
-  background-color: #ff5722;
+  font-size: 50px;
+  padding: 20px;
+  background: -webkit-linear-gradient(#42a5f5, #1976d2);
+  background: -moz-linear-gradient(#42a5f5, #1976d2);
+  background: -o-linear-gradient(#42a5f5, #1976d2);
+  background: -ms-linear-gradient(#42a5f5, #1976d2);
+  background: linear-gradient(#42a5f5, #1976d2);
   margin: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
 }
 #btnUser:hover {
-  background-color: #e64a19;
+  background: -webkit-linear-gradient(#1976d2, #42a5f5);
+  background: -moz-linear-gradient(#1976d2, #42a5f5);
+  background: -o-linear-gradient(#1976d2, #42a5f5);
+  background: -ms-linear-gradient(#1976d2, #42a5f5);
+  background: linear-gradient(#1976d2, #42a5f5);
 }
 #btnGroups {
-  font-size: 25px;
-  padding: 10px;
-  background-color: #ff5722;
+  font-size: 50px;
+  padding: 20px;
+  background: -webkit-linear-gradient(#42a5f5, #1976d2);
+  background: -moz-linear-gradient(#42a5f5, #1976d2);
+  background: -o-linear-gradient(#42a5f5, #1976d2);
+  background: -ms-linear-gradient(#42a5f5, #1976d2);
+  background: linear-gradient(#42a5f5, #1976d2);
   margin: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
 }
 #btnGroups:hover {
-  background-color: #e64a19;
+  background: -webkit-linear-gradient(#1976d2, #42a5f5);
+  background: -moz-linear-gradient(#1976d2, #42a5f5);
+  background: -o-linear-gradient(#1976d2, #42a5f5);
+  background: -ms-linear-gradient(#1976d2, #42a5f5);
+  background: linear-gradient(#1976d2, #42a5f5);
 }
 #btnMessage {
-  font-size: 25px;
-  padding: 10px;
-  background-color: #ff5722;
+  font-size: 50px;
+  padding: 20px;
+  background: -webkit-linear-gradient(#42a5f5, #1976d2);
+  background: -moz-linear-gradient(#42a5f5, #1976d2);
+  background: -o-linear-gradient(#42a5f5, #1976d2);
+  background: -ms-linear-gradient(#42a5f5, #1976d2);
+  background: linear-gradient(#42a5f5, #1976d2);
   margin: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
 }
 #btnMessage:hover {
-  background-color: #e64a19;
+  background: -webkit-linear-gradient(#1976d2, #42a5f5);
+  background: -moz-linear-gradient(#1976d2, #42a5f5);
+  background: -o-linear-gradient(#1976d2, #42a5f5);
+  background: -ms-linear-gradient(#1976d2, #42a5f5);
+  background: linear-gradient(#1976d2, #42a5f5);
 }
 #btnLogin {
-  font-size: 25px;
-  padding: 10px;
-  background-color: #ff5722;
+  font-size: 50px;
+  padding: 20px;
+  background: -webkit-linear-gradient(#42a5f5, #1976d2);
+  background: -moz-linear-gradient(#42a5f5, #1976d2);
+  background: -o-linear-gradient(#42a5f5, #1976d2);
+  background: -ms-linear-gradient(#42a5f5, #1976d2);
+  background: linear-gradient(#42a5f5, #1976d2);
   margin: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
 }
 #btnLogin:hover {
-  background-color: #e64a19;
+  background: -webkit-linear-gradient(#1976d2, #42a5f5);
+  background: -moz-linear-gradient(#1976d2, #42a5f5);
+  background: -o-linear-gradient(#1976d2, #42a5f5);
+  background: -ms-linear-gradient(#1976d2, #42a5f5);
+  background: linear-gradient(#1976d2, #42a5f5);
 }
