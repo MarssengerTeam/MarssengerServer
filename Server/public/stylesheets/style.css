@@ -103,6 +103,7 @@ header {
   padding: 10px;
 }
 #btnUser {
+  color: #fff;
   font-size: 50px;
   padding: 20px;
   background: -webkit-linear-gradient(#42a5f5, #1976d2);
@@ -122,6 +123,7 @@ header {
   background: linear-gradient(#1976d2, #42a5f5);
 }
 #btnGroups {
+  color: #fff;
   font-size: 50px;
   padding: 20px;
   background: -webkit-linear-gradient(#42a5f5, #1976d2);
@@ -141,6 +143,7 @@ header {
   background: linear-gradient(#1976d2, #42a5f5);
 }
 #btnMessage {
+  color: #fff;
   font-size: 50px;
   padding: 20px;
   background: -webkit-linear-gradient(#42a5f5, #1976d2);
@@ -160,6 +163,7 @@ header {
   background: linear-gradient(#1976d2, #42a5f5);
 }
 #btnLogin {
+  color: #fff;
   font-size: 50px;
   padding: 20px;
   background: -webkit-linear-gradient(#42a5f5, #1976d2);
