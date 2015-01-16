@@ -108,11 +108,17 @@ header {
   background-color: #ff5722;
   margin: 10px;
 }
+#btnUser:hover {
+  background-color: #e64a19;
+}
 #btnGroups {
   font-size: 25px;
   padding: 10px;
   background-color: #ff5722;
   margin: 10px;
+}
+#btnGroups:hover {
+  background-color: #e64a19;
 }
 #btnMessage {
   font-size: 25px;
@@ -120,9 +126,15 @@ header {
   background-color: #ff5722;
   margin: 10px;
 }
+#btnMessage:hover {
+  background-color: #e64a19;
+}
 #btnLogin {
   font-size: 25px;
   padding: 10px;
   background-color: #ff5722;
   margin: 10px;
+}
+#btnLogin:hover {
+  background-color: #e64a19;
 }
