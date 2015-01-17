@@ -1,4 +1,7 @@
 extends layoutLogin
 block pageContent
-  .jumbotron
-    h1 Welcome to Marssenger!
+  form
+    Phonenumber: input(id='number', type='tel', placeholder='Phonenumber', autofocus='true', class='form-control floating-label')
+    Password: input(id='password', type='password', placeholder='Password')
+    
+  btnblue#btnLogin Login
