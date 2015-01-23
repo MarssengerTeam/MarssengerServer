@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "latest",
     "body-parser": "latest",
+    "parseurl" : "latest",
     "jade": "latest",
     "mongodb": "latest",
 	"node-gcm": "latest",
