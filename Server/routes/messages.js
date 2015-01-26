@@ -78,8 +78,10 @@ router.post('/getMessages', function(req, res) {
 			var ObjectID = require('mongodb').ObjectID;
 			for(var i=0; i<result.length; i++){
 			searchData = ObjectID.createFromHexString(String(result[i]._id));
-			db.collection('messages').update({ _id : searchData }, {$set: { read : '1' } }, function (err, result) {
-			
+				db.collection('messages').update({ _id : searchData }, {$set: { read : '1' } }, function (err, resultUpdate) {
+				db.collection('messages').find({ _id : searchData  }).toArray(function (err, result) {
+				if(result != null){
+					console.log(result.toString());
 					var message = new gcm.Message({
 						collapseKey: 'message',
 						delayWhileIdle: false,
@@ -100,7 +102,8 @@ router.post('/getMessages', function(req, res) {
 						console.log(err);
 						console.log(result);
 					});
-			
+				}
+				});
 			});
 			}
 		});

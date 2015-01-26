@@ -67,8 +67,7 @@ function send(event) {
 			'messageID' : $('#sendData fieldset input#inputMessageID').val(),
 			'sender' : $('#sendData fieldset input#inputSender').val(),
             'receiver' : $('#sendData fieldset input#inputreceiver').val(),
-			'data' : $('#sendData fieldset input#inputData').val(),
-			'eMail' : $('#sendData fieldset input#eMail').val()
+			'data' : $('#sendData fieldset input#inputData').val()
         }
 
         // Use AJAX to post the object to our add service
@@ -77,10 +76,7 @@ function send(event) {
             data: reqBody,
             url: '/messages/addMessage'
         }).done(function( response ) {
-		
-            // Check for successful (blank) response
-            if (response.msg === '') {
-			
+
 				// Clear the form inputs
 				$('#sendData fieldset input#inputMessageID').val('');
                 $('#sendData fieldset input#inputSender').val('');
@@ -89,11 +85,7 @@ function send(event) {
 				
                 // Update the table
                 populateTable();
-            }
-            else {
-                // If something goes wrong, alert the error message that the service returned
-                alert('Error: ' + response);
-            }
+
         });
 };
 
