@@ -93,18 +93,17 @@ a img {
 body {
   padding: 30px;
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
-}
-btnblue {
+}btnblue {
   color: #fff;
-  background: -webkit-linear-gradient(btnColor, btnDark);
-  background: -moz-linear-gradient(btnColor, btnDark);
-  background: -o-linear-gradient(btnColor, btnDark);
-  background: -ms-linear-gradient(btnColor, btnDark);
-  background: linear-gradient(btnColor, btnDark);
+  background: -webkit-linear-gradient(#42a5f5, #1976d2);
+  background: -moz-linear-gradient(#42a5f5, #1976d2);
+  background: -o-linear-gradient(#42a5f5, #1976d2);
+  background: -ms-linear-gradient(#42a5f5, #1976d2);
+  background: linear-gradient(#42a5f5, #1976d2);
   margin: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
-  border: 1px solid btnBorder;
+  border: 1px solid #bbdefb;
   display: inline-block;
   font-size: 15px;
   font-weight: bold;
@@ -117,11 +116,11 @@ btnblue {
   text-align: center;
 }
 btnblue:hover {
-  background: -webkit-linear-gradient(btnDark, btnColor);
-  background: -moz-linear-gradient(btnDark, btnColor);
-  background: -o-linear-gradient(btnDark, btnColor);
-  background: -ms-linear-gradient(btnDark, btnColor);
-  background: linear-gradient(btnDark, btnColor);
+  background: -webkit-linear-gradient(#1976d2, #42a5f5);
+  background: -moz-linear-gradient(#1976d2, #42a5f5);
+  background: -o-linear-gradient(#1976d2, #42a5f5);
+  background: -ms-linear-gradient(#1976d2, #42a5f5);
+  background: linear-gradient(#1976d2, #42a5f5);
 }
 header {
   font: 30px Roboto, sans-serif;

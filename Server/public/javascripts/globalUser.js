@@ -276,7 +276,7 @@ function register(event){
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/user/isVerified'
+            url: '/user/register'
         }).done(function( response ) {
 			
             // Check for successful (blank) response

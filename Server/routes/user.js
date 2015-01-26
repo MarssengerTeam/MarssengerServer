@@ -21,7 +21,7 @@ router.post('/register', function(req, res) {
 		});
 		}
 		else{
-			res.send({ error: + "1" });
+			res.send({ error: "1" });
 		}
 	});
 	
@@ -70,11 +70,14 @@ router.post('/isVerified', function(req, res) {
 	console.log(req.body);
 	
 	db.collection('user').find({ phoneNumber : myPhoneNumber, GCMCode : myGCMCode }).toArray(function (err, resultFind) {
-		if(resultFind.toString() == ""){
-			res.send({ error : + "2" });
-		}else{
-			res.send(resultFind);
+		if(resultFind != null){
+			if(resultFind.toString() == ""){
+				res.send({ error : "2" });
+			}else{
+				res.send(resultFind);
+			}
 		}
+		res.send({ error : "2" });
 	});
 	
 });
