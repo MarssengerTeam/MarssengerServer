@@ -63,8 +63,8 @@ router.post('/verify', function(req, res) {
 	});
 });*/
 
-router.post('/isVerified', function(req, res) 
-	var db = req.db;{
+router.post('/isVerified', function(req, res){ 
+	var db = req.db;
 	var myPhoneNumber = req.body.phoneNumber;
 	var myGCMCode = req.body.GCMCode;
 	console.log(req.body);
