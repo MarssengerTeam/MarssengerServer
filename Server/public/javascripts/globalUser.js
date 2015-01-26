@@ -5,6 +5,7 @@ $(document).ready(function() {
 	
 	// Button Update Data get clicked -> Update Data
     $('#btnRegisterUser').on('click', register);
+	$('#btnIsVerified').on('click', isVerified);
 	
 	
 	//Button Change UserData
@@ -299,3 +300,40 @@ function register(event){
             }
         });
 };
+
+function isVerified(event){
+	// Prevents default HTML functions
+    event.preventDefault();
+	
+	 // Requestbody with macAdress and beacons#range
+        var reqBody = {
+            'phoneNumber': $('#registerUser fieldset input#inputNumber').val(),
+			'GCMCode': $('#registerUser fieldset input#inputGCM').val()
+        }
+		
+        // Use AJAX to post the object to our add service
+        $.ajax({
+            type: 'POST',
+            data: reqBody,
+            url: '/user/isVerified'
+        }).done(function( response ) {
+			
+            // Check for successful (blank) response
+            if (response.msg != '') {
+			
+				// Clear the form inputs
+                $('#registerUser fieldset input#inputNumber').val('');
+				$('#registerUser fieldset input#inputGCM').val('');
+				
+                // Update the table
+                populateTable();
+				
+				
+            }
+            else {
+                // If something goes wrong, alert the error message that the service returned
+                alert('Error: ' + response.msg);
+            }
+        });
+};
+
