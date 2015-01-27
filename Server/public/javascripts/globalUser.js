@@ -5,7 +5,7 @@ $(document).ready(function() {
 	
 	// Button Update Data get clicked -> Update Data
     $('#btnRegisterUser').on('click', register);
-	$('#btnIsVerified').on('click', isVerified);
+	$('#btnGetUserByPhonenumberAndGCMCode').on('click', getUserByPhonenumberAndGCMCode);
 	
 	
 	//Button Change UserData
@@ -289,13 +289,13 @@ function register(event){
                 populateTable();
 				
 				if(response.error != null){
-                // If something goes wrong, alert the error message that the service returned
-                alert('Error: ' + response.error);
+					// If something goes wrong, alert the error message that the service returned
+					alert('Error: ' + response.error);
 				}
         });
 };
 
-function isVerified(event){
+function getUserByPhonenumberAndGCMCode(event){
 	// Prevents default HTML functions
     event.preventDefault();
 	
@@ -309,11 +309,9 @@ function isVerified(event){
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/user/isVerified'
+            url: '/user/getUserByPhonenumberAndGCMCode'
         }).done(function( response ) {
-			
-            // Check for successful (blank) response
-            if (response.msg != '') {
+			alert(response[0].phoneNumber);
 			
 				// Clear the form inputs
                 $('#registerUser fieldset input#inputNumber').val('');
@@ -321,13 +319,11 @@ function isVerified(event){
 				
                 // Update the table
                 populateTable();
-				
-				
-            }
-            else {
-                // If something goes wrong, alert the error message that the service returned
-                alert('Error: ' + response.msg);
-            }
+
+			if(response.error != null){
+					// If something goes wrong, alert the error message that the service returned
+					alert('Error: ' + response.error);
+			}
         });
 };
 

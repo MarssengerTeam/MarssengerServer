@@ -1,11 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var ObjectId = require('mongodb').ObjectID;
 
 //register/write a user into the database
 router.post('/register', function(req, res) {
 	var db = req.db;
-	var ObjectId = require('mongodb').ObjectID;
-	
 	//==================CHECK INPUT=============
 	//timestamp
 	var thisTimestamp = Date.now();
@@ -46,7 +45,7 @@ router.post('/register', function(req, res) {
 	db.collection('user').find({ phoneNumber : myPhoneNumber }).toArray(function (err, resultFind) {
 		if(resultFind.toString != ''){
 			db.collection('user').insert({phoneNumber : myPhoneNumber, GCMCode : myGCMCode, DigitCode : myDigitCode, eMail : myEMail, lastTimeActive : thisTimestamp, status : "1"}, {upsert: true }, function(err, resultArray){
-				db.collection('userStatistics').insert({ idOwner : resultArray[0]._id, accountCreated : thisTimestamp, messagesRecieved : '0', messagesSend : '0'}, {upsert: true }, function(err, resultCollections){
+				db.collection('userStatistics').insert({ idOwner : resultArray[0]._id, accountCreated : thisTimestamp, messagesRecieved : '0', messagesSend : '0'}, {upsert: true }, function(err, resultStatistics){
 				});
 				res.send(resultArray);
 			});	
@@ -58,15 +57,27 @@ router.post('/register', function(req, res) {
 	});
 });
 
-
-router.post('/isVerified', function(req, res){ 
+//Looks up a user by his phoneNumber and GCMCode
+router.post('/getUserByPhoneNumberAndGCMCode', function(req, res){ 
 	var db = req.db;
-	var myPhoneNumber = req.body.phoneNumber;
-	var myGCMCode = req.body.GCMCode;
-	console.log(req.body);
+	//PhoneNumber
+	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
+		var myPhoneNumber = req.body.phoneNumber;
+	}else{
+		res.send({ error: "6" });
+		return;
+	}
+	
+	//GCMCode
+	if(req.body.GCMCode != null && req.body.GCMCode != ""){
+		var myGCMCode = req.body.GCMCode;
+	}else{
+		res.send({ error: "7" });
+		return;
+	}
 	
 	db.collection('user').find({ phoneNumber : myPhoneNumber, GCMCode : myGCMCode }).toArray(function (err, resultFind) {
-				res.send(resultFind);
+		res.send(resultFind);
 	});
 	
 });
