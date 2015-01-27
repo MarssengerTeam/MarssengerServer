@@ -61,9 +61,12 @@ router.post('/register', function(req, res) {
 	});
 });
 
-//Looks up a user by his phoneNumber and GCMCode
-router.post('/getUserByPhoneNumberAndGCMCode', function(req, res){ 
+
+
+//Acquire an AuthToken for the authentification process argv(Phonenumber, GCMCode) // TODO Add cryptoIMEI as additional PW arg(Phonenumber, GCMCode, IMEI)
+router.post('/getAuthTokenByPhonenumberAndGCMCode', function(req, res){
 	var db = req.db;
+	
 	//PhoneNumber
 	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
 		var myPhoneNumber = req.body.phoneNumber;
@@ -71,7 +74,6 @@ router.post('/getUserByPhoneNumberAndGCMCode', function(req, res){
 		res.send({ error: "6" });
 		return;
 	}
-	
 	//GCMCode
 	if(req.body.GCMCode != null && req.body.GCMCode != ""){
 		var myGCMCode = req.body.GCMCode;
@@ -79,12 +81,37 @@ router.post('/getUserByPhoneNumberAndGCMCode', function(req, res){
 		res.send({ error: "7" });
 		return;
 	}
-	
+	var TTL = 86400000;
+	//get old Token and time
 	db.collection('user').find({ phoneNumber : myPhoneNumber, GCMCode : myGCMCode }).toArray(function (err, resultFind) {
-		res.send(resultFind);
+		if(resultFind.toString != ''){
+				var myAuthToken = resultFind[0].token;
+				var myTokenTimestamp =  resultFind[0].tokenTimestamp;
+				
+				if(myTokenTimestamp + TTL >= Date.now()){
+					//token invalidated
+					var myNewToken = uuid.v1();
+					db.collection('user').update({ phoneNumber : myPhoneNumber }, {$set: { token : myNewToken }}, function (err, result) {
+						if(result != null && result != ""){
+								res.send(myNewToken);
+								return;
+						}
+					});
+					
+				} else{
+					res.send(myAuthToken);
+					return;
+				}
+		}
+		else{
+			res.send({ error: "1" });
+			return;
+		}
 	});
-	
+
 });
+
+
 
 router.post('/changePhoneNumber', function(req, res) {
 	var db = req.db;
@@ -145,7 +172,7 @@ router.post('/getUserStatistics', function(req, res) {
 	});
 });
 
-//gives back user
+//gives back user same function as below ?????!!!!
 router.post('/getUser', function(req, res) {
 	var db = req.db;
 	var myPhoneNumber = req.body.phoneNumber;
@@ -153,6 +180,34 @@ router.post('/getUser', function(req, res) {
 	db.collection('user').find({  phoneNumber : myPhoneNumber }).toArray(function (err, result) {
 		res.send(result);
 	});
+});
+
+//Looks up a user by his phoneNumber and GCMCode
+router.post('/getUserByPhoneNumber', function(req, res){ 
+	var db = req.db;
+	//PhoneNumber
+	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
+		var myPhoneNumber = req.body.phoneNumber;
+		db.collection('user').find({ phoneNumber : myPhoneNumber}).toArray(function (err, resultFind) {
+		res.send(resultFind);
+		return;
+	});
+	
+	}else{
+		res.send({ error: "6" });
+		return;
+	}
+	/*
+	//GCMCode
+	if(req.body.GCMCode != null && req.body.GCMCode != ""){
+		var myGCMCode = req.body.GCMCode;
+	}else{
+		res.send({ error: "7" });
+		return;
+	}*/
+	
+	
+	
 });
 
 
