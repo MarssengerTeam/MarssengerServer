@@ -139,6 +139,8 @@ function populateTable() {
 				tableContent += '<td>' + this.DigitCode + '</td>';
 				tableContent += '<td>' + this.lastTimeActive + '</td>';
 				tableContent += '<td>' + this.status + '</td>';
+				tableContent += '<td>' + this.token + '</td>';
+				tableContent += '<td>' + this.tokenTimestamp + '</td>';
 				tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
 				tableContent += '</tr>';
             });

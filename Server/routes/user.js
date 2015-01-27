@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
+var uuid = require('node-uuid');
 
 //register/write a user into the database
 router.post('/register', function(req, res) {
 	var db = req.db;
 	//==================CHECK INPUT=============
-	//timestamp
-	var thisTimestamp = Date.now();
 	
 	//phoneNumber
 	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
@@ -42,9 +41,14 @@ router.post('/register', function(req, res) {
 	}
 	//==================CHECK INPUT=============
 	
+	var myToken = uuid.v1();
+	
+	//timestamp
+	var thisTimestamp = Date.now();
+	
 	db.collection('user').find({ phoneNumber : myPhoneNumber }).toArray(function (err, resultFind) {
 		if(resultFind.toString != ''){
-			db.collection('user').insert({phoneNumber : myPhoneNumber, GCMCode : myGCMCode, DigitCode : myDigitCode, eMail : myEMail, lastTimeActive : thisTimestamp, status : "1"}, {upsert: true }, function(err, resultArray){
+			db.collection('user').insert({phoneNumber : myPhoneNumber, GCMCode : myGCMCode, DigitCode : myDigitCode, eMail : myEMail, lastTimeActive : thisTimestamp, status : "1", token : myToken, tokenTimestamp : thisTimestamp }, {upsert: true }, function(err, resultArray){
 				db.collection('userStatistics').insert({ idOwner : resultArray[0]._id, accountCreated : thisTimestamp, messagesRecieved : '0', messagesSend : '0'}, {upsert: true }, function(err, resultStatistics){
 				});
 				res.send(resultArray);
