@@ -279,10 +279,6 @@ function register(event){
             data: reqBody,
             url: '/user/register'
         }).done(function( response ) {
-			
-            // Check for successful (blank) response
-            if (response.msg != '') {
-			
 				// Clear the form inputs
                 $('#registerUser fieldset input#inputNumber').val('');
 				$('#registerUser fieldset input#inputGCM').val('');
@@ -292,12 +288,10 @@ function register(event){
                 // Update the table
                 populateTable();
 				
-				
-            }
-            else {
+				if(response.error != null){
                 // If something goes wrong, alert the error message that the service returned
-                alert('Error: ' + response.msg);
-            }
+                alert('Error: ' + response.error);
+				}
         });
 };
 

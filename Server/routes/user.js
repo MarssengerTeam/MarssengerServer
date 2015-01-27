@@ -6,62 +6,58 @@ router.post('/register', function(req, res) {
 	var db = req.db;
 	var ObjectId = require('mongodb').ObjectID;
 	
+	//==================CHECK INPUT=============
+	//timestamp
 	var thisTimestamp = Date.now();
-	var myPhoneNumber = req.body.phoneNumber;
-	var myEMail = req.body.eMail;
-	var myGCMCode = req.body.GCMCode;
-	var myDigitCode = req.body.digitCode;
+	
+	//phoneNumber
+	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
+		var myPhoneNumber = req.body.phoneNumber;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	//Email
+	if(req.body.eMail != null && req.body.eMail != ""){
+		var myEMail = req.body.eMail;
+	}else{
+		res.send({ error: "3" });
+		return;
+	}
+	
+	//GCMCode
+	if(req.body.GCMCode != null && req.body.GCMCode != ""){
+		var myGCMCode = req.body.GCMCode;
+	}else{
+		res.send({ error: "4" });
+		return;
+	}
+	
+	//DigitCode
+	if(req.body.digitCode != null && req.body.digitCode != ""){
+		var myDigitCode = req.body.digitCode;
+	}else{
+		res.send({ error: "5" });
+		return;
+	}
+	//==================CHECK INPUT=============
 	
 	db.collection('user').find({ phoneNumber : myPhoneNumber }).toArray(function (err, resultFind) {
-		if(resultFind.toString() == ""){
+		if(resultFind.toString != ''){
 			db.collection('user').insert({phoneNumber : myPhoneNumber, GCMCode : myGCMCode, DigitCode : myDigitCode, eMail : myEMail, lastTimeActive : thisTimestamp, status : "1"}, {upsert: true }, function(err, resultArray){
-			db.collection('userStatistics').insert({ idOwner : resultArray[0]._id, accountCreated : thisTimestamp, messagesRecieved : '0', messagesSend : '0'}, {upsert: true }, function(err, resultCollections){
-			});
-			res.send(resultArray);
-		});
+				db.collection('userStatistics').insert({ idOwner : resultArray[0]._id, accountCreated : thisTimestamp, messagesRecieved : '0', messagesSend : '0'}, {upsert: true }, function(err, resultCollections){
+				});
+				res.send(resultArray);
+			});	
 		}
 		else{
 			res.send({ error: "1" });
+			return;
 		}
 	});
-	
-	
-	//TWILIO
-	/*//require the Twilio module and create a REST client
-	var client = require('twilio')('AC443997feb26db0b7dcf8373bc43c36ff', '8ffeb781fb0b996a240056d920142c35');
-
-	//Send an SMS text message
-	client.sendMessage({
-
-    to:'+491727500917', // Any number Twilio can deliver to
-    from: '+19282375941', // A number you bought from Twilio and can use for outbound communication
-    body: 'Please verify into Marssenger. Enter ' + myVerificationCode + ' into the App' // body of the SMS message
-
-	},function(error, message) {
-		// This callback is executed when the request completes
-		if (error) {
-			console.error('Dagnabit.  We couldn\'t send the message');
-			console.error(error);
-		} else {
-			console.log('Message sent! Message id: '+message.sid);
-		}
-	});	*/
 });
 
-/*
-router.post('/verify', function(req, res) {
- var db = req.db;
-	var myID = req.body.id;
-	
-	db.collection('user').find( { _id : myID  } ).toArray(function (err, result) {
-	
-		var thisTimestamp = Date.now();
-
-		db.collection('user').update({ _id : myID }, {$set : {lastTimeActive : thisTimestamp, status : "verified"}}, {upsert: true }, function(err, result){
-			res.send((err === null) ? { msg: '' } : { msg: err });
-		});
-	});
-});*/
 
 router.post('/isVerified', function(req, res){ 
 	var db = req.db;
