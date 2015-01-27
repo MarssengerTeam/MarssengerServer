@@ -12,12 +12,26 @@ $(document).ready(function() {
 	// Button Update Data get clicked -> Update Data
     $('#btnGetDataSended').on('click', getSended);
 	
+	// Button Update Data get clicked -> Update Data
+    $('#btnDeleteAll').on('click', deleteAll);
+	
     // Link delete get clicked -> delete User
     $('#listInfo table tbody').on('click', 'td a.linkdeletedata', deleteData);
 
 });
 
 // FUNCTIONS
+function deleteAll(){
+	console.log('HEy');
+        // Use AJAX to post the object to our add service
+        $.ajax({
+            type: 'POST',
+            url: '/messages/deleteAll'
+        }).done(function( response ) {
+                // Update the table
+                populateTable();
+        });	
+}
 
 // Fill table with data
 function populateTable() {

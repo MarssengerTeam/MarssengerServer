@@ -3,6 +3,12 @@ var router = express.Router();
 var gcm = require('node-gcm');
 var request = require('request');
 
+router.post('/deleteAll', function(req, res){
+	var db = req.db;
+	db.collection('messages').drop();
+	res.send();
+});
+
 router.post('/addMessage', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
