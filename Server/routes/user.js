@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var ObjectId = require('mongodb').ObjectID;
+var ObjectID = require('mongodb').ObjectID;
 var uuid = require('node-uuid');
 
 //register/write a user into the database
 router.post('/register', function(req, res) {
 	var db = req.db;
 	//==================CHECK INPUT=============
-	
+
 	//phoneNumber
 	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
 		var myPhoneNumber = req.body.phoneNumber;
@@ -41,6 +41,7 @@ router.post('/register', function(req, res) {
 	}
 	//==================CHECK INPUT=============
 	
+	//token
 	var myToken = uuid.v1();
 	
 	//timestamp
@@ -196,9 +197,9 @@ router.post('/deleteUser', function(req, res) {
     var db = req.db;
 	
 	//removes the user(
-    db.collection('user').remove({_id : ObjectId(req.body._id)}, function(err, result) {
+    db.collection('user').remove({_id : ObjectID(req.body._id)}, function(err, result) {
     });
-	db.collection('userStatistics').remove({_id : ObjectId(req.body._id)}, function(err, result) {
+	db.collection('userStatistics').remove({_id : ObjectID(req.body._id)}, function(err, result) {
 		res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
     });
 });
