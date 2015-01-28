@@ -91,7 +91,7 @@ router.post('/getAuthTokenByPhonenumberAndGCMCode', function(req, res){
 				if(myTokenTimestamp + TTL <= Date.now()){
 					//token invalidated
 					var myNewToken = uuid.v1();
-					db.collection('user').update({ phoneNumber : myPhoneNumber }, {$set: { token : myNewToken, tokenTimestamp : Date.now())}}, function (err, result) {
+					db.collection('user').update({ phoneNumber : myPhoneNumber }, {$set: { token : myNewToken, tokenTimestamp : Date.now()}}, function (err, result) {
 						if(result != null && result != ""){
 								res.send({token :myNewToken});
 								return;
@@ -113,7 +113,6 @@ router.post('/getAuthTokenByPhonenumberAndGCMCode', function(req, res){
 
 router.post('/changePhoneNumber', function(req, res) {
 	var db = req.db;
-	var ObjectID = require('mongodb').ObjectID;
 	
 	var myID = ObjectID.createFromHexString(String(req.body._id));
 	var myPhoneNumber = req.body.phoneNumber;
@@ -125,7 +124,6 @@ router.post('/changePhoneNumber', function(req, res) {
 
 router.post('/changeGCMCode', function(req, res) {
 	var db = req.db;
-	var ObjectID = require('mongodb').ObjectID;
 	
 	var myID = ObjectID.createFromHexString(String(req.body._id));
 	var myGCMCode = req.body.GCMCode;
@@ -137,7 +135,6 @@ router.post('/changeGCMCode', function(req, res) {
 
 router.post('/changeDigitCode', function(req, res) {
 	var db = req.db;
-	var ObjectID = require('mongodb').ObjectID;
 	
 	var myID = ObjectID.createFromHexString(String(req.body._id));
 	var myDigitCode = req.body.digitCode;
@@ -149,7 +146,6 @@ router.post('/changeDigitCode', function(req, res) {
 
 router.post('/changeEMail', function(req, res) {
 	var db = req.db;
-	var ObjectID = require('mongodb').ObjectID;
 	
 	var myID = ObjectID.createFromHexString(String(req.body._id));
 	var myEMail = req.body.eMail;
@@ -162,7 +158,6 @@ router.post('/changeEMail', function(req, res) {
 //gives back user statistics
 router.post('/getUserStatistics', function(req, res) {
 	var db = req.db;
-	var ObjectID = require('mongodb').ObjectID;
 	
 	var myID = ObjectID.createFromHexString(String(req.body._id));
 	db.collection('userStatistics').find({ idOwner : myID}).toArray(function (err, result) {
@@ -199,7 +194,6 @@ router.post('/getAllUser', function(req, res) {
 router.post('/deleteUser', function(req, res) {
 	//VARIABLES
     var db = req.db;
-	var ObjectId = require('mongodb').ObjectID;
 	
 	//removes the user(
     db.collection('user').remove({_id : ObjectId(req.body._id)}, function(err, result) {
