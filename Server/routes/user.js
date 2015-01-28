@@ -17,12 +17,7 @@ router.post('/register', function(req, res) {
 	}
 	
 	//Email
-	if(req.body.eMail != null && req.body.eMail != ""){
-		var myEMail = req.body.eMail;
-	}else{
-		res.send({ error: "3" });
-		return;
-	}
+	var myEMail = req.body.eMail;
 	
 	//GCMCode
 	if(req.body.GCMCode != null && req.body.GCMCode != ""){
