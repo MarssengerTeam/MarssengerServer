@@ -110,8 +110,21 @@ router.post('/getAuthTokenByPhonenumberAndGCMCode', function(req, res){
 router.post('/changePhoneNumber', function(req, res) {
 	var db = req.db;
 	
-	var myID = ObjectID.createFromHexString(String(req.body._id));
-	var myPhoneNumber = req.body.phoneNumber;
+	//_ID
+	if(req.body._id != null && req.body._id != ""){
+		var myID = ObjectID.createFromHexString(String(req.body._id));
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+
+	//phoneNumber
+	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
+		var myPhoneNumber = req.body.phoneNumber;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}	
 	
 	db.collection('user').update({ _id : myID }, {$set: { phoneNumber : myPhoneNumber }}, function (err, result) {
 				res.sendStatus(result);
@@ -121,8 +134,22 @@ router.post('/changePhoneNumber', function(req, res) {
 router.post('/changeGCMCode', function(req, res) {
 	var db = req.db;
 	
-	var myID = ObjectID.createFromHexString(String(req.body._id));
-	var myGCMCode = req.body.GCMCode;
+		//_ID
+	if(req.body._id != null && req.body._id != ""){
+		var myID = ObjectID.createFromHexString(String(req.body._id));
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	//GCMCode
+	if(req.body.GCMCode != null && req.body.GCMCode != ""){
+		var myGCMCode = req.body.GCMCode;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
 	
 	db.collection('user').update({ _id : myID }, {$set: { GCMCode : myGCMCode }}, function (err, result) {
 				res.sendStatus(result);
@@ -132,8 +159,21 @@ router.post('/changeGCMCode', function(req, res) {
 router.post('/changeDigitCode', function(req, res) {
 	var db = req.db;
 	
-	var myID = ObjectID.createFromHexString(String(req.body._id));
-	var myDigitCode = req.body.digitCode;
+	//_ID
+	if(req.body._id != null && req.body._id != ""){
+		var myID = ObjectID.createFromHexString(String(req.body._id));
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	//digitCode
+	if(req.body.digitCode != null && req.body.digitCode != ""){
+		var myDigitCode = req.body.digitCode;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
 	
 	db.collection('user').update({ _id : myID }, {$set: { DigitCode : myDigitCode }}, function (err, result) {
 				res.sendStatus(result);
@@ -143,8 +183,22 @@ router.post('/changeDigitCode', function(req, res) {
 router.post('/changeEMail', function(req, res) {
 	var db = req.db;
 	
-	var myID = ObjectID.createFromHexString(String(req.body._id));
-	var myEMail = req.body.eMail;
+	//_ID
+	if(req.body._id != null && req.body._id != ""){
+		var myID = ObjectID.createFromHexString(String(req.body._id));
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	//phoneNumber
+	if(req.body.eMail != null && req.body.eMail != ""){
+		var myEMail = req.body.eMail;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
 	
 	db.collection('user').update({ _id : myID }, {$set: { eMail : myEMail  }}, function (err, result) {
 				res.sendStatus(result);
@@ -155,7 +209,14 @@ router.post('/changeEMail', function(req, res) {
 router.post('/getUserStatistics', function(req, res) {
 	var db = req.db;
 	
-	var myID = ObjectID.createFromHexString(String(req.body._id));
+	//_ID
+	if(req.body._id != null && req.body._id != ""){
+		var myID = ObjectID.createFromHexString(String(req.body._id));
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
 	db.collection('userStatistics').find({ idOwner : myID}).toArray(function (err, result) {
 		res.send(result);
 	});
@@ -164,17 +225,18 @@ router.post('/getUserStatistics', function(req, res) {
 //Looks up a user by his phoneNumber and GCMCode
 router.post('/getUserByPhoneNumber', function(req, res){ 
 	var db = req.db;
-	//PhoneNumber
+	//phoneNumber
 	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
 		var myPhoneNumber = req.body.phoneNumber;
-		db.collection('user').find({ phoneNumber : myPhoneNumber}).toArray(function (err, resultFind) {
-			res.send(resultFind);
-			return;
-		});
 	}else{
-		res.send({ error: "6" });
+		res.send({ error: "2" });
 		return;
-	}	
+	}
+	
+	db.collection('user').find({ phoneNumber : myPhoneNumber}).toArray(function (err, resultFind) {
+		res.send(resultFind);
+	});
+
 });
 
 
@@ -191,10 +253,18 @@ router.post('/deleteUser', function(req, res) {
 	//VARIABLES
     var db = req.db;
 	
-	//removes the user(
-    db.collection('user').remove({_id : ObjectID(req.body._id)}, function(err, result) {
+	//_ID
+	if(req.body._id != null && req.body._id != ""){
+		var myID = ObjectID.createFromHexString(String(req.body._id));
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	//removes the user
+    db.collection('user').remove({_id : myID}, function(err, result) {
     });
-	db.collection('userStatistics').remove({_id : ObjectID(req.body._id)}, function(err, result) {
+	db.collection('userStatistics').remove({_id : myID}, function(err, result) {
 		res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
     });
 });
