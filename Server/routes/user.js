@@ -88,18 +88,18 @@ router.post('/getAuthTokenByPhonenumberAndGCMCode', function(req, res){
 				var myAuthToken = resultFind[0].token;
 				var myTokenTimestamp =  resultFind[0].tokenTimestamp;
 				
-				if(myTokenTimestamp + TTL >= Date.now()){
+				if(myTokenTimestamp + TTL <= Date.now()){
 					//token invalidated
 					var myNewToken = uuid.v1();
-					db.collection('user').update({ phoneNumber : myPhoneNumber }, {$set: { token : myNewToken }}, function (err, result) {
+					db.collection('user').update({ phoneNumber : myPhoneNumber }, {$set: { token : myNewToken, tokenTimestamp : Date.now())}}, function (err, result) {
 						if(result != null && result != ""){
-								res.send(myNewToken);
+								res.send({token :myNewToken});
 								return;
 						}
 					});
 					
 				} else{
-					res.send(myAuthToken);
+					res.send({token : myAuthToken});
 					return;
 				}
 		}
@@ -110,8 +110,6 @@ router.post('/getAuthTokenByPhonenumberAndGCMCode', function(req, res){
 	});
 
 });
-
-
 
 router.post('/changePhoneNumber', function(req, res) {
 	var db = req.db;
@@ -172,16 +170,6 @@ router.post('/getUserStatistics', function(req, res) {
 	});
 });
 
-//gives back user same function as below ?????!!!!
-router.post('/getUser', function(req, res) {
-	var db = req.db;
-	var myPhoneNumber = req.body.phoneNumber;
-	
-	db.collection('user').find({  phoneNumber : myPhoneNumber }).toArray(function (err, result) {
-		res.send(result);
-	});
-});
-
 //Looks up a user by his phoneNumber and GCMCode
 router.post('/getUserByPhoneNumber', function(req, res){ 
 	var db = req.db;
@@ -189,25 +177,13 @@ router.post('/getUserByPhoneNumber', function(req, res){
 	if(req.body.phoneNumber != null && req.body.phoneNumber != ""){
 		var myPhoneNumber = req.body.phoneNumber;
 		db.collection('user').find({ phoneNumber : myPhoneNumber}).toArray(function (err, resultFind) {
-		res.send(resultFind);
-		return;
-	});
-	
+			res.send(resultFind);
+			return;
+		});
 	}else{
 		res.send({ error: "6" });
 		return;
-	}
-	/*
-	//GCMCode
-	if(req.body.GCMCode != null && req.body.GCMCode != ""){
-		var myGCMCode = req.body.GCMCode;
-	}else{
-		res.send({ error: "7" });
-		return;
-	}*/
-	
-	
-	
+	}	
 });
 
 

@@ -5,7 +5,7 @@ $(document).ready(function() {
 	
 	// Button Update Data get clicked -> Update Data
     $('#btnRegisterUser').on('click', register);
-	$('#btnGetUserByPhonenumberAndGCMCode').on('click', getUserByPhonenumberAndGCMCode);
+	$('#btnGetAuthTokenByPhonenumberAndGCMCode').on('click', getAuthTokenByPhonenumberAndGCMCode);
 	
 	
 	//Button Change UserData
@@ -297,7 +297,7 @@ function register(event){
         });
 };
 
-function getUserByPhonenumberAndGCMCode(event){
+function getAuthTokenByPhonenumberAndGCMCode(event){
 	// Prevents default HTML functions
     event.preventDefault();
 	
@@ -311,10 +311,11 @@ function getUserByPhonenumberAndGCMCode(event){
         $.ajax({
             type: 'POST',
             data: reqBody,
-            url: '/user/getUserByPhonenumberAndGCMCode'
+            url: '/user/getAuthTokenByPhonenumberAndGCMCode'
         }).done(function( response ) {
-			alert(response[0].phoneNumber);
-			
+				if(response.toString() != ''){
+					alert(response.token);
+				}
 				// Clear the form inputs
                 $('#registerUser fieldset input#inputNumber').val('');
 				$('#registerUser fieldset input#inputGCM').val('');
