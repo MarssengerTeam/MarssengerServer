@@ -156,7 +156,7 @@ router.post('/getAllMessages', function(req, res) {
 router.post('/getMessages', function(req, res) {
 	var db = req.db;
 	//finds data sended to this user
-	db.collection('messages').find({ receiver : req.body.number, read : '0' }).toArray(function (err, result) {
+	db.collection('messages').find({ $or: [{ 'receiver.phoneNumber' : req.body.number, read : '0' }, { receiver : req.body.number, read : '0' }]}).toArray(function (err, result) {
 			res.send(result);
 			//updates this data 
 			var searchData;
