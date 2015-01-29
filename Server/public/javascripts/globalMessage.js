@@ -6,9 +6,6 @@ $(document).ready(function() {
 	// Button Update Data get clicked -> Update Data
     $('#btnSendData').on('click', send);
 	
-		// Button Update Data get clicked -> Update Data
-    $('#btnSendFile').on('click', sendFile);
-	
 	// Button Update Data get clicked -> Update Data
     $('#btnGetData').on('click', get);
 	
