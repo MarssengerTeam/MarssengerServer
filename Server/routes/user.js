@@ -80,11 +80,11 @@ router.post('/getAuthTokenByPhonenumberAndGCMCode', function(req, res){
 	var TTL = 86400000;
 	//get old Token and time
 	db.collection('user').find({ phoneNumber : myPhoneNumber, GCMCode : myGCMCode }).toArray(function (err, resultFind) {
-		if(resultFind.toString != ''){
+		if(resultFind.toString() != ''){
 				var myAuthToken = resultFind[0].token;
 				var myTokenTimestamp =  resultFind[0].tokenTimestamp;
 				
-				if(myTokenTimestamp + TTL <= Date.now()){
+				if(myTokenTimestamp <= Date.now() - TTL){
 					//token invalidated
 					var myNewToken = uuid.v1();
 					db.collection('user').update({ phoneNumber : myPhoneNumber }, {$set: { token : myNewToken, tokenTimestamp : Date.now()}}, function (err, result) {

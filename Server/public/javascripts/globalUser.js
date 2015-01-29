@@ -313,19 +313,17 @@ function getAuthTokenByPhonenumberAndGCMCode(event){
             data: reqBody,
             url: '/user/getAuthTokenByPhonenumberAndGCMCode'
         }).done(function( response ) {
-				if(response.toString() != ''){
-					alert(response.token);
-				}
+			if(response.error != null){
+					// If something goes wrong, alert the error message that the service returned
+					alert('Error: ' + response.error);
+			}else{
+				alert(response.token);
 				// Clear the form inputs
                 $('#registerUser fieldset input#inputNumber').val('');
 				$('#registerUser fieldset input#inputGCM').val('');
 				
                 // Update the table
                 populateTable();
-
-			if(response.error != null){
-					// If something goes wrong, alert the error message that the service returned
-					alert('Error: ' + response.error);
 			}
         });
 };
