@@ -1,4 +1,4 @@
-@import url("http://fonts.googleapis.com/css?family=Roboto");
+@import url("http://fonts.googleapis.com/css?family=Quicksand");
 html,
 body,
 div,
@@ -90,82 +90,7 @@ td {
 a img {
   border: none;
 }
-body {
-  padding: 30px;
-  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
-}
-btnblue {
-  color: #fff;
-  background: -webkit-linear-gradient(#42a5f5, #1976d2);
-  background: -moz-linear-gradient(#42a5f5, #1976d2);
-  background: -o-linear-gradient(#42a5f5, #1976d2);
-  background: -ms-linear-gradient(#42a5f5, #1976d2);
-  background: linear-gradient(#42a5f5, #1976d2);
-  margin: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  border: 1px solid #bbdefb;
+input[type='tel'],
+input[type='password'] {
   display: inline-block;
-  font-size: 15px;
-  font-weight: bold;
-  font-family: Arial;
-  font-style: normal;
-  height: 30px;
-  line-height: 30px;
-  width: 100px;
-  text-decoration: none;
-  text-align: center;
-}
-btnblue:hover {
-  background: -webkit-linear-gradient(#1976d2, #42a5f5);
-  background: -moz-linear-gradient(#1976d2, #42a5f5);
-  background: -o-linear-gradient(#1976d2, #42a5f5);
-  background: -ms-linear-gradient(#1976d2, #42a5f5);
-  background: linear-gradient(#1976d2, #42a5f5);
-}
-h2 {
-  margin: 0 0 0.5em 0;
-}
-header {
-  font: 30px Roboto, sans-serif;
-  color: #0d47a1;
-  font-weight: 700;
-  margin: 10px;
-}
-a {
-  color: #00b7ff;
-}
-#wrapper {
-  position: relative;
-  top: 50%;
-  left: 10%;
-  margin-top: 0;
-}
-#listGroups table {
-  border-collapse: separate;
-  border-spacing: 1px;
-  background: #1e88e5;
-}
-#listGroups table th {
-  background: #42a5f5;
-  font-weight: 600;
-  padding: 10px 20px;
-  text-align: center;
-  color: #fdfdfd;
-}
-#listGroups table tbody {
-  padding: 0;
-  margin: 0;
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-#listGroups table td {
-  background: #f7f7f7;
-  padding: 5px 10px;
-  text-align: center;
-}
-fieldset {
-  border: 0;
-  padding: 0;
-  margin: 0;
 }
