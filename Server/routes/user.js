@@ -43,7 +43,7 @@ router.post('/register', function(req, res) {
 	var thisTimestamp = Date.now();
 	
 	db.collection('user').find({ phoneNumber : myPhoneNumber }).toArray(function (err, resultFind) {
-		if(resultFind.toString != ''){
+		if(resultFind.toString() == ''){
 			db.collection('user').insert({phoneNumber : myPhoneNumber, GCMCode : myGCMCode, DigitCode : myDigitCode, eMail : myEMail, lastTimeActive : thisTimestamp, status : "1", token : myToken, tokenTimestamp : thisTimestamp }, {upsert: true }, function(err, resultArray){
 				db.collection('userStatistics').insert({ idOwner : resultArray[0]._id, accountCreated : thisTimestamp, messagesRecieved : '0', messagesSend : '0'}, {upsert: true }, function(err, resultStatistics){
 				});
