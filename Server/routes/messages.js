@@ -13,6 +13,14 @@ router.post('/deleteAll', function(req, res){
 	res.send();
 });
 
+function isPhoneNumber(phoneNumber){
+	if(phoneNumber.charAt(0) == '+'){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 router.post('/addMessage', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
@@ -45,7 +53,7 @@ router.post('/addMessage', function(req, res) {
 	//receiver
 	if(req.body.receiver != null && req.body.receiver){
 		//single chat
-		if(req.body.messageType == '1'){
+		if(isPhoneNumber(req.body.receiver)){
 			var myReceiver = '';
 			var myReceiverGCM = '';
 			var helpReceiver = req.body.receiver ;
@@ -56,7 +64,7 @@ router.post('/addMessage', function(req, res) {
 			});
 		}
 		//group message
-		if(req.body.messageType == '2'){
+		else{
 			var myReceiverGCM = [];
 			var myReceiver = [];
 			db.collection('groups').find({ _id : ObjectID.createFromHexString(String(req.body.receiver)) }).toArray(function (err, resultGroup) {
@@ -105,12 +113,12 @@ router.post('/addMessage', function(req, res) {
 					var registrationIds = [];
 
 					// At least one required
-					if(req.body.messageType == '2'){
+					if(isPhoneNumber(req.body.receiver)){
 					for(var i=0; i<myReceiverGCM.length; i++){
 						registrationIds.push(myReceiverGCM[i].GCMCode);
 					}
 					}
-					if(req.body.messageType == '1'){
+					else{
 						registrationIds.push(myReceiverGCM);
 					}
 					console.log(registrationIds);

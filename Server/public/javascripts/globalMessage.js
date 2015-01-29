@@ -81,7 +81,6 @@ function send(event) {
 
         // Requestbody with macAdress and beacons#range
         var reqBody = {
-			'messageType' : $('#sendData fieldset input#inputMessageType').val(),
 			'messageID' : $('#sendData fieldset input#inputMessageID').val(),
 			'sender' : $('#sendData fieldset input#inputSender').val(),
             'receiver' : $('#sendData fieldset input#inputreceiver').val(),
@@ -96,7 +95,6 @@ function send(event) {
         }).done(function( response ) {
 
 				// Clear the form inputs
-				$('#sendData fieldset input#inputMessageType').val('');
 				$('#sendData fieldset input#inputMessageID').val('');
                 $('#sendData fieldset input#inputSender').val('');
 				$('#sendData fieldset input#inputreceiver').val('');
