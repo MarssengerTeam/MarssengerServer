@@ -27,7 +27,7 @@ block content
         header Send Data
         #sendData
             fieldset
-                input#inputFile(type = 'file', placeholder = 'file')
+                input#inputFile(type = 'file', placeholder = 'file', name= 'file', enctype='multipart/form-data')
                 btnblue#btnSendFile Send File
                 br
                 input#inputMessageID(type='text', placeholder='MessageID')

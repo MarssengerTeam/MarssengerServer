@@ -106,31 +106,6 @@ function send(event) {
         });
 };
 
-// Update Data
-function sendFile(event) {
-	// Prevents default HTML functions
-    event.preventDefault();
-
-        // Requestbody with macAdress and beacons#range
-        var reqBody = {
-			'file' : $('#sendData fieldset input#inputFile').val(),
-
-        }
-
-        // Use AJAX to post the object to our add service
-        $.ajax({
-            type: 'POST',
-            data: reqBody,
-            url: '/messages/upload'
-        }).done(function( response ) {
-				
-                // Update the table
-                populateTable();
-
-        });
-};
-
-
 // Delete Data
 function deleteData(event) {
 	// Prevents default HTML functions

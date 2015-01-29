@@ -5,8 +5,6 @@ var request = require('request');
 var ObjectID = require('mongodb').ObjectID;
 
 
-
-
 router.post('/deleteAll', function(req, res){
 	var db = req.db;
 	db.collection('messages').drop();
