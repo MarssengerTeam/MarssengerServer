@@ -114,9 +114,7 @@ router.post('/addMessage', function(req, res) {
 
 					// At least one required
 					if(isPhoneNumber(req.body.receiver)){
-					for(var i=0; i<myReceiverGCM.length; i++){
 						registrationIds.push(myReceiverGCM);
-					}
 					}
 					else{
 						for(var i=0; i<myReceiverGCM.length; i++){
