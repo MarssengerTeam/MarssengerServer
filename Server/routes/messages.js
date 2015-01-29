@@ -55,6 +55,7 @@ router.post('/addMessage', function(req, res) {
 			var myReceiver = '';
 			var myReceiverGCM = '';
 			var helpReceiver = req.body.receiver ;
+			var mySenderAdd = '';
 			db.collection('user').find({ phoneNumber : helpReceiver }).toArray(function (err, resultReceiver) {
 				myReceiverGCM = resultReceiver[0].GCMCode;
 				myReceiver = resultReceiver[0].phoneNumber;
@@ -65,7 +66,9 @@ router.post('/addMessage', function(req, res) {
 		else{
 			var myReceiverGCM = [];
 			var myReceiver = [];
-			db.collection('groups').find({ _id : ObjectID.createFromHexString(String(req.body.receiver)) }).toArray(function (err, resultGroup) {
+			var groupID = ObjectID.createFromHexString(String(req.body.receiver));
+			var mySenderAdd = groupID +':';
+			db.collection('groups').find({ _id : groupID }).toArray(function (err, resultGroup) {
 				console.log(resultGroup);
 				var searchData = [];
 				for(var i=0; i<resultGroup[0].member.length; i++){
@@ -94,7 +97,8 @@ router.post('/addMessage', function(req, res) {
 		console.log(myReceiver);
 		db.collection('user').find({ phoneNumber : mySender }).toArray(function (err, resultSender) {
 			if(resultSender.toString() != ""){
-				db.collection('messages').insert({messageID : myMessageID, sender : resultSender[0].phoneNumber, receiver  : myReceiver, receiverGCM : myReceiverGCM, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
+				mySenderAdd += resultSender[0].phoneNumber;
+				db.collection('messages').insert({messageID : myMessageID, sender : mySenderAdd, receiver  : myReceiver, receiverGCM : myReceiverGCM, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
 					res.send(result);
 					
 					var message = new gcm.Message({
@@ -195,8 +199,12 @@ router.post('/getMessages', function(req, res) {
 //get data user send to check if it was read
 router.post('/getReadMessages', function(req, res) {
 	var db = req.db;
-	db.collection('messages').find({ sender : req.body.sender, read : '1'  }).toArray(function (err, result) {
+	console.log(req.body.sender);
+	var searchData =  "/.*"+String(req.body.sender << 1)+"*/";
+	console.log(searchData);
+	db.collection('messages').find({"sender" : req.body.sender, read : '1'  }).toArray(function (err, result) {
 		res.send(result);
+		console.log(result);
 		var delData;
 		var ObjectID = require('mongodb').ObjectID;
 		for(var i=0; i<result.length; i++){
