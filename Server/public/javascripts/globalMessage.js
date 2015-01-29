@@ -6,6 +6,9 @@ $(document).ready(function() {
 	// Button Update Data get clicked -> Update Data
     $('#btnSendData').on('click', send);
 	
+		// Button Update Data get clicked -> Update Data
+    $('#btnSendFile').on('click', sendFile);
+	
 	// Button Update Data get clicked -> Update Data
     $('#btnGetData').on('click', get);
 	
@@ -98,6 +101,30 @@ function send(event) {
                 $('#sendData fieldset input#inputSender').val('');
 				$('#sendData fieldset input#inputreceiver').val('');
 				$('#sendData fieldset input#inputData').val('');
+				
+                // Update the table
+                populateTable();
+
+        });
+};
+
+// Update Data
+function sendFile(event) {
+	// Prevents default HTML functions
+    event.preventDefault();
+
+        // Requestbody with macAdress and beacons#range
+        var reqBody = {
+			'file' : $('#sendData fieldset input#inputFile').val(),
+
+        }
+
+        // Use AJAX to post the object to our add service
+        $.ajax({
+            type: 'POST',
+            data: reqBody,
+            url: '/messages/upload'
+        }).done(function( response ) {
 				
                 // Update the table
                 populateTable();
