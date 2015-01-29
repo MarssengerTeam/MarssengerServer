@@ -1,31 +1,51 @@
 var express = require('express');
 var router = express.Router();
+var ObjectID = require('mongodb').ObjectID;
 
 
 //create a group
 router.post('/createGroup', function(req, res) {
 	var db = req.db;
+	var memberData = [];
+	var myMember = '';
+	
+	//GroupName
+	if(req.body.groupName != null && req.body.groupName != ""){
+			var myGroupName = req.body.groupName;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	if(req.body.member != ""){
+		myMember = JSON.parse(req.body.member);
+		console.log("INPUT: " + JSON.stringify(myMember));
+		//creates the memberData
+		for(var i=0; i<myMember.length; i++){
+				memberData.push({ '_id' : ObjectID.createFromHexString(String(myMember[i]._id)) });
+		}		
+		console.log("SearchData: " + JSON.stringify(memberData));
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
 
-	var myGroupName = req.body.groupName;
-	//example getting some errors, because not found?!
-	/*var myMember = [
-    {"phoneNumber":req.body.member[0].phoneNumber, "GCMCode": req.body.member[0].GCMCode}, 
-    {"phoneNumber":req.body.member[1].phoneNumber, "GCMCode":  req.body.member[1].GCMCode}, 
-    {"phoneNumber":req.body.member[2].phoneNumber,  "GCMCode": req.body.member[2].GCMCode}
-	];*/
-	var myMember = JSON.parse(req.body.member);
-	console.log("BEFORE: " + JSON.stringify(myMember));
-	db.collection('user').find({ phoneNumber : { $or : myMember }}).toArray(function (err, resultFind) {
-			console.log(resultFind);
-			for(var i=0; i< myMember.length-1; i++){
-				myMember[i].GCMCode = resultFind[i].GCMCode;
-			}
-			console.log("FINSIH: " + JSON.stringify(myMember));
+		db.collection('groups').insert({groupName : myGroupName, member : memberData}, {upsert: true }, function(err, result){
+			res.send(result);
 		});
+});
+
+//gets all the gcm codes of all members
+router.post('/getGCMCodesOfMembers', function(req, res) {
+	var db = req.db;
+	var myID = ObjectID(req.body._id);
 	
-	
-	db.collection('groups').insert({groupName : myGroupName, member : myMember}, {upsert: true }, function(err, result){
-		res.send(result);
+	db.collection('groups').find({ _id : myID }).toArray(function (err, result) {
+		var sendData = [];
+		for(var i=0; i<result.length; i++){
+			sendData.push({ 'GCMCode' : result[i].GCMCode });
+		}	
+		res.send(JSON.stringify(sendData));
 	});
 });
 
@@ -40,8 +60,8 @@ router.post('/getAllGroups', function(req, res) {
 //sends all the groupdata
 router.post('/getGroup', function(req, res) {
 	var db = req.db;
-	var ObjectID = require('mongodb').ObjectID;
 	var myID = ObjectID(req.body._id);
+	
 	db.collection('groups').find({ _id : myID }).toArray(function (err, result) {
 		res.send(result);
 	});

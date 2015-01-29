@@ -34,9 +34,9 @@ function populateTable() {
 				if(this.member != null){
 					var members = "";
 					for(var i=0; i< this.member.length; i++){
-						members += this.member[i].phoneNumber;
+						members += this.member[i]._id;
 						if(i<this.member.length-1){
-						members += ",";
+						members += ", ";
 						}
 					}
 				}
@@ -64,9 +64,9 @@ function createGroup(event){
 	
 		var myMember = [];
 		myMember = [
-			{"phoneNumber": $('#createGroup fieldset input#inputMemberOne').val()}, 
-			{"phoneNumber": $('#createGroup fieldset input#inputMemberTwo').val()}, 
-			{"phoneNumber": $('#createGroup fieldset input#inputMemberThree').val()}
+			{"_id": $('#createGroup fieldset input#inputMemberOne').val()}, 
+			{"_id": $('#createGroup fieldset input#inputMemberTwo').val()}, 
+			{"_id": $('#createGroup fieldset input#inputMemberThree').val()}
 		];
 		
 		myMember = JSON.stringify(myMember);

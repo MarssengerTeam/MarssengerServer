@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var gcm = require('node-gcm');
 var request = require('request');
+var ObjectID = require('mongodb').ObjectID;
 
 router.post('/deleteAll', function(req, res){
 	var db = req.db;
@@ -12,22 +13,81 @@ router.post('/deleteAll', function(req, res){
 router.post('/addMessage', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
-	var ObjectId = require('mongodb').ObjectID;
 	
-	//SEND DATA
-	var myMessageID = req.body.messageID;
-	var mySender = req.body.sender;
-	var myReceiver = req.body.receiver;
-	var myData = req.body.data;
-
-	db.collection('user').find({ phoneNumber : mySender }).toArray(function (err, resultSender) {
-		db.collection('user').find({ phoneNumber : myReceiver }).toArray(function (err, resultReceiver) {
-			if(resultSender.toString() != "" && resultReceiver.toString() != ""){
-				db.collection('messages').insert({messageID : myMessageID, sender : resultSender[0].phoneNumber, receiver  : resultReceiver[0].phoneNumber, receiverGCM : resultReceiver[0].GCMCode, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
-					res.send((err === null) ?  result  : { error: err });
+	//==================CHECK INPUT=============
+	//messageID
+	if(req.body.messageID != null && req.body.messageID != ""){
+		var myMessageID = req.body.messageID;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	//sender
+	if(req.body.sender != null && req.body.sender != ""){
+		var mySender = req.body.sender;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	//data
+	if(req.body.data != null && req.body.data != ""){
+		var myData = req.body.data;
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	//receiver
+	if(req.body.receiver != null && req.body.receiver){
+		//single chat
+		if(req.body.messageType == '1'){
+			var myReceiver = '';
+			var myReceiverGCM = '';
+			var helpReceiver = req.body.receiver ;
+			db.collection('user').find({ phoneNumber : helpReceiver }).toArray(function (err, resultReceiver) {
+				myReceiverGCM = resultReceiver[0].GCMCode;
+				myReceiver = resultReceiver[0].phoneNumber;
+				sendData(myReceiver, myReceiverGCM);
+			});
+		}
+		//group message
+		if(req.body.messageType == '2'){
+			var myReceiverGCM = [];
+			var myReceiver = [];
+			db.collection('groups').find({ _id : ObjectID.createFromHexString(String(req.body.receiver)) }).toArray(function (err, resultGroup) {
+				console.log(resultGroup);
+				var searchData = [];
+				for(var i=0; i<resultGroup[0].member.length; i++){
+					searchData.push({ '_id' : ObjectID.createFromHexString(String(resultGroup[0].member[i]._id)) });
+				}
+				console.log(JSON.stringify(searchData));
+			db.collection('user').find({ $or : searchData }).toArray(function (err, result) {
+				console.log(result);
+				for(var i=0; i<result.length; i++){
+					myReceiverGCM.push({ 'GCMCode' : result[i].GCMCode });
+					myReceiver.push({ 'phoneNumber' : result[i].phoneNumber });
+				}
+			console.log(myReceiver);
+			sendData(myReceiver, myReceiverGCM);
 					
-				
-		
+			});	
+			});
+		}
+
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	function sendData(myReceiver, myReceiverGCM){
+		console.log(myReceiver);
+		db.collection('user').find({ phoneNumber : mySender }).toArray(function (err, resultSender) {
+			if(resultSender.toString() != ""){
+				db.collection('messages').insert({messageID : myMessageID, sender : resultSender[0].phoneNumber, receiver  : myReceiver, receiverGCM : myReceiverGCM, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
+					res.send(result);
+					
 					var message = new gcm.Message({
 						collapseKey: 'message',
 						delayWhileIdle: false,
@@ -42,7 +102,15 @@ router.post('/addMessage', function(req, res) {
 					var registrationIds = [];
 
 					// At least one required
-					registrationIds.push(result[0].receiverGCM);
+					if(req.body.messageType == '2'){
+					for(var i=0; i<myReceiverGCM.length; i++){
+						registrationIds.push(myReceiverGCM[i].GCMCode);
+					}
+					}
+					if(req.body.messageType == '1'){
+						registrationIds.push(myReceiverGCM);
+					}
+					console.log(registrationIds);
 
 					sender.send(message, registrationIds, 4, function (err, result) {
 						console.log(err);
@@ -51,10 +119,10 @@ router.post('/addMessage', function(req, res) {
 				});
 			}
 			else{
-				res.send("Could't find phoneNumber of Receiver");
+				res.send("Could't find phoneNumber of Sender");
 			}
 		});
-	});
+	}
 });
 
 //Gives back all data/messages
@@ -133,10 +201,10 @@ router.post('/getReadMessages', function(req, res) {
 router.post('/deleteMessage', function(req, res) {
 	//VARIABLES
     var db = req.db;
-	var ObjectId = require('mongodb').ObjectID;
+	var ObjectID = require('mongodb').ObjectID;
 	
 	//removes the user(by macAdress)
-    db.collection('messages').remove({_id : ObjectId(req.body._id)}, function(err, result) {
+    db.collection('messages').remove({_id : ObjectID(req.body._id)}, function(err, result) {
 		res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
     });
 });
