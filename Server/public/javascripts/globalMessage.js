@@ -55,6 +55,7 @@ function populateTable() {
 				tableContent += '<tr>';
 				tableContent += '<td>' + this._id + '</td>';
 				tableContent += '<td>' + this.messageID + '</td>';
+				tableContent += '<td>' + this.group + '</td>';
 				tableContent += '<td>' + this.sender + '</td>';
 				tableContent += '<td>' + this.receiver + '</td>';
 				tableContent += '<td>' + this.receiverGCM + '</td>';

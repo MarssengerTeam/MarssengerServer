@@ -22,6 +22,7 @@ function isPhoneNumber(phoneNumber){
 router.post('/addMessage', function(req, res) {
 	var db = req.db;
 	var thisTimestamp = Date.now();
+	var groupID = '';
 	
 	//==================CHECK INPUT=============
 	//messageID
@@ -55,7 +56,6 @@ router.post('/addMessage', function(req, res) {
 			var myReceiver = '';
 			var myReceiverGCM = '';
 			var helpReceiver = req.body.receiver ;
-			var mySenderAdd = '';
 			db.collection('user').find({ phoneNumber : helpReceiver }).toArray(function (err, resultReceiver) {
 				myReceiverGCM = resultReceiver[0].GCMCode;
 				myReceiver = resultReceiver[0].phoneNumber;
@@ -67,7 +67,6 @@ router.post('/addMessage', function(req, res) {
 			var myReceiverGCM = [];
 			var myReceiver = [];
 			var groupID = ObjectID.createFromHexString(String(req.body.receiver));
-			var mySenderAdd = groupID +':';
 			db.collection('groups').find({ _id : groupID }).toArray(function (err, resultGroup) {
 				console.log(resultGroup);
 				var searchData = [];
@@ -75,19 +74,20 @@ router.post('/addMessage', function(req, res) {
 					searchData.push({ '_id' : ObjectID.createFromHexString(String(resultGroup[0].member[i]._id)) });
 				}
 				console.log(JSON.stringify(searchData));
-			db.collection('user').find({ $or : searchData }).toArray(function (err, result) {
-				console.log(result);
-				for(var i=0; i<result.length; i++){
-					myReceiverGCM.push({ 'GCMCode' : result[i].GCMCode });
-					myReceiver.push({ 'phoneNumber' : result[i].phoneNumber });
-				}
-			console.log(myReceiver);
-			sendData(myReceiver, myReceiverGCM);
-					
-			});	
+				db.collection('user').find({ $or : searchData }).toArray(function (err, result) {
+					console.log(result);
+					for(var i=0; i<result.length; i++){
+							myReceiverGCM.push({ 'GCMCode' : result[i].GCMCode });
+							myReceiver.push({ 'phoneNumber' : result[i].phoneNumber });
+						if(result[i].phoneNumber != mySender){
+							sendData(myReceiver[i].phoneNumber, myReceiverGCM[i].GCMCode);
+						}
+					}
+				console.log(myReceiver);
+				});	
 			});
 		}
-
+	res.send("True");
 	}else{
 		res.send({ error: "2" });
 		return;
@@ -97,9 +97,7 @@ router.post('/addMessage', function(req, res) {
 		console.log(myReceiver);
 		db.collection('user').find({ phoneNumber : mySender }).toArray(function (err, resultSender) {
 			if(resultSender.toString() != ""){
-				mySenderAdd += resultSender[0].phoneNumber;
-				db.collection('messages').insert({messageID : myMessageID, sender : mySenderAdd, receiver  : myReceiver, receiverGCM : myReceiverGCM, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
-					res.send(result);
+				db.collection('messages').insert({messageID : myMessageID, group : groupID, sender : resultSender[0].phoneNumber, receiver  : myReceiver, receiverGCM : myReceiverGCM, data : myData, timestamp : thisTimestamp, read : '0' }, function(err, result){
 					
 					var message = new gcm.Message({
 						collapseKey: 'message',
@@ -115,14 +113,7 @@ router.post('/addMessage', function(req, res) {
 					var registrationIds = [];
 
 					// At least one required
-					if(isPhoneNumber(req.body.receiver)){
-						registrationIds.push(myReceiverGCM);
-					}
-					else{
-						for(var i=0; i<myReceiverGCM.length; i++){
-						registrationIds.push(myReceiverGCM[i].GCMCode);
-						}
-					}
+					registrationIds.push(myReceiverGCM);
 					console.log(registrationIds);
 
 					sender.send(message, registrationIds, 4, function (err, result) {
@@ -158,8 +149,17 @@ router.post('/getAllMessages', function(req, res) {
 router.post('/getMessages', function(req, res) {
 	var db = req.db;
 	//finds data sended to this user
-	db.collection('messages').find({ $or: [{ 'receiver.phoneNumber' : req.body.number, read : '0' }, { receiver : req.body.number, read : '0' }]}).toArray(function (err, result) {
-			res.send(result);
+	db.collection('messages').find({ receiver : req.body.number, read : '0' }).toArray(function (err, result) {
+			var sendData = [];
+			for(var i=0; i<result.length; i++){
+					var mySender = '';
+					if(result[i].group.toString() != ''){
+						mySender += result[i].group + ':';
+					}
+					mySender += result[i].sender;
+					sendData.push({ 'messageID' : result[i].messageID, 'sender' : mySender, 'data' : result[i].data, 'timestamp' :  result[i].timestamp});
+			}
+			res.send(sendData);
 			//updates this data 
 			var searchData;
 			var ObjectID = require('mongodb').ObjectID;
@@ -200,8 +200,6 @@ router.post('/getMessages', function(req, res) {
 router.post('/getReadMessages', function(req, res) {
 	var db = req.db;
 	console.log(req.body.sender);
-	var searchData =  "/.*"+String(req.body.sender << 1)+"*/";
-	console.log(searchData);
 	db.collection('messages').find({"sender" : req.body.sender, read : '1'  }).toArray(function (err, result) {
 		res.send(result);
 		console.log(result);
