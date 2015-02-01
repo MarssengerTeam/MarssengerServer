@@ -5,6 +5,10 @@ var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var stylus = require('stylus');
 var nib = require('nib');
+    formidable = require('formidable'),
+    util = require('util')
+    fs   = require('fs-extra'),
+    qt   = require('quickthumb');
 
 // Database
 var mongo = require('mongoskin');
@@ -15,6 +19,7 @@ var messages = require('./routes/messages');
 var groups = require('./routes/groups');
 var user = require('./routes/user');
 var login = require('./routes/login');
+var files = require('./routes/files');
 
 var app = express();
 
@@ -35,6 +40,8 @@ app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public','images','favicon.ico')));
+// Use quickthumb
+app.use(qt.static(__dirname + '/'));
 
 
 // Make db accessible to our router
@@ -48,6 +55,7 @@ app.use('/messages', messages);
 app.use('/groups', groups);
 app.use('/user', user);
 app.use('/login',login);
+app.use('/files', files);
 
 
 /// catch 404 and forwarding to error handler

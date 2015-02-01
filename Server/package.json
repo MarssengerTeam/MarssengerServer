@@ -20,10 +20,15 @@
 	"morgan": "latest",
 	"debug": "latest",
 	"serve-favicon": "latest",
-	"twilio" : "latest",
 	"request" : "latest",
     "stylus":"latest",
     "nib": "latest",
-	"node-uuid" : "latest"
+	"node-uuid" : "latest",
+	"formidable" : "latest",
+	"fs-extra" : "latest",
+	"quickthumb" : "latest",
+	"mkdirp" : "latest",
+	"imagemagick" : "latest",
+	"path" : "latest"
   }
 }
