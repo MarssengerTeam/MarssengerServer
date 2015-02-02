@@ -5,6 +5,12 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 
+# Folder
+Server\.idea
+Server\node_modules
+Server\data
+
+
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 

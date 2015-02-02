@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var formidable = require('formidable');
+var fs   = require('fs-extra');
 
 router.post('/upload', function (req, res){
     var form = new formidable.IncomingForm();

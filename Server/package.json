@@ -26,9 +26,6 @@
 	"node-uuid" : "latest",
 	"formidable" : "latest",
 	"fs-extra" : "latest",
-	"quickthumb" : "latest",
-	"mkdirp" : "latest",
-	"imagemagick" : "latest",
-	"path" : "latest"
+	"mkdirp" : "latest"
   }
 }
