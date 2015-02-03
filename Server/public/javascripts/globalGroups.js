@@ -5,9 +5,12 @@ $(document).ready(function() {
 	
 	$('#btnCreateGroup').on('click', createGroup);
 	
+	$('#btnAddMember').on('click', addMember);
+	
 	// Link delete get clicked -> delete User
     $('#listGroups table tbody').on('click', 'td a.linkdeletegroup', deleteGroup);
 
+	
 });
 
 // FUNCTIONS
@@ -89,6 +92,40 @@ function createGroup(event){
 				$('#createGroup fieldset input#inputMemberOne').val('');
 				$('#createGroup fieldset input#inputMemberTwo').val('');
 				$('#createGroup fieldset input#inputMemberThree').val('');
+				
+                // Update the table
+                populateTable();
+
+        });
+};
+
+function addMember(event){
+	// Prevents default HTML functions
+    event.preventDefault();
+	
+		var myMember = [];
+		myMember = [
+			{"_id": $('#addMember fieldset input#inputMember').val()}
+		];
+		
+		myMember = JSON.stringify(myMember);
+		console.log(myMember);
+	 // Requestbody with macAdress and beacons#range
+        var reqBody = {
+			'groupID': $('#addMember fieldset input#inputGroupID').val(),
+			'member': myMember
+        }
+		
+        // Use AJAX to post the object to our add service
+        $.ajax({
+            type: 'POST',
+            data: reqBody,
+            url: '/groups/addMember'
+        }).done(function( response ) {
+			
+				// Clear the form inputs
+				$('#addMember fieldset input#inputMember').val('');
+				$('#addMember fieldset input#inputGroupID').val('');
 				
                 // Update the table
                 populateTable();
