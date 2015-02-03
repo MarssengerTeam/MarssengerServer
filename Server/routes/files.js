@@ -11,7 +11,6 @@ router.post('/upload', function (req, res){
  
     function parseForm(err) {
         if (err) console.error(err);
-        res.redirect('/');
     }
  
     function formEnd() {
@@ -27,6 +26,7 @@ router.post('/upload', function (req, res){
                     console.error(err);
                 } else {
                     console.log("[INFO] Uploaded: %s as %s", file.name, name);
+					res.redirect('/uploads/' + name);
                 }
             });
         });

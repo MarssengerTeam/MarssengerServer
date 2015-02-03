@@ -1,0 +1,16 @@
+extends layoutFiles
+block content
+   
+    // Wrapper
+    #wrapper
+        header Add a title:
+        #uploadData
+        fieldset
+        input(name='title', type='text')
+        br
+        br
+        input(multiple='multiple', name='inputUpload', type='file')
+        br
+        br
+        btnblue#btnUpload Upload
+    // /WRAPPER

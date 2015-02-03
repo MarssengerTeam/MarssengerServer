@@ -26,4 +26,10 @@ router.get('/login',function(req,res){
 	res.render('login',{title:'Login'});
 });
 
+
+/* GET FILES page
+router.get('/files',function(req,res){
+	res.render('files',{title:'Files'});
+});*/
+
 module.exports = router;
