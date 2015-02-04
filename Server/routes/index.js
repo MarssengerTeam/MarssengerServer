@@ -27,9 +27,9 @@ router.get('/login',function(req,res){
 });
 
 
-/* GET FILES page
+// GET FILES page
 router.get('/files',function(req,res){
 	res.render('files',{title:'Files'});
-});*/
+});
 
 module.exports = router;
