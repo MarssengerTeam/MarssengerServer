@@ -75,7 +75,7 @@ router.post('/addMember', function(req, res) {
 	
 	//GroupName
 	if(req.body.groupID != null && req.body.groupID != ""){
-			var myID = ObjectID(req.body.groupID);
+			var myID = ObjectID.createFromHexString(String(req.body.groupID));
 			console.log(myID);
 	}else{
 		res.send({ error: "2" });
