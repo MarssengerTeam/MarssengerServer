@@ -71,6 +71,7 @@ router.post('/getGroup', function(req, res) {
 router.post('/addMember', function(req, res) {
 	var db = req.db;
 	var memberData = [];
+	var searchData = [];
 	var myMember = '';
 	
 	//GroupName
@@ -84,28 +85,38 @@ router.post('/addMember', function(req, res) {
 	
 	if(req.body.member != ""){
 		myMember = JSON.parse(req.body.member);
-		//creates the memberData
-		for(var i=0; i<myMember.length; i++){
-				memberData.push({ '_id' : ObjectID.createFromHexString(String(myMember[i]._id)) });
-		}		
+		
+		db.collection('user').find({ $or : myMember }).toArray(function (err, resultFind) {
+			console.log(JSON.stringify(resultFind));
+			for(var i=0; i<resultFind.length; i++){
+				memberData.push({ '_id' : ObjectID.createFromHexString(String(resultFind[i]._id)) });
+			}
+			console.log(JSON.stringify(memberData));
+			addMember();
+		});
 	}else{
 		res.send({ error: "2" });
 		return;
 	}
 
+	function addMember(){
 	db.collection('groups').find({ _id : myID }).toArray(function (err, result) {
 		if(result.toString != ""){
 			for(var i=0; i<result[0].member.length; i++){
 				memberData.push({ '_id' : ObjectID.createFromHexString(String(result[0].member[i]._id)) });
 			}
+ 
+			//REMOVE DUPLICATES HERE
+			console.log(JSON.stringify(memberData));
+			db.collection('groups').update({_id : myID},{ $set: { member : memberData }}, function(err, resultUpdate){
+				res.sendStatus(200);
+			});
 		}
-		console.log(JSON.stringify(memberData));
-		db.collection('groups').update({_id : myID},{ $set: { member : memberData }}, function(err, resultUpdate){
-			res.sendStatus(200);
-		});
 	});
-	
+	}
 });
+
+  
 
 //delete a member from the group
 router.post('/deleteMember', function(req, res) {

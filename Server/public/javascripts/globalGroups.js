@@ -105,7 +105,7 @@ function addMember(event){
 	
 		var myMember = [];
 		myMember = [
-			{"_id": $('#addMember fieldset input#inputMember').val()}
+			{"phoneNumber": $('#addMember fieldset input#inputMember').val()}
 		];
 		
 		myMember = JSON.stringify(myMember);
