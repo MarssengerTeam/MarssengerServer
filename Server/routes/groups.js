@@ -21,18 +21,26 @@ router.post('/createGroup', function(req, res) {
 		myMember = JSON.parse(req.body.member);
 		console.log("INPUT: " + JSON.stringify(myMember));
 		//creates the memberData
-		for(var i=0; i<myMember.length; i++){
-				memberData.push({ '_id' : ObjectID.createFromHexString(String(myMember[i]._id)) });
-		}		
-		console.log("SearchData: " + JSON.stringify(memberData));
+		db.collection('user').find({ $or : myMember }).toArray(function (err, resultFind) {
+			console.log("resultFind: " + JSON.stringify(resultFind));
+			for(var i=0; i<resultFind.length; i++){
+				console.log(i + ":" + resultFind[i]._id);
+				memberData.push({ '_id' : ObjectID.createFromHexString(String(resultFind[i]._id)) });
+			}		
+			console.log("memberData: " + JSON.stringify(memberData));
+			createGroup();
+		});
 	}else{
 		res.send({ error: "2" });
 		return;
 	}
-
+	
+	function createGroup(){
+		console.log("SearchData: " + JSON.stringify(memberData));
 		db.collection('groups').insert({groupName : myGroupName, member : memberData}, {upsert: true }, function(err, result){
 			res.send(result);
 		});
+	}
 });
 
 //gets all the gcm codes of all members
@@ -106,7 +114,7 @@ router.post('/addMember', function(req, res) {
 				memberData.push({ '_id' : ObjectID.createFromHexString(String(result[0].member[i]._id)) });
 			}
  
-			//REMOVE DUPLICATES HERE
+			//TO DO: REMOVE DUPLICATES HERE
 			console.log(JSON.stringify(memberData));
 			db.collection('groups').update({_id : myID},{ $set: { member : memberData }}, function(err, resultUpdate){
 				res.sendStatus(200);

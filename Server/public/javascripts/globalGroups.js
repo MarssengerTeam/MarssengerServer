@@ -67,9 +67,9 @@ function createGroup(event){
 	
 		var myMember = [];
 		myMember = [
-			{"_id": $('#createGroup fieldset input#inputMemberOne').val()}, 
-			{"_id": $('#createGroup fieldset input#inputMemberTwo').val()}, 
-			{"_id": $('#createGroup fieldset input#inputMemberThree').val()}
+			{"phoneNumber": $('#createGroup fieldset input#inputMemberOne').val()}, 
+			{"phoneNumber": $('#createGroup fieldset input#inputMemberTwo').val()}, 
+			{"phoneNumber": $('#createGroup fieldset input#inputMemberThree').val()}
 		];
 		
 		myMember = JSON.stringify(myMember);
