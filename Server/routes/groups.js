@@ -128,20 +128,64 @@ router.post('/addMember', function(req, res) {
 
 //delete a member from the group
 router.post('/deleteMember', function(req, res) {
+	var memberData = [];
+	var newMemberData = [];
+	var searchData = [];
+	var myMember = '';
 	var db = req.db;
-	var ObjectID = require('mongodb').ObjectID;
-	var myID = ObjectID(req.body._id);
-	var myPhoneNumber = req.body.phoneNumber;
-	var newMember = [];
 	
-	db.collection('groups').find({ _id : myID }).toArray(function (err, result) {
-		for(var i=0; i< result[0].member.length; i++){
-			if(result[0].member[i].phoneNumber == myPhoneNumber){
-				result[0].member.splice(i, 1);
-			}
-		}
+	//GroupID
+	if(req.body.groupID != null && req.body.groupID != ""){
+			var myID = ObjectID.createFromHexString(String(req.body.groupID));
+			console.log(myID);
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	if(req.body.member != ""){
+		myMember = JSON.parse(req.body.member);
 		
+		db.collection('user').find({ $or : myMember }).toArray(function (err, resultFind) {
+			console.log(JSON.stringify(resultFind));
+			for(var i=0; i<resultFind.length; i++){
+				memberData.push({ '_id' : ObjectID.createFromHexString(String(resultFind[i]._id)) });
+			}
+			console.log("MemberData: " +  JSON.stringify(memberData));
+			deleteMember();
+		});
+	}else{
+		res.send({ error: "2" });
+		return;
+	}
+	
+	function deleteMember(){
+	db.collection('groups').find({ _id : myID }).toArray(function (err, result) {
+		if(result.toString != ""){
+			var help = true;
+			for(var i=0; i<result[0].member.length; i++){
+				help = true;
+				console.log(i + ": " + result[0].member[i]._id);
+				for(var j=0; j<memberData.length; j++){
+					console.log(j + ": " + memberData[j]._id);
+					if(memberData[j]._id.toString() == result[0].member[i]._id.toString()){
+						console.log("FALSE");
+						help = false;
+					}
+				}
+				if(help == true){
+					console.log("SET");
+					newMemberData.push({ '_id' : ObjectID.createFromHexString(String(result[0].member[i]._id)) });
+				}
+			}
+ 
+			console.log("NewMemberData: " + JSON.stringify(newMemberData));
+			db.collection('groups').update({_id : myID},{ $set: { member : newMemberData }}, function(err, resultUpdate){
+				res.sendStatus(200);
+			});
+		}
 	});
+	}
 });
 
 //set NameGroup
