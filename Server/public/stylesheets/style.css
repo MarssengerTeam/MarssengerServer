@@ -1,95 +1,4 @@
 @import url("http://fonts.googleapis.com/css?family=Quicksand");
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  font-weight: inherit;
-  font-style: inherit;
-  font-family: inherit;
-  font-size: 100%;
-  vertical-align: baseline;
-}
-body {
-  line-height: 1;
-  color: #000;
-  background: #fff;
-}
-ol,
-ul {
-  list-style: none;
-}
-table {
-  border-collapse: separate;
-  border-spacing: 0;
-  vertical-align: middle;
-}
-caption,
-th,
-td {
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle;
-}
-a img {
-  border: none;
-}
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -112,13 +21,8 @@ header {
   color: #fff;
   font-size: 50px;
   padding: 20px;
-  background: -webkit-linear-gradient(#42a5f5, #1976d2);
-  background: -moz-linear-gradient(#42a5f5, #1976d2);
-  background: -o-linear-gradient(#42a5f5, #1976d2);
-  background: -ms-linear-gradient(#42a5f5, #1976d2);
   background: linear-gradient(#42a5f5, #1976d2);
   margin: 10px;
-  -webkit-border-radius: 10px;
   border-radius: 10px;
 }
 #btnUser:hover,
@@ -127,9 +31,5 @@ header {
 #btnUpload:hover,
 #btnLogin:hover,
 #btnMessage:hover {
-  background: -webkit-linear-gradient(#1976d2, #42a5f5);
-  background: -moz-linear-gradient(#1976d2, #42a5f5);
-  background: -o-linear-gradient(#1976d2, #42a5f5);
-  background: -ms-linear-gradient(#1976d2, #42a5f5);
   background: linear-gradient(#1976d2, #42a5f5);
 }

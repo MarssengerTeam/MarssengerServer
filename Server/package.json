@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "Marssenger Server",
   "repository": {
-	"type": "git",
-	"url": "https://github.com/MarssengerTeam/MarssengerServer.git"
+    "type": "git",
+    "url": "https://github.com/MarssengerTeam/MarssengerServer.git"
   },
   "scripts": {
     "start": "node ./bin/www"
@@ -15,17 +15,17 @@
     "parseurl": "latest",
     "jade": "latest",
     "mongodb": "latest",
-	"node-gcm": "latest",
-	"mongoskin": "latest",
-	"morgan": "latest",
-	"debug": "latest",
-	"serve-favicon": "latest",
-	"request" : "latest",
+    "node-gcm": "latest",
+    "mongoskin": "latest",
+    "morgan": "latest",
+    "debug": "latest",
+    "serve-favicon": "latest",
+    "request" : "latest",
     "stylus":"latest",
     "nib": "latest",
-	"node-uuid" : "latest",
-	"formidable" : "latest",
-	"fs-extra" : "latest",
-	"mkdirp" : "latest"
+    "node-uuid" : "latest",
+    "formidable" : "latest",
+    "fs-extra" : "latest",
+    "mkdirp" : "latest"
   }
 }
