@@ -32,4 +32,9 @@ router.get('/files',function(req,res){
 	res.render('files',{title:'Files'});
 });
 
+// GET REGISTER page
+router.get('/register', function(req,res){
+    res.render('/register', {title:'Register'});
+});
+
 module.exports = router;

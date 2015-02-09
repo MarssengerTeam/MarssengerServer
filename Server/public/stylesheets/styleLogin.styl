@@ -4,15 +4,21 @@ global-reset()
 primary=#ff5722
 
 h1
-  font-family Quicksand //TODO change the font?
-  font-size 50px
+  font-family Quicksand !important//TODO change the font?
+  font-size 70px !important
 
 .container
   margin-top 10%
   //background-color #ff4
 
 .jumbotron
+  width 100%
+  margin-left auto
+  margin-right auto
   background-color transparent !important
+
+.login
+  margin-top 40px
 
 #number,#password
   display block
@@ -22,6 +28,8 @@ h1
   margin 3px auto
   align-self center
   width 55%
+  @media screen and (max-width: 450px)
+    width 90%
 
 input
   align-content center
@@ -31,4 +39,6 @@ input
     background-color primary
     color #fff
     margin-top 15px
-    width 55% //TODO find out how to get window width and adjust acordingly
+    width 55%
+    @media screen and (max-width: 450px)
+      width 90%

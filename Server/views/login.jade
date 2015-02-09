@@ -1,9 +1,11 @@
-extends layoutLogin
+extends loginBase
 block pageContent
   div.container
-    div.jumbotron
+    div.jumbotron(class='text-center')
       h1 Login
-      form.form-horizontal(method='post', id='loginForm', class='text-center')
-        input.span(id='number', type='text', name='Number', placeholder='Phonenumber')
-        input.span(id='password', type='password', name='Password', placeholder='Password')
-        input.btn(type='submit', value='Log In')
+      div.login
+        form.form-horizontal(method='post', id='loginForm', class='text-center')
+          input.span(id='number', type='text', name='Number', placeholder='Phonenumber')
+          input.span(id='password', type='password', name='Password', placeholder='Password')
+          input.btn(type='submit', value='Log In')
+      a(href='/register') Or Register?
