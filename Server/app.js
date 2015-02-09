@@ -17,6 +17,7 @@ var groups = require('./routes/groups');
 var user = require('./routes/user');
 var login = require('./routes/login');
 var files = require('./routes/files');
+var register = require('./routes/register');
 
 var app = express();
 
@@ -56,7 +57,7 @@ app.use('/groups', groups);
 app.use('/user', user);
 app.use('/login',login);
 app.use('/files', files);
-
+app.use('register',register);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

@@ -34,7 +34,7 @@ router.get('/files',function(req,res){
 
 // GET REGISTER page
 router.get('/register', function(req,res){
-    res.render('/register', {title:'Register'});
+    res.render('register', {title:'Register'});
 });
 
 module.exports = router;

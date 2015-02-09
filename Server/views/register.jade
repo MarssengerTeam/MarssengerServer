@@ -1,0 +1,14 @@
+extends registerBase
+block pageContent
+  div.container
+    div.jumbotron(class='text-center')
+      h1 Register
+      div.register
+        form.form-horizontal(method='post', id='registerForm', class='text-center')
+          input.span(id='firstname', type='text', name='Firstname', placeholder='First Name')
+          input.span(id='lastname', type='text', name='Lastname', placeholder='Last Name')
+          input.span(id='number', type='text', name='Number', placeholder='Phonenumber')
+          input.span(id='password', type='password', name='Password', placeholder='Password')
+          input.span(id='passwordrepeat', type='password', name='Passwordrepeat', placeholder='Repeat Password')
+          input.btn(type='submit', value='Register')
+      a(href='/login') Already have an account?
