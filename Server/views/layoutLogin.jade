@@ -3,28 +3,10 @@ html
   head
     title Login
     link(rel='stylesheet', href='/stylesheets/styleLogin.css')
-    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.min.css')
   body
-
-    block navbar
-      nav(class='navbar navbar-default', role='navigation')
-        .container-fluid
-          .navbar-header
-            button(class='navbar-toggle', data-toggle='collapse', data-target='#mars-navbar-collapse')
-              span.sronly
-              span.icon-bar
-              span.icon-bar
-              span.icon-bar
-            a(class='navbar-brand', href='/login') Login
-          #mars-navbar-collapse(class='collapse navbar-collapse')
-            ul(class='nav navbar-nav')
-              li
-                a(href='/message') Message
-              li
-                a(href='/user') User
-              li
-                a(href='/groups') Groups
-
     block pageContent
-    script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
-    script(src='/javascripts/globalUser.js')
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+  script(src='/javascripts/globalUser.js')
+  script(src='/bootstrap/js/bootstrap.min.js')

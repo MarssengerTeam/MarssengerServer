@@ -1,9 +1,32 @@
 @import url('http://fonts.googleapis.com/css?family=Quicksand')
 global-reset()
 
-input[type='tel'],
-input[type='password']
-  display inline-block
+primary=#ff5722
 
-#btnLogin
+body
+
+.container
+  margin-top 10%
+  //background-color #ff4
+
+.jumbotron
+  background-color transparent !important
+
+#number,#password
+  display block
   font-family Quicksand
+  font-size 26px
+  border-radius 0
+  margin 3px auto
+  align-self center
+  width 55%
+
+input
+  align-content center
+  &.btn
+    font-family Quicksand
+    font-size 23px
+    background-color primary
+    color #fff
+    margin-top 15px
+    width 55% //TODO find out how to get window width and adjust acordingly

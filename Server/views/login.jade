@@ -1,6 +1,8 @@
 extends layoutLogin
 block pageContent
-    Phonenumber: input(id='number', type='tel', placeholder='Phonenumber', autofocus='true', class='form-control floating-label')
-    Password: input(id='password', type='password', placeholder='Password')
-    
-    btnblue#btnLogin Login
+  div.container
+    div.jumbotron
+      form.form-horizontal(method='post', id='loginForm', class='text-center')
+        input.span(id='number', type='text', name='Number', placeholder='Phonenumber')
+        input.span(id='password', type='password', name='Password', placeholder='Password')
+        input.btn(type='submit', value='Log In')

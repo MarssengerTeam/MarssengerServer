@@ -1,8 +1,29 @@
 @import url("http://fonts.googleapis.com/css?family=Quicksand");
-input[type='tel'],
-input[type='password'] {
-  display: inline-block;
+body,
+.container {
+  margin-top: 10%;
 }
-#btnLogin {
+.jumbotron {
+  background-color: transparent !important;
+}
+#number,
+#password {
+  display: block;
   font-family: Quicksand;
+  font-size: 26px;
+  border-radius: 0;
+  margin: 3px auto;
+  align-self: center;
+  width: 55%;
+}
+input {
+  align-content: center;
+}
+input.btn {
+  font-family: Quicksand;
+  font-size: 23px;
+  background-color: #ff5722;
+  color: #fff;
+  margin-top: 15px;
+  width: 55%;
 }
