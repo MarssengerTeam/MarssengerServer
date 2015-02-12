@@ -37,4 +37,9 @@ router.get('/register', function(req,res){
     res.render('register', {title:'Register'});
 });
 
+// GET CHAT page
+router.get('/chat', function(req,res){
+    res.render('chat', {title:'Marssenger'});
+});
+
 module.exports = router;
