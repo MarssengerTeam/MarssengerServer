@@ -14,7 +14,7 @@
     "body-parser": "latest",
     "parseurl": "latest",
     "jade": "latest",
-    "mongodb": "latest",
+    "mongodb": "1.4",
     "node-gcm": "latest",
     "mongoskin": "latest",
     "morgan": "latest",
