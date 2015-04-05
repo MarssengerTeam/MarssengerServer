@@ -20,35 +20,23 @@ router.post('/createGroup', function(req, res) {
 	if(req.body.member != ""){
 		myMember = JSON.parse(req.body.member);
 		console.log("INPUT: " + JSON.stringify(myMember));
-		//creates the memberData
-		db.collection('user').find({ $or : myMember }).toArray(function (err, resultFind) {
-			console.log("resultFind: " + JSON.stringify(resultFind));
-			for(var i=0; i<resultFind.length; i++){
-				console.log(i + ":" + resultFind[i]._id);
-				memberData.push({ '_id' : ObjectID.createFromHexString(String(resultFind[i]._id)) });
-			}		
-			console.log("memberData: " + JSON.stringify(memberData));
-			createGroup();
-		});
 	}else{
 		res.send({ error: "2" });
 		return;
 	}
 	
-	function createGroup(){
-		console.log("SearchData: " + JSON.stringify(memberData));
-		db.collection('groups').insert({groupName : myGroupName, member : memberData}, {upsert: true }, function(err, result){
-			res.send(result);
-		});
-	}
+	console.log("SearchData: " + JSON.stringify(memberData));
+	db.collection('groups').insert({groupName : myGroupName, member : myMember}, {upsert: true }, function(err, result){
+		res.send(result);
+	});
 });
 
 //gets all the gcm codes of all members
 router.post('/getGCMCodesOfMembers', function(req, res) {
 	var db = req.db;
-	var myID = ObjectID(req.body._id);
+	var myPhoneNumber = req.body.phoneNumber;
 	
-	db.collection('groups').find({ _id : myID }).toArray(function (err, result) {
+	db.collection('groups').find({ phoneNumber : myPhoneNumber }).toArray(function (err, result) {
 		var sendData = [];
 		for(var i=0; i<result.length; i++){
 			sendData.push({ 'GCMCode' : result[i].GCMCode });
@@ -94,34 +82,14 @@ router.post('/addMember', function(req, res) {
 	if(req.body.member != ""){
 		myMember = JSON.parse(req.body.member);
 		
-		db.collection('user').find({ $or : myMember }).toArray(function (err, resultFind) {
-			console.log(JSON.stringify(resultFind));
-			for(var i=0; i<resultFind.length; i++){
-				memberData.push({ '_id' : ObjectID.createFromHexString(String(resultFind[i]._id)) });
-			}
-			console.log(JSON.stringify(memberData));
-			addMember();
-		});
 	}else{
 		res.send({ error: "2" });
 		return;
 	}
-
-	function addMember(){
-	db.collection('groups').find({ _id : myID }).toArray(function (err, result) {
-		if(result.toString != ""){
-			for(var i=0; i<result[0].member.length; i++){
-				memberData.push({ '_id' : ObjectID.createFromHexString(String(result[0].member[i]._id)) });
-			}
- 
-			//TO DO: REMOVE DUPLICATES HERE
-			console.log(JSON.stringify(memberData));
-			db.collection('groups').update({_id : myID},{ $set: { member : memberData }}, function(err, resultUpdate){
-				res.sendStatus(200);
-			});
-		}
+	
+	db.collection('groups').update( { _id : myID }, { $push: { member : myMember }}, {multi : true},function (err, resultFind) {;
+		res.sendStatus(200);
 	});
-	}
 });
 
   
@@ -145,47 +113,15 @@ router.post('/deleteMember', function(req, res) {
 	
 	if(req.body.member != ""){
 		myMember = JSON.parse(req.body.member);
-		
-		db.collection('user').find({ $or : myMember }).toArray(function (err, resultFind) {
-			console.log(JSON.stringify(resultFind));
-			for(var i=0; i<resultFind.length; i++){
-				memberData.push({ '_id' : ObjectID.createFromHexString(String(resultFind[i]._id)) });
-			}
-			console.log("MemberData: " +  JSON.stringify(memberData));
-			deleteMember();
-		});
 	}else{
 		res.send({ error: "2" });
 		return;
 	}
 	
-	function deleteMember(){
-	db.collection('groups').find({ _id : myID }).toArray(function (err, result) {
-		if(result.toString != ""){
-			var help = true;
-			for(var i=0; i<result[0].member.length; i++){
-				help = true;
-				console.log(i + ": " + result[0].member[i]._id);
-				for(var j=0; j<memberData.length; j++){
-					console.log(j + ": " + memberData[j]._id);
-					if(memberData[j]._id.toString() == result[0].member[i]._id.toString()){
-						console.log("FALSE");
-						help = false;
-					}
-				}
-				if(help == true){
-					console.log("SET");
-					newMemberData.push({ '_id' : ObjectID.createFromHexString(String(result[0].member[i]._id)) });
-				}
-			}
- 
-			console.log("NewMemberData: " + JSON.stringify(newMemberData));
-			db.collection('groups').update({_id : myID},{ $set: { member : newMemberData }}, function(err, resultUpdate){
-				res.sendStatus(200);
-			});
-		}
+	db.collection('groups').update({_id : myID},{ $pull: { member : myMember }}, function(err, resultUpdate){
+			res.sendStatus(200);
 	});
-	}
+
 });
 
 //set NameGroup

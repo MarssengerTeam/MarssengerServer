@@ -71,7 +71,7 @@ router.post('/addMessage', function(req, res) {
 				console.log(resultGroup);
 				var searchData = [];
 				for(var i=0; i<resultGroup[0].member.length; i++){
-					searchData.push({ '_id' : ObjectID.createFromHexString(String(resultGroup[0].member[i]._id)) });
+					searchData.push({ 'phoneNumber' : resultGroup[0].member[i].phoneNumber });
 				}
 				console.log(JSON.stringify(searchData));
 				db.collection('user').find({ $or : searchData }).toArray(function (err, result) {

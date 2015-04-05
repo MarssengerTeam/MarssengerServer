@@ -39,7 +39,7 @@ function populateTable() {
 				if(this.member != null){
 					var members = "";
 					for(var i=0; i< this.member.length; i++){
-						members += this.member[i]._id;
+						members += this.member[i].phoneNumber;
 						if(i<this.member.length-1){
 						members += ", ";
 						}
@@ -106,10 +106,7 @@ function addMember(event){
     event.preventDefault();
 	
 		var myMember = [];
-		myMember = [
-			{"phoneNumber": $('#addMember fieldset input#inputMember').val()}
-		];
-		
+		myMember = {"phoneNumber": $('#addMember fieldset input#inputMember').val()};
 		myMember = JSON.stringify(myMember);
 		console.log(myMember);
 	 // Requestbody with macAdress and beacons#range
@@ -140,9 +137,7 @@ function deleteMember(event){
     event.preventDefault();
 	
 		var myMember = [];
-		myMember = [
-			{"phoneNumber": $('#addMember fieldset input#inputMember').val()}
-		];
+		myMember = {"phoneNumber": $('#addMember fieldset input#inputMember').val()};
 		
 		myMember = JSON.stringify(myMember);
 		console.log(myMember);
