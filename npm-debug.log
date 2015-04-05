@@ -1,20 +1,20 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'C:\\NodeJs\\\\node.exe',
-1 verbose cli   'C:\\NodeJs\\node_modules\\npm\\bin\\npm-cli.js',
-1 verbose cli   'install' ]
-2 info using npm@1.4.14
-3 info using node@v0.10.29
-4 verbose node symlink C:\NodeJs\\node.exe
-5 error install Couldn't read dependencies
-6 error package.json ENOENT, open 'C:\Users\Nils\Desktop\Marssenger\MarssengerServer\MarssengerServer\package.json'
-6 error package.json This is most likely not a problem with npm itself.
-6 error package.json npm can't find a package.json file in your current directory.
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'start' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.36
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 error Error: ENOENT, open 'C:\Users\Nils\Documents\GitHub\MarssengerServer\package.json'
+6 error If you need help, you may report this *entire* log,
+6 error including the npm and node versions, at:
+6 error     <http://github.com/npm/npm/issues>
 7 error System Windows_NT 6.2.9200
-8 error command "C:\\NodeJs\\\\node.exe" "C:\\NodeJs\\node_modules\\npm\\bin\\npm-cli.js" "install"
-9 error cwd C:\Users\Nils\Desktop\Marssenger\MarssengerServer\MarssengerServer
-10 error node -v v0.10.29
-11 error npm -v 1.4.14
-12 error path C:\Users\Nils\Desktop\Marssenger\MarssengerServer\MarssengerServer\package.json
-13 error code ENOPACKAGEJSON
+8 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
+9 error cwd C:\Users\Nils\Documents\GitHub\MarssengerServer
+10 error node -v v0.10.36
+11 error npm -v 1.4.28
+12 error path C:\Users\Nils\Documents\GitHub\MarssengerServer\package.json
+13 error code ENOENT
 14 error errno 34
 15 verbose exit [ 34, true ]

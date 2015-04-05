@@ -5,6 +5,7 @@ var formidable = require('formidable');
 var fs   = require('fs-extra');
 
 router.post('/upload', function (req, res){
+	var db = req.db;
     var form = new formidable.IncomingForm();
     form.hash = 'md5';
     form.multiples = true;
@@ -26,7 +27,10 @@ router.post('/upload', function (req, res){
                     console.error(err);
                 } else {
                     console.log("[INFO] Uploaded: %s as %s", file.name, name);
-					res.redirect('/uploads/' + name);
+					db.collection('files').insert({name : file.name, text : file.name, link : name}, {upsert: true }, function(err, result){
+						res.send(result);
+					});
+					//res.redirect('/uploads/' + name);
                 }
             });
         });
