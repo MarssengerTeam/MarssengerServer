@@ -1,0 +1,35 @@
+@import "colors.styl"
+
+global-reset()
+
+*
+  font-size 62.5% !important
+
+h1
+  font-size 7.0rem !important
+h2
+  font-size 6.0rem !important
+h3
+  font-size 5.0rem !important
+
+input
+  align-content center
+  display block
+  font-size 2.6rem
+  border-radius 0
+  margin 3px auto
+  align-self center
+  width 55%
+  @media screen (max-width 450px)
+    width 90%
+  &.btn
+    font-size 2.3rem
+    color btnfont
+
+.container
+  margin-top 10%
+
+.jumbotron
+  width 100%
+  margin-left auto
+  margin-right auto

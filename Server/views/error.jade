@@ -1,6 +1,9 @@
-extends layout
-
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+extends base
+block headerContent
+  title 404
+block pageContent
+  .container
+    .jumbotron
+      h1= message
+      h2= error.status
+      pre #{error.stack}

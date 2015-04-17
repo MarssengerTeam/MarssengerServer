@@ -1,0 +1,33 @@
+* {
+  font-size: 62.5% !important;
+}
+h1 {
+  font-size: 7rem !important;
+}
+h2 {
+  font-size: 6rem !important;
+}
+h3 {
+  font-size: 5rem !important;
+}
+input {
+  align-content: center;
+  display: block;
+  font-size: 2.6rem;
+  border-radius: 0;
+  margin: 3px auto;
+  align-self: center;
+  width: 55%;
+}
+input.btn {
+  font-size: 2.3rem;
+  color: #fff;
+}
+.container {
+  margin-top: 10%;
+}
+.jumbotron {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
