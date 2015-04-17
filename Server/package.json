@@ -10,22 +10,22 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "express": "latest",
-    "body-parser": "latest",
-    "parseurl": "latest",
-    "jade": "latest",
+    "express": "4.12.3",
+    "body-parser": "1.12.3",
+    "parseurl": "1.3.0",
+    "jade": "1.9.2",
     "mongodb": "1.4",
-    "node-gcm": "latest",
-    "mongoskin": "latest",
-    "morgan": "latest",
-    "debug": "latest",
-    "serve-favicon": "latest",
-    "request" : "latest",
-    "stylus":"latest",
-    "nib": "latest",
-    "node-uuid" : "latest",
-    "formidable" : "latest",
-    "fs-extra" : "latest",
-    "mkdirp" : "latest"
+    "node-gcm": "0.9.15",
+    "mongoskin": "1.4.13",
+    "morgan": "1.5.2",
+    "debug": "2.1.3",
+    "serve-favicon": "2.2.0",
+    "request": "2.55.0",
+    "stylus": "0.50.0",
+    "nib": "1.1.0",
+    "node-uuid": "1.4.3",
+    "formidable": "1.0.17",
+    "fs-extra": "0.18.2",
+    "mkdirp": "0.5.0"
   }
 }
