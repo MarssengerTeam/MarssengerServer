@@ -1,9 +1,11 @@
-extends loginBase
+extends base
+block headerContent
+  title Login
 block pageContent
-  div.container
-    div.jumbotron(class='text-center')
+  .container
+    .jumbotron(class='text-center')
       h1 Login
-      div.login
+      .login
         form.form-horizontal(method='post', id='loginForm', class='text-center')
           input.span(id='number', type='text', name='Number', placeholder='Phonenumber')
           input.span(id='password', type='password', name='Password', placeholder='Password')

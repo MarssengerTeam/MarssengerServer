@@ -1,9 +1,11 @@
-extends registerBase
+extends base
+block headerContent
+  title Register
 block pageContent
-  div.container
-    div.jumbotron(class='text-center')
+  .container
+    .jumbotron(class='text-center')
       h1 Register
-      div.register
+      .register
         form.form-horizontal(method='post', id='registerForm', class='text-center')
           input.span(id='firstname', type='text', name='Firstname', placeholder='First Name')
           input.span(id='lastname', type='text', name='Lastname', placeholder='Last Name')
