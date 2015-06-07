@@ -5,16 +5,25 @@
 2 info using npm@1.4.28
 3 info using node@v0.10.36
 4 verbose node symlink C:\Program Files\nodejs\\node.exe
-5 error Error: ENOENT, open 'C:\Users\Nils\Documents\GitHub\MarssengerServer\package.json'
-6 error If you need help, you may report this *entire* log,
-6 error including the npm and node versions, at:
-6 error     <http://github.com/npm/npm/issues>
-7 error System Windows_NT 6.2.9200
-8 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
-9 error cwd C:\Users\Nils\Documents\GitHub\MarssengerServer
-10 error node -v v0.10.36
-11 error npm -v 1.4.28
-12 error path C:\Users\Nils\Documents\GitHub\MarssengerServer\package.json
-13 error code ENOENT
-14 error errno 34
-15 verbose exit [ 34, true ]
+5 verbose run-script [ 'prestart', 'start', 'poststart' ]
+6 info prestart Marssenger@0.0.1
+7 info start Marssenger@0.0.1
+8 verbose unsafe-perm in lifecycle true
+9 info Marssenger@0.0.1 Failed to exec start script
+10 error Marssenger@0.0.1 start: `node ./bin/www`
+10 error Exit status 8
+11 error Failed at the Marssenger@0.0.1 start script.
+11 error This is most likely a problem with the Marssenger package,
+11 error not with npm itself.
+11 error Tell the author that this fails on your system:
+11 error     node ./bin/www
+11 error You can get their info via:
+11 error     npm owner ls Marssenger
+11 error There is likely additional logging output above.
+12 error System Windows_NT 6.2.9200
+13 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
+14 error cwd C:\Users\Nils\Documents\GitHub\MarssengerServer\Server
+15 error node -v v0.10.36
+16 error npm -v 1.4.28
+17 error code ELIFECYCLE
+18 verbose exit [ 1, true ]
