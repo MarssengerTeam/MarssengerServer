@@ -1,4 +1,18 @@
-form(action='/files/upload', enctype='multipart/form-data', method='post')
-  input#inputFile(name = 'upload', type='file')
-  input#inputSubmit(type='submit', value='Upload')
-  
+extends simpleBase
+block headerContent
+  title Files
+  script(src='/javascripts/globalFiles.js')
+block navbarItems
+  li
+    a(href='/user') User
+  li
+    a(href='/groups') Groups
+  li
+    a(href='/message') Message
+  li.active
+    a(href='/files') Files
+block pageContent
+  .main
+    form(action='/files/upload', enctype='multipart/form-data', method='post')
+      input#inputFile(name = 'upload', type='file')
+      input#inputSubmit(type='submit', value='Upload')

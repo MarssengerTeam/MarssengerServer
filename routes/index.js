@@ -23,7 +23,7 @@ router.get('/message', function(req, res) {
 
 /* GET LOGIN page */
 router.get('/login',function(req,res){
-	res.render('login',{title:'Login'});
+	res.render('login');
 });
 
 
@@ -40,6 +40,10 @@ router.get('/register', function(req,res){
 // GET CHAT page
 router.get('/chat', function(req,res){
     res.render('chat', {title:'Marssenger'});
+});
+
+router.get('/tools', function(req,res){
+    res.render('tools');
 });
 
 module.exports = router;

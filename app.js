@@ -11,7 +11,7 @@ var util = require('util');
 var mongo = require('mongoskin');
 var db = mongo.db("mongodb://localhost:27017/chatservice", {native_parser:true});
 
-var routes = require('./routes/index');
+var routes = require('./routes');
 var messages = require('./routes/messages');
 var groups = require('./routes/groups');
 var user = require('./routes/user');
@@ -19,7 +19,6 @@ var login = require('./routes/login');
 var files = require('./routes/files');
 var register = require('./routes/register');
 var chat = require('./routes/chat');
-
 var app = express();
 
 function compile(str, path) {
@@ -53,6 +52,7 @@ app.use(function(req,res,next){
 });
 
 app.use('/', routes);
+app.use('/tools', routes);
 app.use('/messages', messages);
 app.use('/groups', groups);
 app.use('/user', user);

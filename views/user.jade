@@ -1,66 +1,75 @@
-extends layoutUser
-block content
+extends simpleBase
+block headerContent
+  title User
+  script(src='/javascripts/globalUser.js')
+block navbarItems
+  li.active
+    a(href='/user') User
+  li
+    a(href='/groups') Groups
+  li
+    a(href='/message') Message
+  li
+    a(href='/files') Files
+block pageContent
+  .main
     // Wrapper
     #wrapper
-    
-        // LIST
-        header Benutzer
-        #list
-            table
-                thead
-                    th _id
-                    th phoneNumber
-                    th eMail
-                    th GCMCode
-                    th DigitCode
-                    th lastTimeActive
-                    th status
-                    th token
-                    th tokenTimestamp
-                    th delete?
-                tbody
-        // /LIST
-
-        // STATISTICS
-        header Statistics
-        #listStatistics
-            table
-                thead
-                    th idOwner
-                    th _id
-                    th accountCreated
-                    th MessagesRecieved
-                    th MessagesSend
-                tbody
-        // /STATISTICS
-
-        // REGISTER USER
-        header Register User
-        #registerUser
-            fieldset
-                input#inputNumber(type='text', placeholder='Handynummer')
-                input#inputGCM(type='text', placeholder='GCMCode')
-                input#inputDigit(type='text', placeholder='DigitCode')
-                input#inputEMail(type='text', placeholder='Email')
-                br
-                btnblue#btnRegisterUser Register User
-                btnblue#btnGetAuthTokenByPhonenumberAndGCMCode Get Token
-        // /REGISTER USER
-
-        header Change User Data
-        #changeUserData
-            fieldset
-                input#inputID(type='text', placeholder='ID')
-                br
-                input#inputPhoneNumber(type='text', placeholder='Handynummer')
-                btnblue#btnChangePhoneNumber Change
-                br
-                input#inputGCMCode(type='text', placeholder='GCMCode')
-                btnblue#btnChangeGCMCode Change
-                br
-                input#inputDigitCode(type='text', placeholder='DigitCode')
-                btnblue#btnChangeDigitCode Change
-                br
-                input#inputEMail(type='text', placeholder='Email')
-                btnblue#btnChangeEMail Change
+      // LIST
+    header Benutzer
+    #list
+      table.striped
+        thead
+          th _id
+          th phoneNumber
+          th eMail
+          th GCMCode
+          th DigitCode
+          th lastTimeActive
+          th status
+          th token
+          th tokenTimestamp
+          th delete?
+        tbody
+    // /LIST
+    // STATISTICS
+    header Statistics
+    #listStatistics
+      table.striped
+        thead
+          th idOwner
+          th _id
+          th accountCreated
+          th MessagesRecieved
+          th MessagesSend
+        tbody
+    // /STATISTICS
+    // REGISTER USER
+    header Register User
+    #registerUser
+      fieldset
+        input#inputNumber(type='text', placeholder='Handynummer')
+        input#inputGCM(type='text', placeholder='GCMCode')
+        input#inputDigit(type='text', placeholder='DigitCode')
+        input#inputEMail(type='text', placeholder='Email')
+        br
+        a(class='waves-effect waves-light btn')#btnRegisterUser Register User
+        a(class='waves-effect waves-light btn')#btnGetAuthTokenByPhonenumberAndGCMCode Get Token
+    // /REGISTER USER
+    header Change User Data
+    #changeUserData
+      fieldset
+        input#inputID(type='text', placeholder='ID')
+        br
+        input#inputPhoneNumber(type='text', placeholder='Handynummer')
+        a(class='waves-effect waves-light btn')#btnChangePhoneNumber Change
+        br
+        input#inputGCMCode(type='text', placeholder='GCMCode')
+        a(class='waves-effect waves-light btn')#btnChangeGCMCode Change
+        br
+        input#inputDigitCode(type='text', placeholder='DigitCode')
+        a(class='waves-effect waves-light btn')#btnChangeDigitCode Change
+        br
+        input#inputEMail(type='text', placeholder='Email')
+        a(class='waves-effect waves-light btn')#btnChangeEMail Change
     // /WRAPPER

@@ -1,48 +1,58 @@
-extends layoutGroups
-block content
-
+extends simpleBase
+block headerContent
+  title Groups
+  script(src='/javascripts/globalGroups.js')
+block navbarItems
+  li
+    a(href='/user') User
+  li.active
+    a(href='/groups') Groups
+  li
+    a(href='/message') Message
+  li
+    a(href='/files') Files
+block pageContent
+  .main
     // Wrapper
     #wrapper
-    
-        // LIST
-        header Gruppen
-        #listGroups
-            table
-                thead
-                    th _id
-                    th name
-                    th members
-                    th a
-                    th b
-                    th c
-                    th d
-                    th delete?
-                tbody
-        // /LIST
 
-        // REGISTER USER
-        header Create Group
-        #createGroup
-            fieldset
-                input#inputMemberOne(type='text', placeholder='Phonenumber')
-                input#inputName(type='text', placeholder='Name')
-                br
-                input#inputMemberTwo(type='text', placeholder='Phonenumber')
-                br
-                input#inputMemberThree(type='text', placeholder='Phonenumber')
-                br
-                btnblue#btnCreateGroup Create Group
-        // /REGISTER USER
-
-        header Add/Delete Member
-        #addMember
-            fieldset
-                input#inputMember(type='text', placeholder='Phonenumber of member')
-                input#inputGroupID(type='text', placeholder='GroupID')
-                br
-                br
-                btnblue#btnAddMember Add Member
-                br
-                btnblue#btnDeleteMember Delete Member
-        // /REGISTER USER
+      // LIST
+      header Gruppen
+      #listGroups
+        table.striped
+          thead
+            th _id
+            th name
+            th members
+            th a
+            th b
+            th c
+            th d
+            th delete?
+          tbody
+      // /LIST
+      // REGISTER USER
+      header Create Group
+      #createGroup
+        fieldset
+          input#inputMemberOne(type='text', placeholder='Phonenumber')
+          input#inputName(type='text', placeholder='Name')
+          br
+          input#inputMemberTwo(type='text', placeholder='Phonenumber')
+          br
+          input#inputMemberThree(type='text', placeholder='Phonenumber')
+          br
+          a(class='waves-effect waves-light btn')#btnCreateGroup Create Group
+      // /REGISTER USER
+      header Add/Delete Member
+      #addMember
+        fieldset
+          input#inputMember(type='text', placeholder='Phonenumber of member')
+          input#inputGroupID(type='text', placeholder='GroupID')
+          br
+          br
+          a(class='waves-effect waves-light btn')#btnAddMember Add Member
+          br
+          a(class='waves-effect waves-light btn')#btnDeleteMember Delete Member
+      // /REGISTER USER
     // /Wrapper

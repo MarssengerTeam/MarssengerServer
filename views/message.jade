@@ -1,55 +1,65 @@
-extends layoutMessage
-block content
-
+extends simpleBase
+block headerContent
+  title Message
+  script(src='/javascripts/globalMessage.js')
+block navbarItems
+  li
+    a(href='/user') User
+  li
+    a(href='/groups') Groups
+  li.active
+    a(href='/message') Message
+  li
+    a(href='/files') Files
+block pageContent
+  .main
     // Wrapper
     #wrapper
-    
-        // INFO
-        header Nachrichten
-        #listInfo
-            btnblue#btnDeleteAll Delete All
-            br
-            table
-                thead
-                    th ID
-                    th MessageID
-                    th groupID
-                    th Sender
-                    th Empfänger
-                    th ReceiverGCM
-                    th Text
-                    th Timestamp
-                    th gelesen
-                    th delete?		
-                tbody
-        // /INFO
 
-        // UPDATE DATA
-        header Send Data
-        #sendData
-            fieldset
-                input#inputMessageID(type='text', placeholder='MessageID')
-                input#inputSender(type='text', placeholder='Handynummer Sender')
-                input#inputreceiver(type='text', placeholder='Handynummer Empfänger')
-                input#inputData(type='text', placeholder='Text')
-                br
-                btnblue#btnSendData Send Data
-        // /UPDATE DATA 
-
-        // GET DATA
-        header Get Data
-        #getData
-            fieldset
-                input#inputNumber(type='text', placeholder='Handynummer')
-                br
-                btnblue#btnGetData Get Data
-        // /GET DATA
-        // GET DATA SENDED		
-        header Get Data Sended
-        #getDataSended
-            fieldset
-                input#inputNumber(type='text', placeholder='Handynummer')
-                br
-                btnblue#btnGetDataSended Get Data
-        // /GET DATA
+      // INFO
+      header Nachrichten
+      #listInfo
+        a(class='waves-effect waves-light btn')#btnDeleteAll Delete All
+        br
+        table.striped
+          thead
+            th ID
+            th MessageID
+            th groupID
+            th Sender
+            th Empfänger
+            th ReceiverGCM
+            th Text
+            th Timestamp
+            th gelesen
+            th delete?
+          tbody
+      // /INFO
+      // UPDATE DATA
+      header Send Data
+      #sendData
+        fieldset
+          input#inputMessageID(type='text', placeholder='MessageID')
+          input#inputSender(type='text', placeholder='Handynummer Sender')
+          input#inputreceiver(type='text', placeholder='Handynummer Empfänger')
+          input#inputData(type='text', placeholder='Text')
+          br
+          a(class='waves-effect waves-light btn')#btnSendData Send Data
+      // /UPDATE DATA
+      // GET DATA
+      header Get Data
+      #getData
+        fieldset
+          input#inputNumber(type='text', placeholder='Handynummer')
+          br
+          a(class='waves-effect waves-light btn')#btnGetData Get Data
+      // /GET DATA
+      // GET DATA SENDED
+      header Get Data Sended
+      #getDataSended
+        fieldset
+          input#inputNumber(type='text', placeholder='Handynummer')
+          br
+          a(class='waves-effect waves-light btn')#btnGetDataSended Get Data
+      // /GET DATA
     // /WRAPPER

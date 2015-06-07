@@ -1,0 +1,18 @@
+extends simpleBase
+block headerContent
+  title Tools
+block pageContent
+  div(class='main container text-center')
+    .row(class='row-centered')
+      .jumbotron(class='text-center col-xs-12 col-sm-10 col-md-8 col-lg-6 col-centered')
+        div#content(class='text-center col-centered')
+          a(class='waves-effect waves-light btn-large' href='/user') User
+          br
+          a(class='waves-effect waves-light btn-large' href='/groups') Groups
+          br
+          a(class='waves-effect waves-light btn-large' href='/message') Message
+          br
+          a(class='waves-effect waves-light btn-large' href='/files') Files
+          br
+          a(class='waves-effect waves-light btn-large' href='/')
+            i.mdi-action-home

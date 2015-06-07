@@ -1,21 +1,32 @@
 doctype html
-html
+html(lang='en')
   head
     block headerContent
-    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/roboto.min.css")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.min.css")
     link(rel="stylesheet", href="stylesheets/universal.css")
+    //load design stuff
+    link(rel="stylesheet", href="/stylesheets/bootstrap.min.css")
+    link(rel='stylesheet', href='/stylesheets/materialize.min.css')
 
+    script(src="/javascripts/bootstrap.min.js")
+    script(src='/javascripts/jquery-2.1.4.min.js')
+    script(src='/javascripts/materialize.min.js')
+    script(src='/javascripts/global.js')
+
+    //metas
+    meta(name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no')
+    //set statusbar color to dark deep orange
+    meta(name='theme-color' content='#E64A19')
   body
+    nav
+      .nav-wrapper(class='deep-orange')
+        a.brand-logo(href='/') Marssenger
+        //place white version of icon here
+        a.button-collapse(data-activates='mobile-nav')
+          i.mdi-navigation-menu
+        ul(class='right hide-on-med-and-down')
+          block navbarItems
+        ul.side-nav#mobile-nav
+          li
+            a.navbar-link(href='/') Home
+          block navbarItems
     block pageContent
-
-script(src="/javascript/globalUser.js")
-
-script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
-    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js")
-    script(type="text/javascript")
-      $(document).ready(function() {$.material.init();});
